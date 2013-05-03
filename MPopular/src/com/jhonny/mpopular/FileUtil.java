@@ -1,0 +1,78 @@
+package com.jhonny.mpopular;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Serializable;
+import android.content.Context;
+
+
+public class FileUtil implements Serializable{
+	
+	private static final long serialVersionUID = 6340298289567938341L;
+	
+	
+	public static boolean cargaDatosPersonales(Context ctx){
+		boolean resp = false;
+		
+		try{
+			InputStream instream = ctx.openFileInput(Constantes.FICHERO_CONFIGURACION);
+			if(instream != null){
+				InputStreamReader inputreader = new InputStreamReader(instream);
+				BufferedReader buffreader = new BufferedReader(inputreader);
+				int contador = 1;
+				String linea = buffreader.readLine();
+				
+				while(linea != null){
+					if(linea.equals(""))
+						linea = buffreader.readLine();
+					if(linea != null){
+						resp = true;
+						switch(contador){
+							case 1:
+								// linea 1 del fichero
+								Util.setIdUsuario(Integer.parseInt(linea));
+								break;
+							case 2:
+								Util.setNombre(linea); 
+								break;
+							case 3:
+								Util.setTelefono(linea);
+								break;
+							case 4:
+								Util.setEmail(linea);
+								break;
+							case 5:
+								Util.setPais(linea);
+								break;
+						}
+					}
+					contador++;
+					linea = buffreader.readLine();
+				}
+			}
+		}catch(FileNotFoundException fnf){
+			try{
+				FileOutputStream out = ctx.openFileOutput(Constantes.FICHERO_CONFIGURACION, Context.MODE_PRIVATE);
+				out.close();
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return resp;
+	}
+	
+	
+	
+	public static void almacenaDatosConfiguracion(Context ctx){
+		try{
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+}
