@@ -4,19 +4,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.json.JSONArray;
+
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Toast;
 
 
-public class BuscadorActivity extends Activity implements OnItemSelectedListener {
+public class NuevaRedActivity extends Activity implements OnItemSelectedListener {
 	
+	private Integer idCuenta = null;
 	private Spinner spRed;
 	private List<String> listaRedes = new ArrayList<String>();
 	private Map<Integer, String> redes = null;
@@ -25,7 +31,7 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_buscador);
+		setContentView(R.layout.activity_nueva_red);
 		
 		// carga las redes sociales de la bbdd
 		cargaRedesSociales();
@@ -34,8 +40,54 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_buscador, menu);
+		getMenuInflater().inflate(R.menu.menu_nueva_red, menu);
 		return true;
+	}
+	
+	
+	public void insertarCuentaNueva(View view){
+		ProgressDialog pd = null;
+		
+		try{
+			EditText editNombre = (EditText)findViewById(R.id.editText1);
+			Integer idUsuario = Util.getIdUsuario();
+			
+			pd = ProgressDialog.show(this,"Usuario nuevo","guardando datos...",true,false,null);
+			
+			String url = "http://free.hostingjava.it/-jhonnyjuncal/index.jsp?consulta=3&nombre=" + 
+					editNombre.getText().toString() + "&idUsuario=" + idUsuario + "&idCuenta=" + idCuenta;
+			Util.consultaDatosInternet(url);
+			
+			Toast.makeText(this, "Datos guardados correctamente", Toast.LENGTH_SHORT).show();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			if(pd != null)
+				pd.dismiss();
+		}
+	}
+
+
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+		try{
+			if(redes != null){
+				for(int i=1; i<redes.size(); i++){
+					if(pos == i){
+						idCuenta = pos;
+						return;
+					}
+				}
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+
+
+	@Override
+	public void onNothingSelected(AdapterView<?> arg0) {
+		
 	}
 	
 	
@@ -47,7 +99,6 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 			jArray = Util.consultaDatosInternet(url);
 			redes = new HashMap<Integer, String>((Map<Integer, String>)jArray.get(1));
 			
-			listaRedes.add("Todas");
 			if(redes != null){
 				for(int i=0; i<redes.size(); i++){
 					listaRedes.add((String)redes.get(i));
@@ -63,21 +114,5 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
-	}
-
-
-	@Override
-	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		try{
-			
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
-	}
-
-
-	@Override
-	public void onNothingSelected(AdapterView<?> arg0) {
-		
 	}
 }

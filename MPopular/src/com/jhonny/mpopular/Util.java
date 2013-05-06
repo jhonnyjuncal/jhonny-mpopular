@@ -1,6 +1,19 @@
 package com.jhonny.mpopular;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.util.ArrayList;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 public class Util implements Serializable{
@@ -51,5 +64,42 @@ public class Util implements Serializable{
 	
 	public static void setPais(String pais) {
 		Util.pais = pais;
+	}
+	
+	
+	public static JSONArray consultaDatosInternet(String url){
+		InputStream is = null;
+		JSONArray jArray = null;
+		JSONObject jObject = null;
+		String result = null;
+		ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		StringBuilder sb = null;
+		
+		try{
+			HttpClient httpclient = new DefaultHttpClient();
+			HttpPost httppost = new HttpPost(url);
+			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			HttpResponse response = httpclient.execute(httppost);
+			HttpEntity entity = response.getEntity();
+			is = entity.getContent();
+			
+			
+			// Conversion de la repsueta en Sring
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is,"iso-8859-1"),8);
+			sb = new StringBuilder();
+			sb.append(reader.readLine());
+			
+			is.close();
+			result = sb.toString();
+			result = result.replace(result.substring(result.indexOf("<!DOCTYPE"), result.length()),"");
+			
+			
+			// Lectura de los datos de respuesta
+			jObject = new JSONObject(result);
+			jArray = new JSONArray(jObject.get("valores").toString());
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return jArray;
 	}
 }

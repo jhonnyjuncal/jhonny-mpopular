@@ -19,7 +19,7 @@ public class PrincipalActivity extends Activity {
 		boolean existen = FileUtil.cargaDatosPersonales(this);
 		
 		if(!existen){
-			Intent intent = new Intent(this, NuevoActivity.class);
+			Intent intent = new Intent(this, NuevoUsuarioActivity.class);
 			startActivity(intent);
 		}else{
 			muestraDatosPersonales();
@@ -37,6 +37,16 @@ public class PrincipalActivity extends Activity {
 	public void muestraBuscador(View view){
 		try{
 			Intent intent = new Intent(this, BuscadorActivity.class);
+			startActivity(intent);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	
+	public void muestraMisRedes(View view){
+		try{
+			Intent intent = new Intent(this, MisRedesActivity.class);
 			startActivity(intent);
 		}catch(Exception ex){
 			ex.printStackTrace();

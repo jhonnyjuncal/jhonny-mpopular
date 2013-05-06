@@ -96,5 +96,17 @@
         android:layout_marginTop="140dp"
         android:onClick="muestraBuscador"
         android:text="@string/label_mostrar_buscador" />
+    
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="170dp"
+        android:onClick="muestraMisRedes"
+        android:text="@string/label_mis_redes" />
 
 </RelativeLayout>

@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import android.content.Context;
 
@@ -69,10 +71,23 @@ public class FileUtil implements Serializable{
 	
 	
 	public static void almacenaDatosConfiguracion(Context ctx){
+		OutputStreamWriter out = null;
+		
 		try{
-			
+			OutputStream output = ctx.openFileOutput(Constantes.FICHERO_CONFIGURACION, Context.MODE_PRIVATE);
+    		out = new OutputStreamWriter(output);
+    			
+    		// valor de idUsuario
+			out.write(Util.getIdUsuario() + "\r\n");
 		}catch(Exception ex){
 			ex.printStackTrace();
+		}finally{
+			try{
+				if(out != null)
+					out.close();
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
 		}
 	}
 }

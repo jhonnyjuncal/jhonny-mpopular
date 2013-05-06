@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MPopular</string>
+    <string name="title_activity_nueva_red">Nueva red</string>
+    <string name="title_activity_mis_redes">Redes sociales</string>
     <string name="txt_cargando">cargando...</string>
     <string name="label_idusuario">Identificador:</string>
     <string name="label_nombre">Nombre:</string>
@@ -12,4 +14,5 @@
     <string name="label_red_social">Red social:</string>
     <string name="label_buscar">Buscar</string>
     <string name="label_guardar_datos">Guardar datos</string>
+    <string name="label_mis_redes">Mis redes sociales</string>
 </resources>
