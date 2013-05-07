@@ -7,7 +7,6 @@ import java.util.Map;
 import org.json.JSONArray;
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
@@ -48,59 +47,27 @@ public class MisRedesActivity extends Activity {
 		JSONArray jArray = null;
 		
 		try{
-			String url = "http://free.hostingjava.it/-jhonnyjuncal/index.jsp?consulta=1";
+			String url = "http://free.hostingjava.it/-jhonnyjuncal/index.jsp?consulta=4&idUsuario=" + Util.getIdUsuario();
 			jArray = Util.consultaDatosInternet(url);
-			redes = new HashMap<Integer, String>((Map<Integer, String>)jArray.get(1));
+			redes = new HashMap<Integer, String>();
+			
+			for(int i=0; i<jArray.length(); i++){
+				redes.put(jArray.getInt(i), jArray.getString(++i));
+			}
 			
 			if(redes != null){
-				for(int i=0; i<redes.size(); i++){
+				for(int i=1; i<=redes.size(); i++){
 					listaRedes.add((String)redes.get(i));
 				}
 			}
 			
-			ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listaRedes);
-			dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.listview_personalizado, listaRedes);
+			dataAdapter.setDropDownViewResource(R.layout.listview_personalizado);
 			
 			listView = (ListView)findViewById(R.id.listView1);
-			
-			StableArrayAdapter adapter = new StableArrayAdapter(this, R.layout.listview_personalizado, listaRedes);
-			listView.setAdapter(adapter);
+			listView.setAdapter(dataAdapter);
 		}catch(Exception ex){
 			ex.printStackTrace();
-		}
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	private class StableArrayAdapter extends ArrayAdapter<String> {
-		
-		HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
-		
-		
-		public StableArrayAdapter(Context context, int textViewResourceId, List<String> objects) {
-			super(context, textViewResourceId, objects);
-			
-			for(int i=0; i<objects.size(); i++){
-				mIdMap.put(objects.get(i), i);
-			}
-		}
-		
-		
-		@Override
-	    public long getItemId(int position) {
-			String item = getItem(position);
-			return mIdMap.get(item);
-		}
-		
-		
-		@Override
-		public boolean hasStableIds() {
-			return true;
 		}
 	}
 }

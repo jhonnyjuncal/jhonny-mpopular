@@ -114,4 +114,12 @@
 	    android:onClick="guardaDatosPersonales"
 	    android:text="@string/label_guardar_datos" />
 	
+	<LinearLayout
+	    android:id="@+id/linearLayout2"
+	    android:layout_width="fill_parent"
+	    android:layout_height="50dp"
+	    android:layout_alignParentBottom="true"
+	    android:orientation="vertical"
+	    android:weightSum="1" />
+	
 </RelativeLayout>

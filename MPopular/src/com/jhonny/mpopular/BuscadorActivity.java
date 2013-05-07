@@ -11,8 +11,10 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Toast;
 
 
 public class BuscadorActivity extends Activity implements OnItemSelectedListener {
@@ -20,6 +22,7 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 	private Spinner spRed;
 	private List<String> listaRedes = new ArrayList<String>();
 	private Map<Integer, String> redes = null;
+	private Integer idRed = null;
 	
 	
 	@Override
@@ -27,8 +30,12 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_buscador);
 		
-		// carga las redes sociales de la bbdd
-		cargaRedesSociales();
+		try{
+			// carga las redes sociales de la bbdd
+			cargaRedesSociales();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 	}
 	
 	
@@ -45,13 +52,16 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 		try{
 			String url = "http://free.hostingjava.it/-jhonnyjuncal/index.jsp?consulta=1";
 			jArray = Util.consultaDatosInternet(url);
-			redes = new HashMap<Integer, String>((Map<Integer, String>)jArray.get(1));
+			redes = new HashMap<Integer, String>();
+			for(int i=0; i<jArray.length(); i++){
+				redes.put(jArray.getInt(i), jArray.getString(++i));
+			}
 			
-			listaRedes.add("Todas");
 			if(redes != null){
-				for(int i=0; i<redes.size(); i++){
+				for(int i=1; i<=redes.size(); i++){
 					listaRedes.add((String)redes.get(i));
 				}
+				listaRedes.add("Todas");
 			}
 			
 			ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listaRedes);
@@ -67,9 +77,16 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 
 
 	@Override
-	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 		try{
-			
+			if(redes != null){
+				for(int i=1; i<redes.size(); i++){
+					if(pos == i){
+						idRed = pos;
+						return;
+					}
+				}
+			}
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -79,5 +96,22 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
 		
+	}
+	
+	
+	public void buscarDatosUsuario(View view){
+		try{
+			EditText editTexto = (EditText)findViewById(R.id.editText1);
+			String nombre = editTexto.getText().toString().trim();
+			
+			if(nombre != null && nombre.length() > 0){
+				String url = "http://free.hostingjava.it/-jhonnyjuncal/index.jsp?consulta=2" +
+						"&nombre=" + nombre + "&idRed=" + idRed;
+				Util.consultaDatosInternet(url);
+			}else
+				Toast.makeText(this, "No puede estar vacio", Toast.LENGTH_SHORT).show();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 	}
 }

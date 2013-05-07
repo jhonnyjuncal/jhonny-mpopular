@@ -11,35 +11,36 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="22dp"
-        android:layout_marginTop="23dp"
-        android:text="TextView" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/label_red_social" />
 
     <Spinner
         android:id="@+id/spinner1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1" />
+        android:layout_height="35dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="25dp" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/spinner1"
-        android:layout_below="@+id/spinner1"
-        android:layout_marginTop="16dp"
-        android:text="TextView" />
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="70dp"
+        android:text="@string/label_nombre_usuario" />
 
     <EditText
         android:id="@+id/editText1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_below="@+id/textView2"
+        android:layout_height="35dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="90dp"
         android:ems="10"
         android:inputType="textPersonName" >
-
         <requestFocus />
     </EditText>
 
@@ -47,10 +48,20 @@
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText1"
-        android:layout_marginLeft="21dp"
-        android:layout_toRightOf="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginTop="150dp"
         android:onClick="insertarCuentaNueva"
-        android:text="Button" />
+        android:text="@string/label_guardar_cuenta" />
+    
+    <LinearLayout
+	    android:id="@+id/linearLayout2"
+	    android:layout_width="fill_parent"
+	    android:layout_height="50dp"
+	    android:layout_alignParentBottom="true"
+	    android:orientation="vertical"
+	    android:weightSum="1" />
 
 </RelativeLayout>

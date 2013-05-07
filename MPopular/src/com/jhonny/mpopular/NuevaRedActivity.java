@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.json.JSONArray;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -22,7 +20,7 @@ import android.widget.Toast;
 
 public class NuevaRedActivity extends Activity implements OnItemSelectedListener {
 	
-	private Integer idCuenta = null;
+	private Integer idRed = null;
 	private Spinner spRed;
 	private List<String> listaRedes = new ArrayList<String>();
 	private Map<Integer, String> redes = null;
@@ -55,7 +53,7 @@ public class NuevaRedActivity extends Activity implements OnItemSelectedListener
 			pd = ProgressDialog.show(this,"Usuario nuevo","guardando datos...",true,false,null);
 			
 			String url = "http://free.hostingjava.it/-jhonnyjuncal/index.jsp?consulta=3&nombre=" + 
-					editNombre.getText().toString() + "&idUsuario=" + idUsuario + "&idCuenta=" + idCuenta;
+					editNombre.getText().toString() + "&idUsuario=" + idUsuario + "&idRed=" + idRed;
 			Util.consultaDatosInternet(url);
 			
 			Toast.makeText(this, "Datos guardados correctamente", Toast.LENGTH_SHORT).show();
@@ -74,7 +72,7 @@ public class NuevaRedActivity extends Activity implements OnItemSelectedListener
 			if(redes != null){
 				for(int i=1; i<redes.size(); i++){
 					if(pos == i){
-						idCuenta = pos;
+						idRed = pos;
 						return;
 					}
 				}
@@ -97,10 +95,13 @@ public class NuevaRedActivity extends Activity implements OnItemSelectedListener
 		try{
 			String url = "http://free.hostingjava.it/-jhonnyjuncal/index.jsp?consulta=1";
 			jArray = Util.consultaDatosInternet(url);
-			redes = new HashMap<Integer, String>((Map<Integer, String>)jArray.get(1));
+			redes = new HashMap<Integer, String>();
+			for(int i=0; i<jArray.length(); i++){
+				redes.put(jArray.getInt(i), jArray.getString(++i));
+			}
 			
 			if(redes != null){
-				for(int i=0; i<redes.size(); i++){
+				for(int i=1; i<=redes.size(); i++){
 					listaRedes.add((String)redes.get(i));
 				}
 			}

@@ -15,4 +15,8 @@
     <string name="label_buscar">Buscar</string>
     <string name="label_guardar_datos">Guardar datos</string>
     <string name="label_mis_redes">Mis redes sociales</string>
+    <string name="label_nueva_cuenta">Insertar cuenta nueva</string>
+    <string name="label_listado_cuentas">Listado de cuentas</string>
+    <string name="label_nombre_usuario">Nombre de usuario:</string>
+    <string name="label_guardar_cuenta">Guardar cuenta</string>
 </resources>
