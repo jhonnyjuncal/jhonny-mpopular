@@ -1,9 +1,7 @@
 package com.jhonny.mpopular;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.json.JSONArray;
 import android.os.Bundle;
 import android.app.Activity;
@@ -18,16 +16,25 @@ public class MisRedesActivity extends Activity {
 	
 	private ListView listView;
 	private List<String> listaRedes = new ArrayList<String>();
-	private Map<Integer, String> redes = null;
 	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_mis_redes);
-		
-		muestraMisRedesSociales();
 	}
+	
+	
+	@Override
+    protected void onResume(){
+    	super.onResume();
+    	
+    	try{
+    		muestraMisRedesSociales();
+        }catch(Exception ex){
+        	ex.printStackTrace();
+        }
+    }
 	
 	
 	@Override
@@ -49,20 +56,15 @@ public class MisRedesActivity extends Activity {
 		try{
 			String url = "http://free.hostingjava.it/-jhonnyjuncal/index.jsp?consulta=4&idUsuario=" + Util.getIdUsuario();
 			jArray = Util.consultaDatosInternet(url);
-			redes = new HashMap<Integer, String>();
 			
-			for(int i=0; i<jArray.length(); i++){
-				redes.put(jArray.getInt(i), jArray.getString(++i));
-			}
-			
-			if(redes != null){
-				for(int i=1; i<=redes.size(); i++){
-					listaRedes.add((String)redes.get(i));
+			if(jArray != null){
+				for(int i=0; i<jArray.length(); i++){
+					listaRedes.add(jArray.getString(i) + " - " + jArray.getString(++i));
 				}
 			}
 			
-			ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.listview_personalizado, listaRedes);
-			dataAdapter.setDropDownViewResource(R.layout.listview_personalizado);
+			ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.listview_mis_redes, listaRedes);
+			dataAdapter.setDropDownViewResource(R.layout.listview_mis_redes);
 			
 			listView = (ListView)findViewById(R.id.listView1);
 			listView.setAdapter(dataAdapter);

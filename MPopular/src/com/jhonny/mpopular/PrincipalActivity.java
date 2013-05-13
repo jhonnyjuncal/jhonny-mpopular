@@ -1,5 +1,6 @@
 package com.jhonny.mpopular;
 
+import org.json.JSONArray;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -22,6 +23,7 @@ public class PrincipalActivity extends Activity {
 			Intent intent = new Intent(this, NuevoUsuarioActivity.class);
 			startActivity(intent);
 		}else{
+			recuperarDatosUsuario(Util.getIdUsuario());
 			muestraDatosPersonales();
 		}
 	}
@@ -65,6 +67,25 @@ public class PrincipalActivity extends Activity {
 			textoTelefono.setText(Util.getTelefono());
 			textoEmail.setText(Util.getEmail());
 			textoPais.setText(Util.getPais());
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	
+	private void recuperarDatosUsuario(Integer idUsuario){
+		JSONArray jArray = null;
+		
+		try{
+			String url = "http://free.hostingjava.it/-jhonnyjuncal/index.jsp?consulta=5&idUsuario=" + Util.getIdUsuario();
+			jArray = Util.consultaDatosInternet(url);
+			
+			// Seteo de datos de usuario
+			Util.setIdUsuario(jArray.getInt(0));
+			Util.setNombre(jArray.getString(1));
+			Util.setTelefono(jArray.getString(2));
+			Util.setEmail(jArray.getString(3));
+			Util.setPais(jArray.getString(4));
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">MPopular</string>
     <string name="title_activity_nueva_red">Nueva red</string>
     <string name="title_activity_mis_redes">Redes sociales</string>
@@ -19,4 +20,8 @@
     <string name="label_listado_cuentas">Listado de cuentas</string>
     <string name="label_nombre_usuario">Nombre de usuario:</string>
     <string name="label_guardar_cuenta">Guardar cuenta</string>
+    <string name="title_activity_acerca">Acerca de...</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+
 </resources>

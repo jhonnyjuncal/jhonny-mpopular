@@ -41,6 +41,10 @@
             android:name="com.jhonny.mpopular.MisRedesActivity"
             android:label="@string/title_activity_mis_redes" >
         </activity>
+        <activity
+            android:name="com.jhonny.mpopular.AcercaActivity"
+            android:label="@string/title_activity_acerca" >
+        </activity>
     </application>
 
 </manifest>

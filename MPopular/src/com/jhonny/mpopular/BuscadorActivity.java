@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Toast;
@@ -21,8 +22,10 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 	
 	private Spinner spRed;
 	private List<String> listaRedes = new ArrayList<String>();
+	private List<String> listaResultados = new ArrayList<String>();
 	private Map<Integer, String> redes = null;
 	private Integer idRed = null;
+	private ListView listView;
 	
 	
 	@Override
@@ -53,6 +56,7 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 			String url = "http://free.hostingjava.it/-jhonnyjuncal/index.jsp?consulta=1";
 			jArray = Util.consultaDatosInternet(url);
 			redes = new HashMap<Integer, String>();
+			
 			for(int i=0; i<jArray.length(); i++){
 				redes.put(jArray.getInt(i), jArray.getString(++i));
 			}
@@ -100,6 +104,8 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 	
 	
 	public void buscarDatosUsuario(View view){
+		JSONArray jArray = null;
+		
 		try{
 			EditText editTexto = (EditText)findViewById(R.id.editText1);
 			String nombre = editTexto.getText().toString().trim();
@@ -107,7 +113,20 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 			if(nombre != null && nombre.length() > 0){
 				String url = "http://free.hostingjava.it/-jhonnyjuncal/index.jsp?consulta=2" +
 						"&nombre=" + nombre + "&idRed=" + idRed;
-				Util.consultaDatosInternet(url);
+				jArray = Util.consultaDatosInternet(url);
+				
+				if(jArray != null && jArray.length() > 0){
+					// hay datos que mostrar
+					for(int i=0; i<jArray.length(); i++){
+						listaResultados.add(jArray.getString(i) + " - " + jArray.getString(++i));
+					}
+					
+					ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<String>(this, R.layout.listview_resultados2, listaResultados);
+					dataAdapter1.setDropDownViewResource(R.layout.listview_resultados2);
+					
+					listView = (ListView)findViewById(R.id.listView1);
+					listView.setAdapter(dataAdapter1);
+				}
 			}else
 				Toast.makeText(this, "No puede estar vacio", Toast.LENGTH_SHORT).show();
 		}catch(Exception ex){

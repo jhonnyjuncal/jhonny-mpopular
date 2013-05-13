@@ -50,13 +50,14 @@ public class NuevaRedActivity extends Activity implements OnItemSelectedListener
 			EditText editNombre = (EditText)findViewById(R.id.editText1);
 			Integer idUsuario = Util.getIdUsuario();
 			
-			pd = ProgressDialog.show(this,"Usuario nuevo","guardando datos...",true,false,null);
+			pd = ProgressDialog.show(this,"Cuenta nueva","guardando datos...",true,false,null);
 			
 			String url = "http://free.hostingjava.it/-jhonnyjuncal/index.jsp?consulta=3&nombre=" + 
 					editNombre.getText().toString() + "&idUsuario=" + idUsuario + "&idRed=" + idRed;
 			Util.consultaDatosInternet(url);
 			
 			Toast.makeText(this, "Datos guardados correctamente", Toast.LENGTH_SHORT).show();
+			editNombre.setText("");
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}finally{
@@ -71,8 +72,8 @@ public class NuevaRedActivity extends Activity implements OnItemSelectedListener
 		try{
 			if(redes != null){
 				for(int i=1; i<redes.size(); i++){
-					if(pos == i){
-						idRed = pos;
+					if((pos + 1) == i){
+						idRed = pos + 1;
 						return;
 					}
 				}
@@ -95,23 +96,27 @@ public class NuevaRedActivity extends Activity implements OnItemSelectedListener
 		try{
 			String url = "http://free.hostingjava.it/-jhonnyjuncal/index.jsp?consulta=1";
 			jArray = Util.consultaDatosInternet(url);
-			redes = new HashMap<Integer, String>();
-			for(int i=0; i<jArray.length(); i++){
-				redes.put(jArray.getInt(i), jArray.getString(++i));
-			}
 			
-			if(redes != null){
-				for(int i=1; i<=redes.size(); i++){
-					listaRedes.add((String)redes.get(i));
+			if(jArray != null){
+				redes = new HashMap<Integer, String>();
+			
+				for(int i=0; i<jArray.length(); i++){
+					redes.put(jArray.getInt(i), jArray.getString(++i));
 				}
+			
+				if(redes != null){
+					for(int i=1; i<=redes.size(); i++){
+						listaRedes.add((String)redes.get(i));
+					}
+				}
+				
+				ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listaRedes);
+				dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				
+				spRed = (Spinner)findViewById(R.id.spinner1);
+				spRed.setOnItemSelectedListener(this);
+				spRed.setAdapter(dataAdapter);
 			}
-			
-			ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listaRedes);
-			dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			
-			spRed = (Spinner)findViewById(R.id.spinner1);
-			spRed.setOnItemSelectedListener(this);
-			spRed.setAdapter(dataAdapter);
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
