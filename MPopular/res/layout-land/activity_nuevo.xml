@@ -4,14 +4,6 @@
     android:layout_height="fill_parent"
     android:background="@drawable/fondo_pantalla"
     tools:context=".NuevoUsuarioActivity" >
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/label_idusuario" />
     
     <TextView
         android:id="@+id/textView2"
@@ -26,80 +18,84 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="39dp"
+        android:layout_marginTop="17dp"
         android:text="@string/label_nombre" />
 
     <EditText
         android:id="@+id/editText1"
         android:layout_width="wrap_content"
-        android:layout_height="32dp"
+        android:layout_height="35dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="140dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:textSize="12sp" />
 
 	<TextView
 	    android:id="@+id/textView4"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_marginLeft="40dp"
-	    android:layout_marginTop="67dp"
+	    android:layout_marginTop="47dp"
 	    android:text="@string/label_telefono" />
 	
 	<EditText
 	    android:id="@+id/editText2"
 	    android:layout_width="wrap_content"
-	    android:layout_height="32dp"
+	    android:layout_height="35dp"
 	    android:layout_alignParentLeft="true"
 	    android:layout_alignParentRight="true"
 	    android:layout_marginLeft="140dp"
 	    android:layout_marginRight="20dp"
-	    android:layout_marginTop="62dp"
+	    android:layout_marginTop="40dp"
 	    android:ems="10"
-	    android:inputType="textPersonName" />
+	    android:inputType="number"
+	    android:textSize="12sp" />
 	
 	<TextView
 	    android:id="@+id/textView5"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_marginLeft="40dp"
-	    android:layout_marginTop="98dp"
+	    android:layout_marginTop="77dp"
 	    android:text="@string/label_email" />
 	
 	<EditText
 	    android:id="@+id/editText3"
 	    android:layout_width="wrap_content"
-	    android:layout_height="32dp"
+	    android:layout_height="35dp"
 	    android:layout_alignParentLeft="true"
 	    android:layout_alignParentRight="true"
 	    android:layout_marginLeft="140dp"
 	    android:layout_marginRight="20dp"
-	    android:layout_marginTop="92dp"
+	    android:layout_marginTop="70dp"
 	    android:ems="10"
-	    android:inputType="textPersonName" />
+	    android:inputType="textEmailAddress"
+	    android:textSize="12sp" />
 	
 	<TextView
 	    android:id="@+id/textView6"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_marginLeft="40dp"
-	    android:layout_marginTop="128dp"
+	    android:layout_marginTop="107dp"
 	    android:text="@string/label_pais" />
 	
 	<EditText
 	    android:id="@+id/editText4"
 	    android:layout_width="wrap_content"
-	    android:layout_height="32dp"
+	    android:layout_height="35dp"
 	    android:layout_alignParentLeft="true"
 	    android:layout_alignParentRight="true"
 	    android:layout_marginLeft="140dp"
 	    android:layout_marginRight="20dp"
-	    android:layout_marginTop="122dp"
+	    android:layout_marginTop="100dp"
 	    android:ems="10"
-	    android:inputType="textPersonName" />
+	    android:inputType="textPersonName"
+	    android:textSize="12sp" />
 
 	<Button
 	    android:id="@+id/button1"
@@ -108,9 +104,10 @@
 	    android:layout_alignParentLeft="true"
 	    android:layout_alignParentRight="true"
 	    android:layout_alignParentTop="true"
-	    android:layout_marginLeft="150dp"
-	    android:layout_marginRight="150dp"
-	    android:layout_marginTop="160dp"
+	    android:layout_marginLeft="160dp"
+	    android:layout_marginRight="160dp"
+	    android:layout_marginTop="140dp"
+	    android:onClick="guardaDatosPersonales"
 	    android:text="@string/label_guardar_datos" />
 	
 	<LinearLayout

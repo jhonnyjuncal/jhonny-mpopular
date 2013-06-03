@@ -1,8 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android" 
-	android:id="@android:id/text1"
-	android:paddingTop="2dip"
-	android:paddingBottom="3dip"
-	android:layout_marginLeft="5dp"
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content" />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+    
+	<TextView
+	    android:id="@+id/texto"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="3dp"
+	    android:layout_marginRight="70dp"
+	    android:paddingBottom="3dip"
+	    android:paddingTop="2dip"
+	    android:textIsSelectable="false" />
+
+	<ImageView
+	    android:id="@+id/imgeditar"
+	    android:layout_width="25dp"
+	    android:layout_height="25dp"
+	    android:layout_alignParentRight="true"
+	    android:layout_marginRight="50dp"
+	    android:contentDescription="@string/txt_editar"
+	    android:src="@drawable/edit" />
+
+	<ImageView
+	    android:id="@+id/imgeliminar"
+	    android:layout_width="25dp"
+	    android:layout_height="25dp"
+	    android:layout_alignParentRight="true"
+	    android:layout_marginRight="10dp"
+	    android:contentDescription="@string/txt_eliminar"
+	    android:src="@drawable/bt_remove" />
+		
+</RelativeLayout>

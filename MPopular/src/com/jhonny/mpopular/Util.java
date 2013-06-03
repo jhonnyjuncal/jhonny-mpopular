@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -85,18 +88,23 @@ public class Util implements Serializable{
 			
 			
 			// Conversion de la repsueta en Sring
-			BufferedReader reader = new BufferedReader(new InputStreamReader(is,"iso-8859-1"),8);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is),8);
 			sb = new StringBuilder();
 			sb.append(reader.readLine());
 			
 			is.close();
 			result = sb.toString();
-			result = result.replace(result.substring(result.indexOf("<!DOCTYPE"), result.length()),"");
 			
-			
-			// Lectura de los datos de respuesta
-			jObject = new JSONObject(result);
-			jArray = new JSONArray(jObject.get("valores").toString());
+			if(result != null && !result.isEmpty()){
+				if(result.contains("<!DOCTYPE")){
+					result = result.replace(result.substring(result.indexOf("<!DOCTYPE"), result.length()),"");
+					
+					// Lectura de los datos de respuesta
+					jObject = new JSONObject(result);
+					if(jObject.has("valores"))
+						jArray = new JSONArray(jObject.get("valores").toString());
+				}
+			}
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}

@@ -3,7 +3,14 @@
     <string name="app_name">MPopular</string>
     <string name="title_activity_nueva_red">Nueva red</string>
     <string name="title_activity_mis_redes">Redes sociales</string>
+    <string name="title_activity_acerca">Acerca de...</string>
     <string name="txt_cargando">cargando...</string>
+    <string name="txt_editar">Editar</string>
+    <string name="txt_eliminar">Eliminar</string>
+    <string name="txt_aceptar">Aceptar</string>
+    <string name="txt_cancelar">Cancelar</string>
+    <string name="label_cuenta">Cuenta:</string>
+    <string name="label_red">Red:</string>
     <string name="label_idusuario">Identificador:</string>
     <string name="label_nombre">Nombre:</string>
     <string name="label_telefono">Teléfono:</string>
@@ -19,4 +26,7 @@
     <string name="label_listado_cuentas">Listado de cuentas</string>
     <string name="label_nombre_usuario">Nombre de usuario:</string>
     <string name="label_guardar_cuenta">Guardar cuenta</string>
+    <string name="label_resultados">Resultados:</string>
+    <string name="label_catidad_resultados"> registros encontrados</string>
+    <string name="label_sin_resultados">No se han encontrado resultados</string>
 </resources>

@@ -9,39 +9,42 @@
 	    android:id="@+id/textView1"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_marginLeft="15dp"
-	    android:layout_marginTop="15dp"
+	    android:layout_marginLeft="8dp"
+	    android:layout_marginTop="17dp"
 	    android:text="@string/label_red_social" />
 
     <Spinner
         android:id="@+id/spinner1"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="100dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginRight="5dp"
         android:layout_marginTop="5dp" />
 
     <EditText
         android:id="@+id/editText1"
-        android:layout_width="180dp"
-        android:layout_height="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="110dp"
         android:layout_marginTop="55dp"
         android:ems="10"
-        android:inputType="text" />
+        android:inputType="text"
+        android:textSize="12sp" />
     
     <Button
         android:id="@+id/button1"
         android:layout_width="100dp"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="55dp"
         android:onClick="buscarDatosUsuario"
         android:text="@string/label_buscar" />
     
@@ -50,7 +53,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
-        android:layout_marginTop="100dp" />
+        android:layout_marginTop="110dp" />
 
     <LinearLayout
 	    android:id="@+id/linearLayout2"
@@ -59,5 +62,21 @@
 	    android:layout_alignParentBottom="true"
 	    android:orientation="vertical"
 	    android:weightSum="1" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="90dp"
+        android:text="@string/label_resultados" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="135dp"
+        android:layout_marginTop="90dp"
+        android:text="@string/txt_cargando" />
 
 </RelativeLayout>

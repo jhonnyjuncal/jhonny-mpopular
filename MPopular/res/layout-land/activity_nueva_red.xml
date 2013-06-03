@@ -11,23 +11,26 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="17dp"
         android:text="@string/label_red_social" />
 
     <Spinner
         android:id="@+id/spinner1"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="25dp" />
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="5dp" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="65dp"
         android:text="@string/label_nombre_usuario" />
 
     <EditText
@@ -36,11 +39,13 @@
         android:layout_height="35dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="90dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="83dp"
         android:ems="10"
-        android:inputType="textPersonName" >
+        android:inputType="textPersonName"
+        android:textSize="12sp" >
+
         <requestFocus />
     </EditText>
 
@@ -50,9 +55,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_marginLeft="170dp"
-        android:layout_marginRight="170dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginLeft="120dp"
+        android:layout_marginRight="120dp"
+        android:layout_marginTop="140dp"
         android:onClick="insertarCuentaNueva"
         android:text="@string/label_guardar_cuenta" />
     

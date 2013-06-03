@@ -11,27 +11,31 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int fondo_pantalla=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int lanzador=0x7f020002;
-        public static final int point=0x7f020003;
+        public static final int bt_remove=0x7f020000;
+        public static final int edit=0x7f020001;
+        public static final int fondo_pantalla=0x7f020002;
+        public static final int ic_launcher=0x7f020003;
+        public static final int lanzador=0x7f020004;
+        public static final int point=0x7f020005;
     }
     public static final class id {
         public static final int button1=0x7f07000b;
-        public static final int button2=0x7f070011;
+        public static final int button2=0x7f070012;
+        public static final int cuentanombre=0x7f07001c;
         public static final int editText1=0x7f07000a;
-        public static final int editText2=0x7f07000e;
-        public static final int editText3=0x7f07000f;
-        public static final int editText4=0x7f070010;
+        public static final int editText2=0x7f07000f;
+        public static final int editText3=0x7f070010;
+        public static final int editText4=0x7f070011;
         public static final int imageView1=0x7f070000;
-        public static final int linearDetalle1=0x7f070012;
-        public static final int linearDetalle2=0x7f070014;
-        public static final int linearDetalle3=0x7f070016;
+        public static final int imgeditar=0x7f070014;
+        public static final int imgeliminar=0x7f070015;
+        public static final int linearDetalle1=0x7f070016;
+        public static final int linearDetalle2=0x7f070017;
+        public static final int linearDetalle3=0x7f07001b;
         public static final int linearLayout2=0x7f07000d;
         public static final int listView1=0x7f07000c;
-        public static final int listView2=0x7f070015;
-        public static final int nombrered=0x7f070017;
-        public static final int nombreusuario=0x7f070013;
+        public static final int rednombre=0x7f070019;
+        public static final int space1=0x7f07000e;
         public static final int spinner1=0x7f070009;
         public static final int textView1=0x7f070001;
         public static final int textView2=0x7f070002;
@@ -41,6 +45,11 @@ public final class R {
         public static final int textView6=0x7f070006;
         public static final int textView7=0x7f070007;
         public static final int textView8=0x7f070008;
+        public static final int texto=0x7f070013;
+        public static final int usuarioemail=0x7f07001a;
+        public static final int usuarionombre=0x7f070018;
+        public static final int usuariopais=0x7f07001d;
+        public static final int usuariotelefono=0x7f07001e;
     }
     public static final class layout {
         public static final int activity_acerca=0x7f030000;
@@ -49,9 +58,9 @@ public final class R {
         public static final int activity_nueva_red=0x7f030003;
         public static final int activity_nuevo=0x7f030004;
         public static final int activity_principal=0x7f030005;
-        public static final int listview_mis_redes=0x7f030006;
-        public static final int listview_resultados1=0x7f030007;
-        public static final int listview_resultados2=0x7f030008;
+        public static final int dialog_editar_cuenta=0x7f030006;
+        public static final int listview_mis_redes=0x7f030007;
+        public static final int listview_resultados1=0x7f030008;
     }
     public static final class menu {
         public static final int menu_acerca=0x7f060000;
@@ -62,28 +71,35 @@ public final class R {
         public static final int menu_principal=0x7f060005;
     }
     public static final class string {
-        public static final int action_settings=0x7f040014;
         public static final int app_name=0x7f040000;
-        public static final int hello_world=0x7f040015;
-        public static final int label_buscar=0x7f04000c;
-        public static final int label_email=0x7f040007;
-        public static final int label_guardar_cuenta=0x7f040012;
-        public static final int label_guardar_datos=0x7f04000d;
-        public static final int label_idioma=0x7f040009;
-        public static final int label_idusuario=0x7f040004;
-        public static final int label_listado_cuentas=0x7f040010;
-        public static final int label_mis_redes=0x7f04000e;
-        public static final int label_mostrar_buscador=0x7f04000a;
-        public static final int label_nombre=0x7f040005;
-        public static final int label_nombre_usuario=0x7f040011;
-        public static final int label_nueva_cuenta=0x7f04000f;
-        public static final int label_pais=0x7f040008;
-        public static final int label_red_social=0x7f04000b;
-        public static final int label_telefono=0x7f040006;
-        public static final int title_activity_acerca=0x7f040013;
+        public static final int label_buscar=0x7f040012;
+        public static final int label_catidad_resultados=0x7f04001a;
+        public static final int label_cuenta=0x7f040009;
+        public static final int label_email=0x7f04000d;
+        public static final int label_guardar_cuenta=0x7f040018;
+        public static final int label_guardar_datos=0x7f040013;
+        public static final int label_idioma=0x7f04000f;
+        public static final int label_idusuario=0x7f04001c;
+        public static final int label_listado_cuentas=0x7f040016;
+        public static final int label_mis_redes=0x7f040014;
+        public static final int label_mostrar_buscador=0x7f040010;
+        public static final int label_nombre=0x7f04000b;
+        public static final int label_nombre_usuario=0x7f040017;
+        public static final int label_nueva_cuenta=0x7f040015;
+        public static final int label_pais=0x7f04000e;
+        public static final int label_red=0x7f04000a;
+        public static final int label_red_social=0x7f040011;
+        public static final int label_resultados=0x7f040019;
+        public static final int label_sin_resultados=0x7f04001b;
+        public static final int label_telefono=0x7f04000c;
+        public static final int title_activity_acerca=0x7f040003;
         public static final int title_activity_mis_redes=0x7f040002;
         public static final int title_activity_nueva_red=0x7f040001;
-        public static final int txt_cargando=0x7f040003;
+        public static final int txt_aceptar=0x7f040007;
+        public static final int txt_cancelar=0x7f040008;
+        public static final int txt_cargando=0x7f040004;
+        public static final int txt_editar=0x7f040005;
+        public static final int txt_eliminar=0x7f040006;
     }
     public static final class style {
         /** 

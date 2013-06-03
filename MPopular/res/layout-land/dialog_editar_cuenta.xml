@@ -1,9 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/fondo_pantalla"
-    tools:context=".NuevaRedActivity" >
+    android:layout_height="fill_parent" >
 
     <TextView
         android:id="@+id/textView1"
@@ -42,43 +41,30 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="80dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:textSize="12sp" >
-
-        <requestFocus />
-    </EditText>
+        android:textSize="12sp" />
 
     <Button
         android:id="@+id/button1"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="130dp"
+        android:text="@string/txt_aceptar" />
+    
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="80dp"
+        android:layout_marginRight="50dp"
         android:layout_marginTop="130dp"
-        android:onClick="insertarCuentaNueva"
-        android:text="@string/label_guardar_cuenta" />
-    
-    <LinearLayout
-	    android:id="@+id/linearLayout2"
-	    android:layout_width="fill_parent"
-	    android:layout_height="50dp"
-	    android:layout_alignParentBottom="true"
-	    android:orientation="vertical"
-	    android:weightSum="1" />
-
-    <android.widget.Space
-        android:id="@+id/space1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/button1"
-        android:layout_below="@+id/button1"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="49dp" />
-
+        android:text="@string/txt_cancelar" />
+	
 </RelativeLayout>

@@ -3,18 +3,26 @@ package com.jhonny.mpopular;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import org.json.JSONArray;
+import com.google.ads.AdRequest;
+import com.google.ads.AdSize;
+import com.google.ads.AdView;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.view.Menu;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -22,10 +30,13 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 	
 	private Spinner spRed;
 	private List<String> listaRedes = new ArrayList<String>();
-	private List<String> listaResultados = new ArrayList<String>();
-	private Map<Integer, String> redes = null;
-	private Integer idRed = null;
+	private ArrayList<DetalleCuentas> listaResultados = new ArrayList<DetalleCuentas>();
+	private HashMap<Integer, HashMap<Integer, String>> redes = null;
+	private Integer posicionSpinnerSeleccionada = 0;
 	private ListView listView;
+	private AdView adView = null;
+	private TextView rLabel;
+	private TextView rTexto;
 	
 	
 	@Override
@@ -36,6 +47,15 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 		try{
 			// carga las redes sociales de la bbdd
 			cargaRedesSociales();
+			
+			// borra el contenido de las etiquetas de los resultados de la busqueda
+			limpiaResultadosBusqueda();
+			
+			// publicidad
+			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
+			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
+			layout.addView(adView);
+			adView.loadAd(new AdRequest());
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -53,19 +73,25 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 		JSONArray jArray = null;
 		
 		try{
-			String url = "http://free.hostingjava.it/-jhonnyjuncal/index.jsp?consulta=1";
+			String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=1";
 			jArray = Util.consultaDatosInternet(url);
-			redes = new HashMap<Integer, String>();
+			HashMap<Integer, String> redes2;
+			redes = new HashMap<Integer, HashMap<Integer, String>>();
 			
-			for(int i=0; i<jArray.length(); i++){
-				redes.put(jArray.getInt(i), jArray.getString(++i));
-			}
-			
-			if(redes != null){
-				for(int i=1; i<=redes.size(); i++){
-					listaRedes.add((String)redes.get(i));
+			if(jArray != null){
+				for(int i=0; i<jArray.length(); i++){
+					redes2 = new HashMap<Integer, String>();
+					redes2.put(jArray.getInt(i), jArray.getString(++i));
+					redes.put(i, redes2);
 				}
+				
 				listaRedes.add("Todas");
+				for(int i=1; i<jArray.length(); i++){
+					String cadena = jArray.getString(i);
+					cadena = cadena.replace(".", " ");
+					listaRedes.add(cadena);
+					i++;
+				}
 			}
 			
 			ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listaRedes);
@@ -82,21 +108,10 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-		try{
-			if(redes != null){
-				for(int i=1; i<redes.size(); i++){
-					if(pos == i){
-						idRed = pos;
-						return;
-					}
-				}
-			}
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
+		posicionSpinnerSeleccionada = pos;
 	}
-
-
+	
+	
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
 		
@@ -104,31 +119,92 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 	
 	
 	public void buscarDatosUsuario(View view){
-		JSONArray jArray = null;
+		JSONArray jArrayClave = null;
+		JSONArray jArrayValor = null;
+		ProgressDialog pd = null;
 		
 		try{
+			pd = new ProgressDialog(this);
+			pd.setMessage("Buscando...");
+			pd.setCancelable(false);
+			pd.setIndeterminate(true);
+			pd.show();
+			
+			listaResultados = new ArrayList<DetalleCuentas>();
 			EditText editTexto = (EditText)findViewById(R.id.editText1);
 			String nombre = editTexto.getText().toString().trim();
 			
 			if(nombre != null && nombre.length() > 0){
+				Integer idRed = 0;
+				if(posicionSpinnerSeleccionada != null && posicionSpinnerSeleccionada > 0){
+					HashMap<Integer, String> elemento = redes.get(posicionSpinnerSeleccionada);
+				
+					Set<Integer> listaIds = elemento.keySet();
+					for(Integer i : listaIds){
+						if(i != null)
+							idRed = i;
+					}
+				}
+				
 				String url = "http://free.hostingjava.it/-jhonnyjuncal/index.jsp?consulta=2" +
 						"&nombre=" + nombre + "&idRed=" + idRed;
-				jArray = Util.consultaDatosInternet(url);
+				jArrayClave = Util.consultaDatosInternet(url);
 				
-				if(jArray != null && jArray.length() > 0){
+				rLabel = (TextView)findViewById(R.id.textView2);
+				rTexto = (TextView)findViewById(R.id.textView3);
+				
+				if(jArrayClave != null){
 					// hay datos que mostrar
-					for(int i=0; i<jArray.length(); i++){
-						listaResultados.add(jArray.getString(i) + " - " + jArray.getString(++i));
+					rLabel.setVisibility(0); // mostrar visible
+					if(jArrayClave.length() > 0){
+						for(int i=0; i<jArrayClave.length(); i++){
+							jArrayValor = (JSONArray)jArrayClave.get(i);
+							
+							String n1 = (String)jArrayValor.get(0);
+							String n2 = (String)jArrayValor.get(1);
+							String n3 = (String)jArrayValor.get(2);
+							String n4 = (String)jArrayValor.get(3);
+							String n5 = (String)jArrayValor.get(4);
+							String n6 = (String)jArrayValor.get(5);
+							
+							DetalleCuentas detalle = new DetalleCuentas(n1, n2, n3, n4, n5, n6);
+							listaResultados.add(detalle);
+						}
+						String texto = getResources().getString(R.string.label_catidad_resultados);
+						rTexto.setText(String.valueOf(listaResultados.size()) + " " + texto);
+					}else{
+						String texto = getResources().getString(R.string.label_sin_resultados);
+						rTexto.setText(texto);
 					}
-					
-					ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<String>(this, R.layout.listview_resultados2, listaResultados);
-					dataAdapter1.setDropDownViewResource(R.layout.listview_resultados2);
-					
-					listView = (ListView)findViewById(R.id.listView1);
-					listView.setAdapter(dataAdapter1);
 				}
-			}else
+					
+				listView = (ListView)findViewById(R.id.listView1);
+				listView.setAdapter(new DetalleCuentasAdapter(listaResultados));
+				
+			}else{
 				Toast.makeText(this, "No puede estar vacio", Toast.LENGTH_SHORT).show();
+			}
+			
+			
+			InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(editTexto.getWindowToken(), 0);
+			view.buildDrawingCache(true);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			if(pd != null)
+				pd.dismiss();
+		}
+	}
+	
+	
+	private void limpiaResultadosBusqueda(){
+		try{
+			rLabel = (TextView)findViewById(R.id.textView2);
+			rTexto = (TextView)findViewById(R.id.textView3);
+			
+			rLabel.setVisibility(4); // mostrar invisible
+			rTexto.setText("");
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
