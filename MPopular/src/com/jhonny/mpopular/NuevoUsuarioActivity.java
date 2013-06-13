@@ -1,22 +1,25 @@
 package com.jhonny.mpopular;
 
 import org.json.JSONArray;
+
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
 import android.os.Bundle;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
-public class NuevoUsuarioActivity extends Activity {
+public class NuevoUsuarioActivity extends SherlockActivity {
 	
 	AdView adView = null;
 	ProgressDialog pd = null;
@@ -39,13 +42,20 @@ public class NuevoUsuarioActivity extends Activity {
 		}
 	}
 	
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_nuevo, menu);
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.menu_nuevo, menu);
 		return true;
 	}
 	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if(item.getItemId() == R.id.btn_guardar){
+			guardaDatosPersonales(null);
+		}
+		return true;
+	}
 	
 	public void guardaDatosPersonales(View view){
 		JSONArray jArray = null;
@@ -70,7 +80,7 @@ public class NuevoUsuarioActivity extends Activity {
 			String n4 = editPais.getText().toString().replaceAll(" ", ".");
 			
 			String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=0&nombre="; 
-			url+= n1 + "&telefono=" + n2; 
+			url+= n1 + "&telefono=" + n2;
 			url+= "&email=" + n3 + "&pais=" + n4;
 			jArray = Util.consultaDatosInternet(url);
 			
@@ -103,7 +113,6 @@ public class NuevoUsuarioActivity extends Activity {
 				pd.dismiss();
 		}
 	}
-	
 	
 	@Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

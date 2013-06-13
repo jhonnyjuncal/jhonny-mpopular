@@ -1,17 +1,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="70dp"
+    android:background="@layout/fondo_detalle"
     android:orientation="horizontal" >
     
 	<TextView
-	    android:id="@+id/texto"
+	    android:id="@+id/nUsuario"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_marginLeft="3dp"
 	    android:layout_marginRight="70dp"
-	    android:paddingBottom="3dip"
-	    android:paddingTop="2dip"
-	    android:textIsSelectable="false" />
+	    android:paddingBottom="5dp"
+	    android:paddingTop="5dp"
+	    android:textIsSelectable="false"
+	    android:textSize="15sp"
+	    android:textStyle="bold" />
+	
+	<TextView
+	    android:id="@+id/nCuenta"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="3dp"
+	    android:layout_marginRight="70dp"
+	    android:layout_marginTop="33dp"
+	    android:paddingBottom="5dp"
+	    android:paddingTop="5dp"
+	    android:textIsSelectable="false"
+	    android:textSize="15sp" />
 
 	<ImageView
 	    android:id="@+id/imgeditar"
@@ -19,6 +34,7 @@
 	    android:layout_height="25dp"
 	    android:layout_alignParentRight="true"
 	    android:layout_marginRight="50dp"
+	    android:layout_marginTop="20dp"
 	    android:contentDescription="@string/txt_editar"
 	    android:src="@drawable/edit" />
 
@@ -28,7 +44,8 @@
 	    android:layout_height="25dp"
 	    android:layout_alignParentRight="true"
 	    android:layout_marginRight="10dp"
+	    android:layout_marginTop="20dp"
 	    android:contentDescription="@string/txt_eliminar"
 	    android:src="@drawable/bt_remove" />
-		
+	
 </RelativeLayout>

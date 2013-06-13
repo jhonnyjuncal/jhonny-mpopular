@@ -2,17 +2,19 @@ package com.jhonny.mpopular;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 import org.json.JSONArray;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
 import android.os.Bundle;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -26,10 +28,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class BuscadorActivity extends Activity implements OnItemSelectedListener {
+public class BuscadorActivity extends SherlockActivity implements OnItemSelectedListener {
 	
 	private Spinner spRed;
-	private List<String> listaRedes = new ArrayList<String>();
 	private ArrayList<DetalleCuentas> listaResultados = new ArrayList<DetalleCuentas>();
 	private HashMap<Integer, HashMap<Integer, String>> redes = null;
 	private Integer posicionSpinnerSeleccionada = 0;
@@ -45,6 +46,10 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 		setContentView(R.layout.activity_buscador);
 		
 		try{
+			ActionBar ab = getSupportActionBar();
+	        ab.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE|ActionBar.DISPLAY_SHOW_HOME|ActionBar.DISPLAY_HOME_AS_UP);
+	        ab.setTitle(getString(R.string.label_buscador));
+	        
 			// carga las redes sociales de la bbdd
 			cargaRedesSociales();
 			
@@ -64,37 +69,27 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_buscador, menu);
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.menu_buscador, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if(item.getItemId() == R.id.btn_guardar){
+			buscarDatosUsuario(null);
+		}
 		return true;
 	}
 	
 	
 	private void cargaRedesSociales(){
-		JSONArray jArray = null;
-		
 		try{
-			String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=1";
-			jArray = Util.consultaDatosInternet(url);
-			HashMap<Integer, String> redes2;
-			redes = new HashMap<Integer, HashMap<Integer, String>>();
+			if(Util.getRedes() == null)
+				Util.cargaRedesSociales();
 			
-			if(jArray != null){
-				for(int i=0; i<jArray.length(); i++){
-					redes2 = new HashMap<Integer, String>();
-					redes2.put(jArray.getInt(i), jArray.getString(++i));
-					redes.put(i, redes2);
-				}
-				
-				listaRedes.add("Todas");
-				for(int i=1; i<jArray.length(); i++){
-					String cadena = jArray.getString(i);
-					cadena = cadena.replace(".", " ");
-					listaRedes.add(cadena);
-					i++;
-				}
-			}
-			
-			ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listaRedes);
+			ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, 
+						Util.getListaRedes());
 			dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			
 			spRed = (Spinner)findViewById(R.id.spinner1);
@@ -138,7 +133,7 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 				Integer idRed = 0;
 				if(posicionSpinnerSeleccionada != null && posicionSpinnerSeleccionada > 0){
 					HashMap<Integer, String> elemento = redes.get(posicionSpinnerSeleccionada);
-				
+					
 					Set<Integer> listaIds = elemento.keySet();
 					for(Integer i : listaIds){
 						if(i != null)
@@ -146,7 +141,10 @@ public class BuscadorActivity extends Activity implements OnItemSelectedListener
 					}
 				}
 				
-				String url = "http://free.hostingjava.it/-jhonnyjuncal/index.jsp?consulta=2" +
+				while(nombre.contains(" "))
+					nombre = nombre.replace(' ', '.');
+				
+				String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=2" +
 						"&nombre=" + nombre + "&idRed=" + idRed;
 				jArrayClave = Util.consultaDatosInternet(url);
 				

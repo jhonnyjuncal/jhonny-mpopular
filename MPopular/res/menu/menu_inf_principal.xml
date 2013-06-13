@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+	<item 
+	    android:id="@+id/btn_valorar"
+	    android:icon="@drawable/favorite"
+	    android:showAsAction="always"
+	    android:title="@string/label_valora" />
+	
+	<item 
+	    android:id="@+id/btn_mis_datos"
+	    android:showAsAction="collapseActionView"
+	    android:title="@string/label_editar" />
+	
+</menu>

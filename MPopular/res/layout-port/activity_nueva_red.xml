@@ -72,13 +72,4 @@
 	    android:orientation="vertical"
 	    android:weightSum="1" />
 
-    <android.widget.Space
-        android:id="@+id/space1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/button1"
-        android:layout_below="@+id/button1"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="49dp" />
-
 </RelativeLayout>

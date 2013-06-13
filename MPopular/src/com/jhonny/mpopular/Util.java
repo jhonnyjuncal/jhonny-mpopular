@@ -4,10 +4,8 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -27,6 +25,9 @@ public class Util implements Serializable{
 	private static String telefono;
 	private static String email;
 	private static String pais;
+	private static HashMap<Integer, Red> redes;
+	private static ArrayList<String> listaRedes = new ArrayList<String>();
+	private static HashMap<Integer, Cuenta> cuentas;
 	
 	
 	public static int getIdUsuario() {
@@ -69,6 +70,92 @@ public class Util implements Serializable{
 		Util.pais = pais;
 	}
 	
+	public static HashMap<Integer, Red> getRedes(){
+		return redes;
+	}
+	
+	public static void setRedes(HashMap<Integer, Red> redes){
+		Util.redes = redes;
+	}
+	
+	public static ArrayList<String> getListaRedes(){
+		return listaRedes;
+	}
+	
+	public static void setListaRedes(ArrayList<String> listaRedes){
+		Util.listaRedes = listaRedes;
+	}
+	
+	public static HashMap<Integer, Cuenta> getCuentas(){
+		return cuentas;
+	}
+	
+	public static void setCuentas(HashMap<Integer, Cuenta> cuentas){
+		Util.cuentas = cuentas;
+	}
+	
+	
+	public static void cargaRedesSociales(){
+		JSONArray jArray = null;
+		try{
+			String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=1";
+			jArray = Util.consultaDatosInternet(url);
+			
+			if(jArray != null){
+				int pos = 1;
+				redes = new HashMap<Integer, Red>();
+				
+				for(int i=0; i<jArray.length(); i++){
+					JSONObject obj = (JSONObject)jArray.get(i);
+					Integer idRed = (Integer)obj.get("idRed");
+					String cadena = (String)obj.get("nombreRed");
+					
+					while(cadena.contains("."))
+						cadena = cadena.replace('.', ' ');
+					
+					Red red = new Red(idRed, cadena);
+					
+					redes.put(pos, red);
+					listaRedes.add(cadena);
+					pos++;
+				}
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	public static void cargaMisCuentas(){
+		JSONArray jArray = null;
+		try{
+			String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=4&idUsuario=" + Util.getIdUsuario();
+			jArray = Util.consultaDatosInternet(url);
+			
+			if(jArray != null){
+				int pos = 1;
+				
+				for(int i=0; i<jArray.length(); i++){
+					JSONObject obj = (JSONObject)jArray.get(i);
+					
+					Integer id = (Integer)obj.get("idCuenta");
+					Integer idRed = (Integer)obj.get("idRed");
+					String nombreCuenta = (String)obj.get("nombreCuenta");
+					while(nombreCuenta.contains("."))
+						nombreCuenta = nombreCuenta.replace('.', ' ');
+					String nombreUsuario = (String)obj.get("nombreUsuario");
+					while(nombreUsuario.contains("."))
+						nombreUsuario = nombreUsuario.replace('.', ' ');
+					
+					Cuenta cuenta = new Cuenta(id, idRed, nombreUsuario, nombreCuenta);
+					
+					cuentas.put(pos, cuenta);
+					pos++;
+				}
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
 	
 	public static JSONArray consultaDatosInternet(String url){
 		InputStream is = null;

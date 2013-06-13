@@ -2,8 +2,9 @@
 <resources>
 	<string name="app_name">MPopular</string>
 	<string name="title_activity_nueva_red">New network</string>
-    <string name="title_activity_mis_redes">Social network</string>
+    <string name="title_activity_mis_redes">My Social network</string>
     <string name="title_activity_acerca">About MPopular</string>
+    <string name="title_activity_configuracion">Settings</string>
 	<string name="txt_cargando">loading...</string>
 	<string name="txt_editar">Edit</string>
     <string name="txt_eliminar">Delete</string>
@@ -28,4 +29,8 @@
 	<string name="label_resultados">Results:</string>
 	<string name="label_catidad_resultados"> records found</string>
 	<string name="label_sin_resultados">No records found</string>
+	<string name="label_buscador">Finder</string>
+	<string name="label_acerca_de">About MPopular</string>
+	<string name="label_valora">Rate MPopular</string>
+	<string name="label_editar">Edit</string>
 </resources>

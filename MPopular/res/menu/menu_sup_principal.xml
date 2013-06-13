@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+	<item
+		android:id="@+id/btn_configuracion"
+		android:icon="@drawable/settings_blue"
+		android:showAsAction="always"
+		android:title="@string/title_activity_configuracion" />
+	
+	<item 
+	    android:id="@+id/btn_acerca"
+	    android:icon="@drawable/ic_menu_acerca"
+	    android:showAsAction="always"
+	    android:title="@string/label_acerca_de" />
+	
+</menu>

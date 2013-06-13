@@ -1,19 +1,21 @@
 package com.jhonny.mpopular;
 
 import org.json.JSONArray;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
-import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-public class PrincipalActivity extends Activity {
+public class PrincipalActivity extends SherlockActivity {
 	
 	AdView adView = null;
 	
@@ -43,7 +45,17 @@ public class PrincipalActivity extends Activity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_principal, menu);
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.menu_sup_principal, menu);
+		return true;
+	}
+	
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if(item.getItemId() == R.id.btn_configuracion){
+			startActivity(new Intent(this, ConfiguracionActivity.class));
+		}
 		return true;
 	}
 	

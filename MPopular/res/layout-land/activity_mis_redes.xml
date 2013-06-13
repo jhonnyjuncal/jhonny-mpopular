@@ -16,17 +16,6 @@
         android:onClick="nuevaRedSocial"
         android:text="@string/label_nueva_cuenta" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="25dp"
-        android:text="@string/label_listado_cuentas"
-        android:textStyle="bold" />
-
     <ListView
         android:id="@+id/listView1"
         android:layout_width="wrap_content"
