@@ -4,8 +4,12 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -196,5 +200,24 @@ public class Util implements Serializable{
 			ex.printStackTrace();
 		}
 		return jArray;
+	}
+	
+	
+	/**
+	 * Devuelve la fecha formateada dependiendo de la configuracion del telefono
+	 * @param fecha
+	 * @param locale
+	 * @return fecha formateada
+	 */
+	public static String getFechaFormateada(Date fecha, Locale locale){
+		String resultado = "";
+		
+		try{
+			DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, locale);
+			resultado = dateFormatter.format(fecha);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return resultado;
 	}
 }

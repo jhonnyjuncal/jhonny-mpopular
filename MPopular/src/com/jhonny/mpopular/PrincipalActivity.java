@@ -1,6 +1,7 @@
 package com.jhonny.mpopular;
 
 import org.json.JSONArray;
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -8,37 +9,73 @@ import com.actionbarsherlock.view.MenuItem;
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import android.os.Bundle;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class PrincipalActivity extends SherlockActivity {
 	
-	AdView adView = null;
+	private AdView adView = null;
+	private SlidingMenu menu;
+	private ActionBar actionBar;
 	
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_principal);
 		
-		// publicidad
-		adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
-		LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
-		layout.addView(adView);
-		adView.loadAd(new AdRequest());
-		
-		boolean existen = FileUtil.cargaDatosPersonales(this);
-		
-		if(!existen){
-			Intent intent = new Intent(this, NuevoUsuarioActivity.class);
-			startActivity(intent);
-		}else{
-			recuperarDatosUsuario(Util.getIdUsuario());
-			muestraDatosPersonales();
+		try{
+			menu = new SlidingMenu(this);
+	        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+	        menu.setShadowWidthRes(R.dimen.shadow_width);
+	        menu.setShadowDrawable(R.drawable.ext_sombra);
+	        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+	        menu.setFadeDegree(0.35f);
+	        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+	        menu.setMenu(R.layout.activity_opciones);
+	        
+	        
+	        actionBar = getSupportActionBar();
+	        if(actionBar != null){
+	        	actionBar.setDisplayShowCustomEnabled(true);
+	        	
+	        	// boton < de la action bar
+	        	actionBar.setDisplayHomeAsUpEnabled(false);
+	        	actionBar.setHomeButtonEnabled(true);
+	        	
+	        	PackageInfo pInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0);
+	        	actionBar.setTitle(pInfo.applicationInfo.name);
+//	        	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+//	        	actionBar.addTab(actionBar.newTab().setText(R.string.label_buscador).setTabListener(this));
+//	        	actionBar.addTab(actionBar.newTab().setText(R.string.label_mis_redes).setTabListener(this));
+	        }
+	        
+	        
+			boolean existen = FileUtil.cargaDatosPersonales(this);
+			
+			if(!existen){
+				Intent intent = new Intent(this, NuevoUsuarioActivity.class);
+				startActivity(intent);
+			}else{
+				recuperarDatosUsuario(Util.getIdUsuario());
+				muestraDatosPersonales();
+			}
+			
+			// publicidad
+			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
+			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
+			layout.addView(adView);
+			adView.loadAd(new AdRequest());
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
 		}
 	}
 	
@@ -46,18 +83,35 @@ public class PrincipalActivity extends SherlockActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.menu_sup_principal, menu);
+		inflater.inflate(R.menu.menu_principal, menu);
 		return true;
 	}
 	
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if(item.getItemId() == R.id.btn_configuracion){
-			startActivity(new Intent(this, ConfiguracionActivity.class));
-		}
-		return true;
-	}
+		switch(item.getItemId()){
+			case android.R.id.home:
+				menu.toggle();
+				return true;
+				
+			case R.id.layout_opciones:
+				Intent intent = new Intent(this, AcercaActivity.class);
+				startActivity(intent);
+				return true;
+				
+			case R.id.submenu1:
+				Toast.makeText(this, "submenu1 clicked", Toast.LENGTH_SHORT).show();
+				return true;
+				
+			case R.id.submenu2:
+				Toast.makeText(this, "submenu2 clicked", Toast.LENGTH_SHORT).show();
+				return true;
+				
+			default:
+				return super.onOptionsItemSelected(item);
+        }
+    }
 	
 	
 	public void muestraBuscador(View view){

@@ -5,11 +5,15 @@
     <string name="title_activity_mis_redes">My Social network</string>
     <string name="title_activity_acerca">About MPopular</string>
     <string name="title_activity_configuracion">Settings</string>
+    <string name="title_activity_opciones">Options</string>
+    <string name="title_activity_terminos">Terms y Conditions</string>
 	<string name="txt_cargando">loading...</string>
 	<string name="txt_editar">Edit</string>
     <string name="txt_eliminar">Delete</string>
     <string name="txt_aceptar">Accept</string>
     <string name="txt_cancelar">Cancel</string>
+    <string name="txt_pais">Spain</string>
+	<string name="txt_desarrollador">Jhonny Juncal Gonzalez</string>
     <string name="label_cuenta">Account:</string>
     <string name="label_red">Network:</string>
 	<string name="label_nombre">Name:</string>
@@ -33,4 +37,8 @@
 	<string name="label_acerca_de">About MPopular</string>
 	<string name="label_valora">Rate MPopular</string>
 	<string name="label_editar">Edit</string>
+	<string name="label_terminos">Terms y conditions of MPopular</string>
+	<string name="label_version">Version:</string>
+	<string name="label_creacion">Creation:</string>
+	<string name="label_desarrollado">Developed by:</string>
 </resources>

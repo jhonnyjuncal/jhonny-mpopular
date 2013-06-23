@@ -116,28 +116,6 @@
 		</LinearLayout>
 	</RelativeLayout>
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="150dp"
-        android:onClick="muestraBuscador"
-        android:text="@string/label_mostrar_buscador" />
-    
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="60dp"
-        android:layout_marginTop="150dp"
-        android:onClick="muestraMisRedes"
-        android:text="@string/label_mis_redes" />
-
     <LinearLayout
 	    android:id="@+id/linearLayout2"
 	    android:layout_width="fill_parent"
@@ -145,32 +123,5 @@
 	    android:layout_alignParentBottom="true"
 	    android:orientation="vertical"
 	    android:weightSum="1" />
-
-    <ImageButton
-        android:id="@+id/imageButton1"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="150dp"
-        android:contentDescription="@string/txt_cargando"
-        android:onClick="muestraBuscador"
-        android:scaleType="fitCenter"
-        android:src="@drawable/search11" />
-    
-    <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="150dp"
-        android:contentDescription="@string/txt_cargando"
-        android:onClick="muestraMisRedes"
-        android:scaleType="fitCenter"
-        android:src="@drawable/network" />
 
 </RelativeLayout>

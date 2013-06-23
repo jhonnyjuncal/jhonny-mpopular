@@ -54,6 +54,14 @@
             android:name="com.jhonny.mpopular.ConfiguracionActivity"
             android:label="@string/title_activity_configuracion" >
         </activity>
+        <activity
+            android:name="com.jhonny.mpopular.OpcionesActivity"
+            android:label="@string/title_activity_opciones" >
+        </activity>
+        <activity
+            android:name="com.jhonny.mpopular.TerminosActivity"
+            android:label="@string/title_activity_terminos" >
+        </activity>
     </application>
 
 </manifest>
