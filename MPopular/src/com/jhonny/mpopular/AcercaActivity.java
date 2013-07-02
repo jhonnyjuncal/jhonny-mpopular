@@ -2,14 +2,30 @@ package com.jhonny.mpopular;
 
 import java.util.Locale;
 import org.joda.time.DateTime;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.google.ads.AdRequest;
+import com.google.ads.AdSize;
+import com.google.ads.AdView;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import android.os.Bundle;
-import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
-import android.view.Menu;
+import android.content.pm.PackageManager;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-public class AcercaActivity extends Activity {
+public class AcercaActivity extends SherlockActivity {
+	
+	private SlidingMenu menu;
+	private ActionBar actionBar;
+	private AdView adView = null;
+	private View view;
 	
 	
 	@Override
@@ -24,10 +40,40 @@ public class AcercaActivity extends Activity {
 			textoVersion.setText(pInfo.versionName);
 			
 			// fecha de creacion
-			TextView textoFecha = (TextView)findViewById(R.id.textView5);
-			DateTime fecha = new DateTime("2013-11-04");
+			TextView textoFecha = (TextView)findViewById(R.id.textView4);
+			DateTime fecha = new DateTime("2013-07-16");
 			Locale locale = getResources().getConfiguration().locale;
 			textoFecha.setText(Util.getFechaFormateada(fecha.toDate(), locale));
+			
+			actionBar = getSupportActionBar();
+	        if(actionBar != null){
+	        	actionBar.setDisplayShowCustomEnabled(true);
+	        	
+	        	// boton < de la action bar
+	        	actionBar.setDisplayHomeAsUpEnabled(false);
+	        	actionBar.setHomeButtonEnabled(true);
+	        	
+//	        	PackageManager pm = getApplicationContext().getPackageManager();
+//	        	ApplicationInfo ai = pm.getApplicationInfo( this.getPackageName(), 0);
+//	        	String applicationName = (String)pm.getApplicationLabel(ai);
+//	        	actionBar.setTitle(applicationName);
+	        }
+	        
+			menu = new SlidingMenu(this);
+	        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+	        menu.setShadowWidthRes(R.dimen.shadow_width);
+	        menu.setShadowDrawable(R.drawable.ext_sombra);
+	        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+	        menu.setFadeDegree(0.35f);
+	        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+	        menu.setMenu(R.layout.activity_opciones);
+			
+			// publicidad
+			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
+			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
+			layout.addView(adView);
+			adView.loadAd(new AdRequest());
+			
 		}catch(Exception ex){
 			ex.printStackTrace();	
 		}
@@ -36,7 +82,160 @@ public class AcercaActivity extends Activity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_acerca, menu);
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.menu_acerca, menu);
 		return true;
+	}
+	
+	
+	@Override
+    protected void onResume(){
+		super.onResume();
+		
+		try{
+			reiniciarFondoOpciones();
+		
+			TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
+			opc_textview1.setText(Util.getNombre());
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	
+	/**
+	 * Inicia la actividad del buscador
+	 * @param view
+	 */
+	public void muestraBuscador(View view){
+		try{
+			this.view = view;
+			
+			LinearLayout layout_busq = (LinearLayout)findViewById(R.id.opc_layout_busq);
+			layout_busq.setBackgroundResource(R.color.gris_oscuro);
+			view.buildDrawingCache(true);
+			
+			Intent intent = new Intent(this, BuscadorActivity.class);
+			startActivity(intent);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			menu.toggle();
+		}
+	}
+	
+	
+	/**
+	 * Inicia la actividad las redes del usuario
+	 * @param view
+	 */
+	public void muestraMisRedes(View view){
+		try{
+			this.view = view;
+			
+			LinearLayout layout_redes = (LinearLayout)findViewById(R.id.opc_layout_redes);
+			layout_redes.setBackgroundResource(R.color.gris_oscuro);
+			view.buildDrawingCache(true);
+			
+			Intent intent = new Intent(this, MisRedesActivity.class);
+			startActivity(intent);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			menu.toggle();
+		}
+	}
+	
+	
+	/**
+	 * Inicia la actividad Acerca de MPopular
+	 * @param view
+	 */
+	public void muestraAcercaDeMpopular(View view){
+		try{
+			this.view = view;
+			
+			LinearLayout layout_acerca = (LinearLayout)findViewById(R.id.opc_layout_acerca);
+			layout_acerca.setBackgroundResource(R.color.gris_oscuro);
+			view.buildDrawingCache(true);
+			
+			Intent intent = new Intent(this, AcercaActivity.class);
+			startActivity(intent);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			menu.toggle();
+		}
+	}
+	
+	
+	/**
+	 * Muestra los terminos y condiciones de la aplicacion
+	 * @param view
+	 */
+	public void muestraTerminosCondiciones(View view){
+		try{
+			this.view = view;
+			
+			LinearLayout layout_terminos = (LinearLayout)findViewById(R.id.opc_layout_terminos);
+			layout_terminos.setBackgroundResource(R.color.gris_oscuro);
+			view.buildDrawingCache(true);
+			
+			Intent intent = new Intent(this, TerminosActivity.class);
+			startActivity(intent);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			menu.toggle();
+		}
+	}
+	
+	
+	/**
+	 * Muestra la actividad de configuraciones de la aplicacion
+	 * @param view
+	 */
+	public void muestraConfiguracionApp(View view){
+		try{
+			this.view = view;
+			
+			LinearLayout layout_conf = (LinearLayout)findViewById(R.id.opc_layout_conf);
+			layout_conf.setBackgroundResource(R.color.gris_oscuro);
+			view.buildDrawingCache(true);
+			
+			Intent intent = new Intent(this, ConfiguracionActivity.class);
+			startActivity(intent);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			menu.toggle();
+		}
+	}
+	
+	
+	private void reiniciarFondoOpciones(){
+		try{
+			LinearLayout layout_busq = (LinearLayout)findViewById(R.id.opc_layout_busq);
+			layout_busq.setBackgroundResource(R.color.gris_claro);
+			
+			LinearLayout layout_redes = (LinearLayout)findViewById(R.id.opc_layout_redes);
+			layout_redes.setBackgroundResource(R.color.gris_claro);
+			
+			LinearLayout layout_conf = (LinearLayout)findViewById(R.id.opc_layout_conf);
+			layout_conf.setBackgroundResource(R.color.gris_claro);
+			
+			LinearLayout layout_acerca = (LinearLayout)findViewById(R.id.opc_layout_acerca);
+			layout_acerca.setBackgroundResource(R.color.gris_claro);
+			
+			LinearLayout layout_terminos = (LinearLayout)findViewById(R.id.opc_layout_terminos);
+			layout_terminos.setBackgroundResource(R.color.gris_claro);
+			
+			if(view != null)
+				view.buildDrawingCache(true);
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 	}
 }

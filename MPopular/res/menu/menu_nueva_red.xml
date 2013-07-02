@@ -2,5 +2,8 @@
 	<item
 		android:id="@+id/btn_guardar_red"
 		android:showAsAction="always"
-		android:title="@string/label_guardar_cuenta" />
+		android:icon="@drawable/ic_guardar"
+		android:title="@string/label_guardar_cuenta"
+		android:visible="true" 
+		android:enabled="true" />
 </menu>

@@ -1,6 +1,11 @@
 package com.jhonny.mpopular;
 
 import org.json.JSONArray;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
@@ -10,13 +15,6 @@ import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import android.os.Bundle;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class PrincipalActivity extends SherlockActivity {
@@ -24,6 +22,7 @@ public class PrincipalActivity extends SherlockActivity {
 	private AdView adView = null;
 	private SlidingMenu menu;
 	private ActionBar actionBar;
+	private View view;
 	
 	
 	@Override
@@ -50,11 +49,10 @@ public class PrincipalActivity extends SherlockActivity {
 	        	actionBar.setDisplayHomeAsUpEnabled(false);
 	        	actionBar.setHomeButtonEnabled(true);
 	        	
-	        	PackageInfo pInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0);
-	        	actionBar.setTitle(pInfo.applicationInfo.name);
-//	        	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-//	        	actionBar.addTab(actionBar.newTab().setText(R.string.label_buscador).setTabListener(this));
-//	        	actionBar.addTab(actionBar.newTab().setText(R.string.label_mis_redes).setTabListener(this));
+//	        	PackageManager pm = getApplicationContext().getPackageManager();
+//	        	ApplicationInfo ai = pm.getApplicationInfo( this.getPackageName(), 0);
+//	        	String applicationName = (String)pm.getApplicationLabel(ai);
+//	        	actionBar.setTitle(applicationName);
 	        }
 	        
 	        
@@ -95,41 +93,134 @@ public class PrincipalActivity extends SherlockActivity {
 				menu.toggle();
 				return true;
 				
-			case R.id.layout_opciones:
-				Intent intent = new Intent(this, AcercaActivity.class);
-				startActivity(intent);
-				return true;
-				
-			case R.id.submenu1:
-				Toast.makeText(this, "submenu1 clicked", Toast.LENGTH_SHORT).show();
-				return true;
-				
-			case R.id.submenu2:
-				Toast.makeText(this, "submenu2 clicked", Toast.LENGTH_SHORT).show();
-				return true;
-				
 			default:
 				return super.onOptionsItemSelected(item);
         }
     }
 	
 	
-	public void muestraBuscador(View view){
+	@Override
+    protected void onResume(){
+		super.onResume();
+		
 		try{
-			Intent intent = new Intent(this, BuscadorActivity.class);
-			startActivity(intent);
+			reiniciarFondoOpciones();
+		
+			TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
+			opc_textview1.setText(Util.getNombre());
+			
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
 	
 	
+	/**
+	 * Inicia la actividad del buscador
+	 * @param view
+	 */
+	public void muestraBuscador(View view){
+		try{
+			this.view = view;
+			
+			LinearLayout layout_busq = (LinearLayout)findViewById(R.id.opc_layout_busq);
+			layout_busq.setBackgroundResource(R.color.gris_oscuro);
+			view.buildDrawingCache(true);
+			
+			Intent intent = new Intent(this, BuscadorActivity.class);
+			startActivity(intent);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			menu.toggle();
+		}
+	}
+	
+	
+	/**
+	 * Inicia la actividad las redes del usuario
+	 * @param view
+	 */
 	public void muestraMisRedes(View view){
 		try{
+			this.view = view;
+			
+			LinearLayout layout_redes = (LinearLayout)findViewById(R.id.opc_layout_redes);
+			layout_redes.setBackgroundResource(R.color.gris_oscuro);
+			view.buildDrawingCache(true);
+			
 			Intent intent = new Intent(this, MisRedesActivity.class);
 			startActivity(intent);
 		}catch(Exception ex){
 			ex.printStackTrace();
+		}finally{
+			menu.toggle();
+		}
+	}
+	
+	
+	/**
+	 * Inicia la actividad Acerca de MPopular
+	 * @param view
+	 */
+	public void muestraAcercaDeMpopular(View view){
+		try{
+			this.view = view;
+			
+			LinearLayout layout_acerca = (LinearLayout)findViewById(R.id.opc_layout_acerca);
+			layout_acerca.setBackgroundResource(R.color.gris_oscuro);
+			view.buildDrawingCache(true);
+			
+			Intent intent = new Intent(this, AcercaActivity.class);
+			startActivity(intent);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			menu.toggle();
+		}
+	}
+	
+	
+	/**
+	 * Muestra los terminos y condiciones de la aplicacion
+	 * @param view
+	 */
+	public void muestraTerminosCondiciones(View view){
+		try{
+			this.view = view;
+			
+			LinearLayout layout_terminos = (LinearLayout)findViewById(R.id.opc_layout_terminos);
+			layout_terminos.setBackgroundResource(R.color.gris_oscuro);
+			view.buildDrawingCache(true);
+			
+			Intent intent = new Intent(this, TerminosActivity.class);
+			startActivity(intent);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			menu.toggle();
+		}
+	}
+	
+	
+	/**
+	 * Muestra la actividad de configuraciones de la aplicacion
+	 * @param view
+	 */
+	public void muestraConfiguracionApp(View view){
+		try{
+			this.view = view;
+			
+			LinearLayout layout_conf = (LinearLayout)findViewById(R.id.opc_layout_conf);
+			layout_conf.setBackgroundResource(R.color.gris_oscuro);
+			view.buildDrawingCache(true);
+			
+			Intent intent = new Intent(this, ConfiguracionActivity.class);
+			startActivity(intent);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			menu.toggle();
 		}
 	}
 	
@@ -170,6 +261,32 @@ public class PrincipalActivity extends SherlockActivity {
 			while(pais.contains("."))
 				pais = pais.replace('.', ' ');
 			Util.setPais(pais);
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	
+	private void reiniciarFondoOpciones(){
+		try{
+			LinearLayout layout_busq = (LinearLayout)findViewById(R.id.opc_layout_busq);
+			layout_busq.setBackgroundResource(R.color.gris_claro);
+			
+			LinearLayout layout_redes = (LinearLayout)findViewById(R.id.opc_layout_redes);
+			layout_redes.setBackgroundResource(R.color.gris_claro);
+			
+			LinearLayout layout_conf = (LinearLayout)findViewById(R.id.opc_layout_conf);
+			layout_conf.setBackgroundResource(R.color.gris_claro);
+			
+			LinearLayout layout_acerca = (LinearLayout)findViewById(R.id.opc_layout_acerca);
+			layout_acerca.setBackgroundResource(R.color.gris_claro);
+			
+			LinearLayout layout_terminos = (LinearLayout)findViewById(R.id.opc_layout_terminos);
+			layout_terminos.setBackgroundResource(R.color.gris_claro);
+			
+			if(view != null)
+				view.buildDrawingCache(true);
 			
 		}catch(Exception ex){
 			ex.printStackTrace();

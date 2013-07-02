@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/fondo_pantalla"
+    android:background="@color/gris_claro"
     tools:context=".NuevaRedActivity" >
 
     <TextView
@@ -14,17 +14,6 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="17dp"
         android:text="@string/label_red_social" />
-
-    <Spinner
-        android:id="@+id/spinner1"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="100dp"
-        android:layout_marginRight="7dp"
-        android:layout_marginTop="5dp" />
 
     <TextView
         android:id="@+id/textView2"
@@ -50,19 +39,6 @@
 
         <requestFocus />
     </EditText>
-
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="120dp"
-        android:layout_marginRight="120dp"
-        android:layout_marginTop="140dp"
-        android:onClick="insertarCuentaNueva"
-        android:text="@string/label_guardar_cuenta" />
     
     <LinearLayout
 	    android:id="@+id/linearLayout2"
@@ -71,5 +47,15 @@
 	    android:layout_alignParentBottom="true"
 	    android:orientation="vertical"
 	    android:weightSum="1" />
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="110dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="5dp" />
 
 </RelativeLayout>

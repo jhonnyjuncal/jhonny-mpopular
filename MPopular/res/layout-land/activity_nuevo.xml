@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#b2b2b2"
+    android:background="@color/gris_claro"
     tools:context=".NuevoUsuarioActivity" >
     
     <TextView
@@ -96,19 +96,6 @@
 	    android:ems="10"
 	    android:inputType="textPersonName"
 	    android:textSize="12sp" />
-
-	<Button
-	    android:id="@+id/button1"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_alignParentLeft="true"
-	    android:layout_alignParentRight="true"
-	    android:layout_alignParentTop="true"
-	    android:layout_marginLeft="160dp"
-	    android:layout_marginRight="160dp"
-	    android:layout_marginTop="140dp"
-	    android:onClick="guardaDatosPersonales"
-	    android:text="@string/label_guardar_datos" />
 	
 	<LinearLayout
 	    android:id="@+id/linearLayout2"

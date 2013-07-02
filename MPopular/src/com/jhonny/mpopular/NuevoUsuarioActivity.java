@@ -1,7 +1,15 @@
 package com.jhonny.mpopular;
 
 import org.json.JSONArray;
-
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -9,20 +17,13 @@ import com.actionbarsherlock.view.MenuItem;
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
-import android.os.Bundle;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.view.KeyEvent;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 
 public class NuevoUsuarioActivity extends SherlockActivity {
 	
 	AdView adView = null;
 	ProgressDialog pd = null;
+	private ActionBar actionBar;
 	
 	
 	@Override
@@ -31,6 +32,20 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.activity_nuevo);
 			
+			actionBar = getSupportActionBar();
+	        if(actionBar != null){
+	        	actionBar.setDisplayShowCustomEnabled(true);
+	        	
+	        	// boton < de la action bar
+	        	actionBar.setDisplayHomeAsUpEnabled(false);
+	        	actionBar.setHomeButtonEnabled(true);
+	        	
+//	        	PackageManager pm = getApplicationContext().getPackageManager();
+//	        	ApplicationInfo ai = pm.getApplicationInfo( this.getPackageName(), 0);
+//	        	String applicationName = (String)pm.getApplicationLabel(ai);
+//	        	actionBar.setTitle(applicationName);
+	        }
+	        
 			// publicidad
 			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
 			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
@@ -42,12 +57,14 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 		}
 	}
 	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
 		inflater.inflate(R.menu.menu_nuevo, menu);
 		return true;
 	}
+	
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -56,6 +73,7 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 		}
 		return true;
 	}
+	
 	
 	public void guardaDatosPersonales(View view){
 		JSONArray jArray = null;
@@ -114,17 +132,15 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 		}
 	}
 	
+	
 	@Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
     	if(keyCode == KeyEvent.KEYCODE_BACK) {
-//    		Intent intent = new Intent(Intent.ACTION_MAIN);
-//    		intent.addCategory(Intent.CATEGORY_HOME);
-//    		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//    		startActivity(intent);
-    		Toast.makeText(this, "Ha pulsado atras", Toast.LENGTH_SHORT).show();
+    		Toast.makeText(this, getResources().getString(R.string.txt_antes_de_salir), 
+    				Toast.LENGTH_SHORT).show();
+    		return true;
     	}
-    	return false;
     	//para las demas cosas, se reenvia el evento al listener habitual
-//    	return super.onKeyDown(keyCode, event);
+    	return super.onKeyDown(keyCode, event);
     }
 }

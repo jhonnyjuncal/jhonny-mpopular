@@ -2,17 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/fondo_pantalla"
+    android:background="@color/gris_claro"
     tools:context=".AcercaActivity" >
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:contentDescription="@string/txt_cargando"
         android:src="@drawable/lanzador" />
 
@@ -76,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView1"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="20dp"
         android:text="@string/label_desarrollado" />
 
     <TextView
@@ -85,7 +84,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView7"
         android:layout_marginLeft="50dp"
-        android:text="@string/txt_desarrollador" />
+        android:text="@string/txt_desarrollador"
+        android:textStyle="bold" />
     
     <LinearLayout
 	    android:id="@+id/linearLayout2"

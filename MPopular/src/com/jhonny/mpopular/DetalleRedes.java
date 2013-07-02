@@ -7,6 +7,7 @@ import android.widget.ImageView;
 public class DetalleRedes implements Serializable{
 	
 	private static final long serialVersionUID = -952135541243638683L;
+	
 	private Integer idCuenta;
 	private Integer idRed;
 	private String nombreCuenta;

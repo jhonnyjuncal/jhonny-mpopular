@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -31,7 +30,7 @@ public class Util implements Serializable{
 	private static String pais;
 	private static HashMap<Integer, Red> redes;
 	private static ArrayList<String> listaRedes = new ArrayList<String>();
-	private static HashMap<Integer, Cuenta> cuentas;
+	private static ArrayList<DetalleRedes> misRedes = new ArrayList<DetalleRedes>();
 	
 	
 	public static int getIdUsuario() {
@@ -90,12 +89,12 @@ public class Util implements Serializable{
 		Util.listaRedes = listaRedes;
 	}
 	
-	public static HashMap<Integer, Cuenta> getCuentas(){
-		return cuentas;
+	public static ArrayList<DetalleRedes> getMisRedes(){
+		return misRedes;
 	}
 	
-	public static void setCuentas(HashMap<Integer, Cuenta> cuentas){
-		Util.cuentas = cuentas;
+	public static void setMisRedes(ArrayList<DetalleRedes> misRedes){
+		Util.misRedes = misRedes;
 	}
 	
 	
@@ -129,11 +128,14 @@ public class Util implements Serializable{
 		}
 	}
 	
+	
 	public static void cargaMisCuentas(){
 		JSONArray jArray = null;
+		
 		try{
 			String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=4&idUsuario=" + Util.getIdUsuario();
 			jArray = Util.consultaDatosInternet(url);
+			misRedes = new ArrayList<DetalleRedes>();
 			
 			if(jArray != null){
 				int pos = 1;
@@ -150,9 +152,10 @@ public class Util implements Serializable{
 					while(nombreUsuario.contains("."))
 						nombreUsuario = nombreUsuario.replace('.', ' ');
 					
-					Cuenta cuenta = new Cuenta(id, idRed, nombreUsuario, nombreCuenta);
+					DetalleRedes dr = new DetalleRedes(id, idRed, nombreCuenta, nombreUsuario, null, null);
 					
-					cuentas.put(pos, cuenta);
+					misRedes.add(dr);
+					
 					pos++;
 				}
 			}
@@ -160,6 +163,7 @@ public class Util implements Serializable{
 			ex.printStackTrace();
 		}
 	}
+	
 	
 	public static JSONArray consultaDatosInternet(String url){
 		InputStream is = null;

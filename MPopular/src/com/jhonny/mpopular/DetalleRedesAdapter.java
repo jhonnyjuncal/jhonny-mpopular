@@ -62,7 +62,7 @@ public class DetalleRedesAdapter extends ArrayAdapter<DetalleRedes> {
 				holder.nombreCuenta.setText(dr.getNombreCuenta());
 				holder.nombreUsuario.setText(dr.getNombreUsuario());
 				int imageResource1 = vi.getContext().getApplicationContext().getResources().getIdentifier(
-						"edit", "drawable", vi.getContext().getApplicationContext().getPackageName());
+						"ic_editar", "drawable", vi.getContext().getApplicationContext().getPackageName());
 				Drawable image1 = vi.getContext().getResources().getDrawable(imageResource1);
 				holder.img_editar.setImageDrawable(image1);
 				holder.img_editar.setOnClickListener(null);
@@ -70,7 +70,7 @@ public class DetalleRedesAdapter extends ArrayAdapter<DetalleRedes> {
 				
 				// imagen eliminar
 				int imageResource2 = vi.getContext().getApplicationContext().getResources().getIdentifier(
-						"bt_remove", "drawable", vi.getContext().getApplicationContext().getPackageName());
+						"ic_eliminar", "drawable", vi.getContext().getApplicationContext().getPackageName());
 				Drawable image2 = vi.getContext().getResources().getDrawable(imageResource2);
 				holder.img_eliminar.setImageDrawable(image2);
 				holder.img_eliminar.setOnClickListener(null);

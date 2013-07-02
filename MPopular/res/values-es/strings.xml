@@ -3,10 +3,11 @@
 	<string name="app_name">MPopular</string>
 	<string name="title_activity_nueva_red">Nueva red</string>
 	<string name="title_activity_mis_redes">Mis Redes sociales</string>
-	<string name="title_activity_acerca">Acerca de...</string>
+	<string name="title_activity_acerca">Acerca de MPopular</string>
 	<string name="title_activity_configuracion">Configuración</string>
 	<string name="title_activity_opciones">Opciones</string>
 	<string name="title_activity_terminos">Terminos y Condiciones</string>
+	<string name="title_activity_nuevo_usuario">Nuevo usuario</string>
 	<string name="txt_cargando">cargando...</string>
 	<string name="txt_editar">Editar</string>
 	<string name="txt_eliminar">Eliminar</string>
@@ -14,6 +15,7 @@
 	<string name="txt_cancelar">Cancelar</string>
 	<string name="txt_pais">España</string>
 	<string name="txt_desarrollador">Jhonny Juncal Gonzalez</string>
+	<string name="txt_antes_de_salir">Para acceder a la aplicación, antes debe registrarse</string>
 	<string name="label_cuenta">Cuenta:</string>
 	<string name="label_red">Red:</string>
 	<string name="label_nombre">Nombre:</string>
@@ -41,4 +43,8 @@
 	<string name="label_version">Version:</string>
 	<string name="label_creacion">Creacion:</string>
 	<string name="label_desarrollado">Desarrollado por:</string>
+	<string name="label_datos_personales">Datos personales:</string>
+	<string name="label_eliminar_cuenta">Eliminar cuenta:</string>
+	<string name="label_desea_eliminar">Al eliminar su cuenta todos sus datos se borraran definitivamente de la base de datos</string>
+	<string name="label_borrar_cuenta">Eliminar definitivamente</string>
 </resources>

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#b2b2b2"
+    android:background="@color/gris_claro"
     tools:context=".TerminosActivity" >
 
     <TextView
