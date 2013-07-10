@@ -3,7 +3,9 @@
     android:id="@+id/linearDetalle1"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:background="@layout/fondo_detalle"
+    android:orientation="vertical"
+    android:padding="5dp" >
 	
     <LinearLayout
         android:id="@+id/linearDetalle2"
@@ -12,46 +14,26 @@
         android:orientation="horizontal" >
 	
 		<TextView
-		    android:layout_width="50dp"
+		    android:layout_width="58dp"
 		    android:layout_height="wrap_content"
-		    android:layout_marginLeft="3dp"
+		    android:layout_marginLeft="10dp"
 		    android:paddingBottom="3dip"
 		    android:paddingTop="2dip"
 		    android:text="@string/label_nombre"
-		    android:textSize="12sp"
+		    android:textColor="@color/blanco"
+		    android:textSize="13sp"
 		    android:textStyle="bold" />
 		
 		<TextView
 		    android:id="@+id/usuarionombre"
-		    android:layout_width="100dp"
-		    android:layout_height="wrap_content"
-		    android:layout_marginLeft="2dp"
-		    android:paddingBottom="3dip"
-		    android:paddingTop="2dip"
-		    android:text="@string/txt_cargando"
-		    android:textSize="12sp"
-		    android:textStyle="normal" />
-		
-		<TextView
-		    android:layout_width="54dp"
-		    android:layout_height="wrap_content"
-		    android:layout_marginLeft="2dp"
-		    android:paddingBottom="3dip"
-		    android:paddingTop="2dip"
-		    android:text="@string/label_red"
-		    android:textSize="12sp"
-		    android:textStyle="bold" />
-		
-		<TextView
-		    android:id="@+id/rednombre"
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
 		    android:layout_marginLeft="2dp"
-		    android:layout_marginRight="3dp"
 		    android:paddingBottom="3dip"
 		    android:paddingTop="2dip"
 		    android:text="@string/txt_cargando"
-		    android:textSize="12sp"
+		    android:textColor="@color/blanco"
+		    android:textSize="13sp"
 		    android:textStyle="normal" />
 
 	</LinearLayout>
@@ -63,14 +45,48 @@
         android:orientation="horizontal" >
 	
 		<TextView
-		    android:layout_width="50dp"
+		    android:layout_width="58dp"
 		    android:layout_height="wrap_content"
-		    android:layout_marginLeft="3dp"
+		    android:layout_marginLeft="10dp"
 		    android:paddingBottom="3dip"
 		    android:paddingTop="2dip"
-		    android:text="@string/label_cuenta"
-		    android:textSize="12sp"
+		    android:text="@string/label_red"
+		    android:textColor="@color/blanco"
+		    android:textSize="13sp"
 		    android:textStyle="bold" />
+		
+		<TextView
+		    android:id="@+id/rednombre"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginLeft="2dp"
+		    android:layout_marginRight="3dp"
+		    android:paddingBottom="3dip"
+		    android:paddingTop="2dip"
+		    android:text="@string/txt_cargando"
+		    android:textColor="@color/blanco"
+		    android:textSize="13sp"
+		    android:textStyle="normal" />
+		
+	</LinearLayout>
+	
+    
+    <LinearLayout
+        android:id="@+id/linearDetalle4"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+		
+        <TextView
+            android:layout_width="58dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:paddingBottom="3dip"
+            android:paddingTop="2dip"
+            android:text="@string/label_cuenta"
+            android:textColor="@color/blanco"
+            android:textSize="13sp"
+            android:textStyle="bold" />
 		
 		<TextView
 		    android:id="@+id/cuentanombre"
@@ -80,7 +96,8 @@
 		    android:paddingBottom="3dip"
 		    android:paddingTop="2dip"
 		    android:text="@string/txt_cargando"
-		    android:textSize="12sp"
+		    android:textColor="@color/blanco"
+		    android:textSize="13sp"
 		    android:textStyle="normal" />
 		
 		<TextView
@@ -90,20 +107,20 @@
 		    android:paddingBottom="3dip"
 		    android:paddingTop="2dip"
 		    android:text="@string/label_pais"
-		    android:textSize="12sp"
+		    android:textColor="@color/blanco"
+		    android:textSize="13sp"
 		    android:textStyle="bold" />
 		
 		<TextView
 		    android:id="@+id/usuariopais"
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
-		    android:layout_marginLeft="2dp"
-		    android:layout_marginRight="3dp"
 		    android:paddingBottom="3dip"
 		    android:paddingTop="2dip"
 		    android:text="@string/txt_cargando"
-		    android:textSize="12sp"
+		    android:textColor="@color/blanco"
+		    android:textSize="13sp"
 		    android:textStyle="normal" />
-
+		
 	</LinearLayout>
 </LinearLayout>

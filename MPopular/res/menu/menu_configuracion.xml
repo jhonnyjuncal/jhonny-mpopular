@@ -1,9 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 	<item
-		android:id="@+id/btn_guardar" 
+		android:id="@+id/conf_btn_guardar" 
 		android:icon="@drawable/ic_guardar" 
 		android:showAsAction="always" 
-		android:title="@string/label_guardar_datos" 
-		android:visible="true" 
-		android:enabled="true" />
+		android:title="@string/label_guardar_datos" />
 </menu>

@@ -1,9 +1,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 	<item
-		android:id="@+id/btn_nueva_red"
+		android:id="@+id/mnu_redes_nueva_red"
 		android:icon="@drawable/ic_agregar"
 		android:showAsAction="always"
-		android:title="@string/label_mis_redes" 
-		android:visible="true" 
-		android:enabled="true" />
+		android:title="@string/label_mis_redes" />
+	
+	<item
+		android:id="@+id/mnu_redes_actualizar"
+		android:icon="@drawable/ic_actualizar"
+		android:showAsAction="always"
+		android:title="@string/label_actualizar" />
 </menu>

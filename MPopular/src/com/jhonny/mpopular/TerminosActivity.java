@@ -8,18 +8,18 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class TerminosActivity extends SherlockActivity {
@@ -28,6 +28,7 @@ public class TerminosActivity extends SherlockActivity {
 	private SlidingMenu menu;
 	private ActionBar actionBar;
 	private View view;
+	private int contador = 0;
 	
 	
 	@Override
@@ -36,6 +37,8 @@ public class TerminosActivity extends SherlockActivity {
 		setContentView(R.layout.activity_terminos);
 		
 		try{
+			contador = 0;
+			
 			actionBar = getSupportActionBar();
 	        if(actionBar != null){
 	        	actionBar.setDisplayShowCustomEnabled(true);
@@ -88,12 +91,48 @@ public class TerminosActivity extends SherlockActivity {
 		
 		try{
 			reiniciarFondoOpciones();
+			contador = 0;
 			
 			TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
 			opc_textview1.setText(Util.getNombre());
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
+		}
+	}
+	
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()){
+			case android.R.id.home:
+				menu.toggle();
+				return true;
+				
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	
+	/**
+	 * Inicia la actividad principal
+	 * @param view
+	 */
+	public void muestraPrincipal(View view){
+		try{
+			this.view = view;
+			
+			LinearLayout layout_inicio = (LinearLayout)findViewById(R.id.opc_layout_inicio);
+			layout_inicio.setBackgroundResource(R.color.gris_oscuro);
+			view.buildDrawingCache(true);
+			
+			Intent intent = new Intent(this, PrincipalActivity.class);
+			startActivity(intent);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			menu.toggle();
 		}
 	}
 	
@@ -250,7 +289,7 @@ public class TerminosActivity extends SherlockActivity {
 					in = getAssets().open("terms_conditions.txt");
 				
 				if(in != null){
-					InputStreamReader input = new InputStreamReader(in);
+					InputStreamReader input = new InputStreamReader(in, "UTF-8");
 					BufferedReader buffreader = new BufferedReader(input);
 					
 					while((linea = buffreader.readLine()) != null){
@@ -264,4 +303,20 @@ public class TerminosActivity extends SherlockActivity {
 			ex.printStackTrace();
 		}
 	}
+	
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+    	if(keyCode == KeyEvent.KEYCODE_BACK) {
+    		if(contador == 0){
+    			contador++;
+    			Toast.makeText(this, getResources().getString(R.string.txt_salir_1_aviso), Toast.LENGTH_SHORT).show();
+    			return true;
+    		}else{
+    			finish();
+    		}
+    	}
+    	//para las demas cosas, se reenvia el evento al listener habitual
+    	return super.onKeyDown(keyCode, event);
+    }
 }

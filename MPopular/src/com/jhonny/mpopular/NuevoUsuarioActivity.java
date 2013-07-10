@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -21,16 +20,19 @@ import com.google.ads.AdView;
 
 public class NuevoUsuarioActivity extends SherlockActivity {
 	
-	AdView adView = null;
-	ProgressDialog pd = null;
+	private AdView adView = null;
+	private ProgressDialog pd = null;
 	private ActionBar actionBar;
+	private int contador = 0;
 	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_nuevo);
+		
 		try{
-			super.onCreate(savedInstanceState);
-			setContentView(R.layout.activity_nuevo);
+			contador = 0;
 			
 			actionBar = getSupportActionBar();
 	        if(actionBar != null){
@@ -69,23 +71,38 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(item.getItemId() == R.id.btn_guardar){
-			guardaDatosPersonales(null);
+			try{
+				// dialogo de progreso
+				pd = new ProgressDialog(this);
+				pd.setMessage("Guardando datos...");
+				pd.setCancelable(false);
+				pd.setIndeterminate(true);
+				pd.show();
+				
+				new Thread(new Runnable(){
+					@Override
+                    public void run(){
+						guardaDatosPersonales();
+						if(pd != null)
+							pd.dismiss();
+					}
+				}).start();
+				
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}finally{
+				if(pd != null)
+					pd.dismiss();
+			}
 		}
 		return true;
 	}
 	
 	
-	public void guardaDatosPersonales(View view){
+	private void guardaDatosPersonales(){
 		JSONArray jArray = null;
 		
 		try{
-			// dialogo de progreso
-			pd = new ProgressDialog(this);
-			pd.setMessage("Guardando datos...");
-			pd.setCancelable(false);
-			pd.setIndeterminate(true);
-			pd.show();
-			
 			// se recogen los datos introducidos
 			EditText editNombre = (EditText)findViewById(R.id.editText1);
 			EditText editTelefono = (EditText)findViewById(R.id.editText2);
@@ -120,25 +137,25 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 				
 				Intent intent = new Intent(this, PrincipalActivity.class);
 				startActivity(intent);
-				
 			}else{
 				Toast.makeText(this, "ERROR DE CONEXION CON EL SERVIDOR", Toast.LENGTH_SHORT).show();
 			}
 		}catch(Exception ex){
 			ex.printStackTrace();
-		}finally{
-			if(pd != null)
-				pd.dismiss();
 		}
 	}
 	
 	
 	@Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
     	if(keyCode == KeyEvent.KEYCODE_BACK) {
-    		Toast.makeText(this, getResources().getString(R.string.txt_antes_de_salir), 
-    				Toast.LENGTH_SHORT).show();
-    		return true;
+    		if(contador == 0){
+    			contador++;
+    			Toast.makeText(this, getResources().getString(R.string.txt_salir_1_aviso), Toast.LENGTH_SHORT).show();
+    			return true;
+    		}else{
+    			finish();
+    		}
     	}
     	//para las demas cosas, se reenvia el evento al listener habitual
     	return super.onKeyDown(keyCode, event);

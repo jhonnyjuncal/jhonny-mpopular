@@ -16,6 +16,7 @@
     <string name="txt_pais">Spain</string>
 	<string name="txt_desarrollador">Jhonny Juncal Gonzalez</string>
 	<string name="txt_antes_de_salir">To access the application, you must first register</string>
+	<string name="txt_salir_1_aviso">Press again to exit</string>
     <string name="label_cuenta">Account:</string>
     <string name="label_red">Network:</string>
 	<string name="label_nombre">Name:</string>
@@ -36,6 +37,7 @@
 	<string name="label_catidad_resultados"> records found</string>
 	<string name="label_sin_resultados">No records found</string>
 	<string name="label_buscador">Finder</string>
+	<string name="label_inicio">Home</string>
 	<string name="label_acerca_de">About MPopular</string>
 	<string name="label_valora">Rate MPopular</string>
 	<string name="label_editar">Edit</string>
@@ -47,4 +49,8 @@
 	<string name="label_eliminar_cuenta">Delete account:</string>
 	<string name="label_desea_eliminar">When you delete your account all your data is permanently deleted from the database</string>
 	<string name="label_borrar_cuenta">Delete permanently</string>
+	<string name="label_actualizar">Update</string>
+	<string name="label_version1">Copyright 2013 MPopular</string>
+	<string name="label_version2">All rights reserved</string>
+	<string name="label_ayuda">Help</string>
 </resources>

@@ -1,7 +1,11 @@
 package com.jhonny.mpopular;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -28,6 +32,10 @@ public class MisRedesActivity extends SherlockActivity {
 	private SlidingMenu menu;
 	private ActionBar actionBar;
 	private View view;
+	private int contador = 0;
+	private ProgressDialog pd = null;
+	private Context context;
+	public static DetalleRedesAdapter drAdapter = null;
 	
 	
 	@Override
@@ -36,6 +44,9 @@ public class MisRedesActivity extends SherlockActivity {
 		setContentView(R.layout.activity_mis_redes);
 			
 		try{
+			contador = 0;
+			this.context = this;
+			
 			actionBar = getSupportActionBar();
 	        if(actionBar != null){
 	        	actionBar.setDisplayShowCustomEnabled(true);
@@ -58,6 +69,12 @@ public class MisRedesActivity extends SherlockActivity {
 	        menu.setFadeDegree(0.35f);
 	        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
 	        menu.setMenu(R.layout.activity_opciones);
+	        
+	        // muestra el nombre de usuario en la actividad opciones
+	        TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
+			opc_textview1.setText(Util.getNombre());
+			
+			muestraMisRedesSociales();
 			
 			// publicidad
 			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
@@ -77,6 +94,8 @@ public class MisRedesActivity extends SherlockActivity {
 		
 		try{
 			reiniciarFondoOpciones();
+			contador = 0;
+			this.context = this;
 			
 			muestraMisRedesSociales();
 			
@@ -99,10 +118,45 @@ public class MisRedesActivity extends SherlockActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if(item.getItemId() == R.id.btn_nueva_red){
-			nuevaRedSocial(null);
+		if(item.getItemId() == R.id.mnu_redes_nueva_red){
+			navegaNuevaRedActivity();
+		}else if(item.getItemId() == R.id.mnu_redes_actualizar){
+			actualizaMisRedesSocialesEnPantalla();
 		}
 		return true;
+	}
+	
+	
+	private void navegaNuevaRedActivity(){
+		try{
+			Intent intent = new Intent(this, NuevaRedActivity.class);
+			startActivity(intent);
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	
+	/**
+	 * Inicia la actividad principal
+	 * @param view
+	 */
+	public void muestraPrincipal(View view){
+		try{
+			this.view = view;
+			
+			LinearLayout layout_inicio = (LinearLayout)findViewById(R.id.opc_layout_inicio);
+			layout_inicio.setBackgroundResource(R.color.gris_oscuro);
+			view.buildDrawingCache(true);
+			
+			Intent intent = new Intent(this, PrincipalActivity.class);
+			startActivity(intent);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			menu.toggle();
+		}
 	}
 	
 	
@@ -216,9 +270,21 @@ public class MisRedesActivity extends SherlockActivity {
 	}
 	
 	
-	public void nuevaRedSocial(View view){
-		Intent intent = new Intent(this, NuevaRedActivity.class);
-		startActivity(intent);
+	private void actualizaMisRedesSocialesEnPantalla(){
+		try{
+			// dialogo de progreso
+			pd = new ProgressDialog(this);
+			pd.setMessage("Actualizando listado...");
+			pd.setCancelable(false);
+			pd.setIndeterminate(true);
+			pd.show();
+			
+			ActualizaAsincrono aa = new ActualizaAsincrono();
+			aa.execute();
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 	}
 	
 	
@@ -232,14 +298,14 @@ public class MisRedesActivity extends SherlockActivity {
 				dr.setImagenEliminar((ImageView)findViewById(R.id.imgeliminar));
 			}
 			
-			DetalleRedesAdapter dra = new DetalleRedesAdapter(this, R.layout.listview_mis_redes, Util.getMisRedes());
+			drAdapter = new DetalleRedesAdapter(this, R.layout.listview_mis_redes, Util.getMisRedes());
 			listView = (ListView)findViewById(R.id.listView1);
-			listView.setAdapter(dra);
+			listView.setAdapter(drAdapter);
 			listView.setItemsCanFocus(false);
 			listView.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-						Toast.makeText(MisRedesActivity.this,"Clicked:" + position, Toast.LENGTH_SHORT).show();
+//						Toast.makeText(MisRedesActivity.this,"Clicked:" + position, Toast.LENGTH_SHORT).show();
 					}
 				}
 			);
@@ -272,6 +338,88 @@ public class MisRedesActivity extends SherlockActivity {
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
+		}
+	}
+	
+	
+	@Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    	if(keyCode == KeyEvent.KEYCODE_BACK) {
+    		if(contador == 0){
+    			contador++;
+    			Toast.makeText(this, getResources().getString(R.string.txt_salir_1_aviso), Toast.LENGTH_SHORT).show();
+    			return true;
+    		}else{
+    			finish();
+    		}
+    	}
+    	//para las demas cosas, se reenvia el evento al listener habitual
+    	return super.onKeyDown(keyCode, event);
+    }
+	
+	
+	
+	
+	
+	/**
+	 * Clase privada para la actualizacion de la lista de cuentas
+	 * @author jhonny
+	 *
+	 */
+	private class ActualizaAsincrono extends AsyncTask<Void, Integer, Boolean>{
+
+		@Override
+		protected Boolean doInBackground(Void... arg0) {
+			try{
+				Util.cargaMisCuentas();
+				for(DetalleRedes dr : Util.getMisRedes()){
+					dr.setImagenEditar((ImageView)findViewById(R.id.imgeditar));
+					dr.setImagenEliminar((ImageView)findViewById(R.id.imgeliminar));
+				}
+				publishProgress(0);
+			}catch(Exception ex){
+				ex.printStackTrace();
+				return false;
+			}
+			return true;
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean result) {
+			try{
+				if(pd != null)
+					pd.dismiss();
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+		}
+		
+		@Override
+		protected void onCancelled() {
+			Toast.makeText(context, "Actualizacion cancelada...", Toast.LENGTH_SHORT).show();
+		}
+		
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			try{
+				drAdapter.notifyDataSetChanged();
+				
+//				DetalleRedesAdapter dra = new DetalleRedesAdapter(MisRedesActivity.this, 
+//								R.layout.listview_mis_redes, Util.getMisRedes());
+//				
+//				listView = (ListView)findViewById(R.id.listView1);
+//				listView.setAdapter(dra);
+//				listView.setItemsCanFocus(false);
+//				listView.setOnItemClickListener(new OnItemClickListener() {
+//						@Override
+//						public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//							Toast.makeText(MisRedesActivity.this,"Clicked:" + position, Toast.LENGTH_SHORT).show();
+//						}
+//					}
+//				);
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
 		}
 	}
 }

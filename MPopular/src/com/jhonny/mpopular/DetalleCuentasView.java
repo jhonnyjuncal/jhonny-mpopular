@@ -22,10 +22,8 @@ public class DetalleCuentasView extends LinearLayout {
 		try{
 			usuarioNombre = (TextView)findViewById(R.id.usuarionombre);
 			redNombre = (TextView)findViewById(R.id.rednombre);
-			usuarioEmail = (TextView)findViewById(R.id.usuarioemail);
 			cuentaNombre = (TextView)findViewById(R.id.cuentanombre);
 			usuarioPais = (TextView)findViewById(R.id.usuariopais);
-			usuarioTelefono = (TextView)findViewById(R.id.usuariotelefono);
 			
 		}catch(Exception ex){
 			ex.printStackTrace();

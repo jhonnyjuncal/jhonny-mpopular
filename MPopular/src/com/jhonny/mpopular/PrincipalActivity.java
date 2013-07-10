@@ -3,9 +3,11 @@ package com.jhonny.mpopular;
 import org.json.JSONArray;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
@@ -23,6 +25,7 @@ public class PrincipalActivity extends SherlockActivity {
 	private SlidingMenu menu;
 	private ActionBar actionBar;
 	private View view;
+	private int contador = 0;
 	
 	
 	@Override
@@ -31,6 +34,8 @@ public class PrincipalActivity extends SherlockActivity {
 		setContentView(R.layout.activity_principal);
 		
 		try{
+			contador = 0;
+			
 			menu = new SlidingMenu(this);
 	        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 	        menu.setShadowWidthRes(R.dimen.shadow_width);
@@ -55,23 +60,8 @@ public class PrincipalActivity extends SherlockActivity {
 //	        	actionBar.setTitle(applicationName);
 	        }
 	        
+	        cargaDatosIniciales();
 	        
-			boolean existen = FileUtil.cargaDatosPersonales(this);
-			
-			if(!existen){
-				Intent intent = new Intent(this, NuevoUsuarioActivity.class);
-				startActivity(intent);
-			}else{
-				recuperarDatosUsuario(Util.getIdUsuario());
-				muestraDatosPersonales();
-			}
-			
-			// publicidad
-			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
-			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
-			layout.addView(adView);
-			adView.loadAd(new AdRequest());
-			
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -92,7 +82,7 @@ public class PrincipalActivity extends SherlockActivity {
 			case android.R.id.home:
 				menu.toggle();
 				return true;
-				
+			
 			default:
 				return super.onOptionsItemSelected(item);
         }
@@ -104,13 +94,63 @@ public class PrincipalActivity extends SherlockActivity {
 		super.onResume();
 		
 		try{
+			// reinicia la actividad de opciones
 			reiniciarFondoOpciones();
-		
-			TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
-			opc_textview1.setText(Util.getNombre());
+			contador = 0;
+			
+			// muestra el nombre de usuario en las opciones y recarga la publicidad
+			cargaDatosIniciales();
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
+		}
+	}
+	
+	
+	private void cargaDatosIniciales(){
+		try{
+			if(!FileUtil.cargaDatosPersonales(this)){
+				Intent intent = new Intent(this, NuevoUsuarioActivity.class);
+				startActivity(intent);
+			}else{
+				recuperarDatosUsuario(Util.getIdUsuario());
+				muestraDatosPersonales();
+			}
+			
+			// se muestra el nombre completo del usuario en la activity opciones
+			TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
+			opc_textview1.setText(Util.getNombre());
+			
+			// publicidad
+			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
+			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
+			layout.addView(adView);
+			adView.loadAd(new AdRequest());
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	
+	/**
+	 * Inicia la actividad principal
+	 * @param view
+	 */
+	public void muestraPrincipal(View view){
+		try{
+			this.view = view;
+			
+			LinearLayout layout_inicio = (LinearLayout)findViewById(R.id.opc_layout_inicio);
+			layout_inicio.setBackgroundResource(R.color.gris_oscuro);
+			view.buildDrawingCache(true);
+			
+			Intent intent = new Intent(this, PrincipalActivity.class);
+			startActivity(intent);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			menu.toggle();
 		}
 	}
 	
@@ -227,10 +267,10 @@ public class PrincipalActivity extends SherlockActivity {
 	
 	private void muestraDatosPersonales(){
 		try{
-			TextView textoNombre = (TextView)findViewById(R.id.textView2);
-			TextView textoTelefono = (TextView)findViewById(R.id.textView4);
-			TextView textoEmail = (TextView)findViewById(R.id.textView6);
-			TextView textoPais = (TextView)findViewById(R.id.textView8);
+			TextView textoNombre = (TextView)findViewById(R.id.ppal_textView2);
+			TextView textoTelefono = (TextView)findViewById(R.id.ppal_textView4);
+			TextView textoEmail = (TextView)findViewById(R.id.ppal_textView6);
+			TextView textoPais = (TextView)findViewById(R.id.ppal_textView8);
 			
 			textoNombre.setText(Util.getNombre());
 			textoTelefono.setText(Util.getTelefono());
@@ -292,4 +332,20 @@ public class PrincipalActivity extends SherlockActivity {
 			ex.printStackTrace();
 		}
 	}
+	
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+    	if(keyCode == KeyEvent.KEYCODE_BACK) {
+    		if(contador == 0){
+    			contador++;
+    			Toast.makeText(this, getResources().getString(R.string.txt_salir_1_aviso), Toast.LENGTH_SHORT).show();
+    			return true;
+    		}else{
+    			finish();
+    		}
+    	}
+    	//para las demas cosas, se reenvia el evento al listener habitual
+    	return super.onKeyDown(keyCode, event);
+    }
 }

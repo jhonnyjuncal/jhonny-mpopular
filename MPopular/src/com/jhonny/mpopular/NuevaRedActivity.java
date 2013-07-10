@@ -1,12 +1,15 @@
 package com.jhonny.mpopular;
 
 import java.util.ArrayList;
+import org.json.JSONArray;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -34,13 +37,20 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 	private SlidingMenu menu;
 	private ActionBar actionBar;
 	private View view;
+	private ProgressDialog pd = null;
+	private Context context;
+	private EditText nombreRed;
+	private JSONArray jArray = null;
+	private DetalleRedes dr = new DetalleRedes();
 	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_nueva_red);
+		
 		try{
-			super.onCreate(savedInstanceState);
-			setContentView(R.layout.activity_nueva_red);
+			this.context = this;
 			
 			actionBar = getSupportActionBar();
 	        if(actionBar != null){
@@ -90,10 +100,47 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if(item.getItemId() == R.id.btn_guardar_red){
-			insertarCuentaNueva();
+		switch(item.getItemId()){
+			case android.R.id.home:
+				menu.toggle();
+				return true;
+				
+			case R.id.btn_guardar_red:
+				try{
+					// validacion de datos
+					nombreRed = (EditText)findViewById(R.id.nueva_red_editText1);
+					String valorIntroducido = nombreRed.getText().toString();
+					
+					if(valorIntroducido != null){
+						if(valorIntroducido.length() == 0){
+							Toast.makeText(context, "No puede estar vacio", Toast.LENGTH_SHORT).show();
+						}else if(valorIntroducido.length() <= 3){
+							Toast.makeText(context, "Minimo 4 caracteres", Toast.LENGTH_SHORT).show();
+						}else{
+							// oculta el teclado
+							InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+							imm.hideSoftInputFromWindow(nombreRed.getWindowToken(), 0);
+							
+							// dialogo de progreso
+							pd = new ProgressDialog(this);
+							pd.setMessage("Guardando datos...");
+							pd.setCancelable(false);
+							pd.setIndeterminate(true);
+							pd.show();
+							
+							// llamada al hilo asincrono
+							InsertaRedAsincrono ira = new InsertaRedAsincrono();
+							ira.execute();
+						}
+					}
+				}catch(Exception ex){
+					ex.printStackTrace();
+				}
+				return true;
+				
+			default:
+				return super.onOptionsItemSelected(item);
 		}
-		return true;
 	}
 	
 	
@@ -102,13 +149,36 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 		super.onResume();
 		
 		try{
+			this.context = this;
 			reiniciarFondoOpciones();
-		
+			
 			TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
 			opc_textview1.setText(Util.getNombre());
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
+		}
+	}
+	
+	
+	/**
+	 * Inicia la actividad principal
+	 * @param view
+	 */
+	public void muestraPrincipal(View view){
+		try{
+			this.view = view;
+			
+			LinearLayout layout_inicio = (LinearLayout)findViewById(R.id.opc_layout_inicio);
+			layout_inicio.setBackgroundResource(R.color.gris_oscuro);
+			view.buildDrawingCache(true);
+			
+			Intent intent = new Intent(this, PrincipalActivity.class);
+			startActivity(intent);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			menu.toggle();
 		}
 	}
 	
@@ -225,39 +295,23 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 	
 	
 	private void insertarCuentaNueva(){
-		ProgressDialog pd = null;
-		
 		try{
-			// dialogo de progreso
-			pd = new ProgressDialog(this);
-			pd.setMessage("Guardando datos...");
-			pd.setCancelable(false);
-			pd.setIndeterminate(true);
-			pd.show();
+			String nombreCuenta = nombreRed.getText().toString();
+			Red elemento = new Red();
 			
-			EditText editNombre = (EditText)findViewById(R.id.editText1);
-			String nombreCuenta = editNombre.getText().toString();
-			Integer idUsuario = Util.getIdUsuario();
-			
-			if(nombreCuenta != null){
-				if(nombreCuenta.length() >= 3){
-					Red elemento = new Red();
-					
-					if(posicionSpinnerSeleccionada != null && posicionSpinnerSeleccionada > 0){
-						elemento = Util.getRedes().get(posicionSpinnerSeleccionada);
-						
-						String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=3&nombre=" + 
-								nombreCuenta + "&idUsuario=" + idUsuario + "&idRed=" + elemento.getIdRed();
-						Util.consultaDatosInternet(url);
-						
-						if(pd != null)
-							pd.dismiss();
-						
-						Toast.makeText(this, "Datos guardados correctamente", Toast.LENGTH_SHORT).show();
-						editNombre.setText("");
-					}
-				}else{
-					Toast.makeText(this, "Debe seleccionar una red social", Toast.LENGTH_LONG).show();
+			if(posicionSpinnerSeleccionada != null && posicionSpinnerSeleccionada > 0){
+				elemento = Util.getRedes().get(posicionSpinnerSeleccionada);
+				
+				String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=3&nombre=" + 
+						nombreCuenta + "&idUsuario=" + Util.getIdUsuario() + "&idRed=" + elemento.getIdRed();
+				jArray = Util.consultaDatosInternet(url);
+				
+				if(jArray != null){
+					dr.setIdCuenta(jArray.getInt(0));
+					dr.setIdRed(jArray.getInt(1));
+					Red red = Util.getRedes().get(dr.getIdRed());
+					dr.setNombreCuenta(red.getNombreRed());
+					dr.setNombreUsuario(jArray.getString(3));
 				}
 			}
 		}catch(Exception ex){
@@ -280,17 +334,17 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 	
 	private void cargaRedesSociales(){
 		try{
-			if(Util.getRedes() == null)
+			if(Util.getRedes() == null || Util.getRedes().size() == 0)
 				Util.cargaRedesSociales();
 			
 			ArrayList<String> lista = new ArrayList<String>();
 			lista.add("Seleccionar");
 			lista.addAll(Util.getListaRedes());
 			
-			ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, lista);
+			ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lista);
 			dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			
-			spRed = (Spinner)findViewById(R.id.spinner1);
+			spRed = (Spinner)findViewById(R.id.spinner_nueva_red);
 			spRed.setOnItemSelectedListener(this);
 			spRed.setAdapter(dataAdapter);
 			
@@ -322,6 +376,71 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
+		}
+	}
+	
+	
+	@Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    	if(keyCode == KeyEvent.KEYCODE_BACK) {
+    		Util.setMisRedes(null);
+    	}
+    	//para las demas cosas, se reenvia el evento al listener habitual
+    	return super.onKeyDown(keyCode, event);
+    }
+	
+	
+	
+	
+	
+	
+	private class InsertaRedAsincrono extends AsyncTask<Void, Integer, Boolean>{
+
+		@Override
+		protected Boolean doInBackground(Void... arg0) {
+			try{
+				insertarCuentaNueva();
+				publishProgress(0);
+			}catch(Exception ex){
+				ex.printStackTrace();
+				return false;
+			}
+			return true;
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean result) {
+			try{
+				if(pd != null)
+					pd.dismiss();
+				
+				MisRedesActivity.drAdapter.add(dr);
+				
+				if(jArray != null){
+					nombreRed.setText("");
+					posicionSpinnerSeleccionada = 0;
+					spRed.setSelection(0);
+					Toast.makeText(context, "Cuenta añadida correctamente", Toast.LENGTH_SHORT).show();
+				}else{
+					Toast.makeText(context, "Error al añadir la red", Toast.LENGTH_SHORT).show();
+				}
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+		}
+		
+		@Override
+		protected void onCancelled() {
+			Toast.makeText(context, "Busqueda cancelada...", Toast.LENGTH_SHORT).show();
+		}
+		
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			try{
+				MisRedesActivity.drAdapter.notifyDataSetChanged();
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
 		}
 	}
 }

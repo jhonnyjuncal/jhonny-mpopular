@@ -16,6 +16,7 @@
 	<string name="txt_pais">España</string>
 	<string name="txt_desarrollador">Jhonny Juncal Gonzalez</string>
 	<string name="txt_antes_de_salir">Para acceder a la aplicación, antes debe registrarse</string>
+	<string name="txt_salir_1_aviso">Pulse de nuevo para salir</string>
 	<string name="label_cuenta">Cuenta:</string>
 	<string name="label_red">Red:</string>
 	<string name="label_nombre">Nombre:</string>
@@ -36,6 +37,7 @@
 	<string name="label_catidad_resultados"> registros encontrados</string>
 	<string name="label_sin_resultados">No se han encontrado resultados</string>
 	<string name="label_buscador">Buscador</string>
+	<string name="label_inicio">Principal</string>
 	<string name="label_acerca_de">Acerca de MPopular</string>
 	<string name="label_valora">Valora MPopular</string>
 	<string name="label_editar">Editar</string>
@@ -47,4 +49,8 @@
 	<string name="label_eliminar_cuenta">Eliminar cuenta:</string>
 	<string name="label_desea_eliminar">Al eliminar su cuenta todos sus datos se borraran definitivamente de la base de datos</string>
 	<string name="label_borrar_cuenta">Eliminar definitivamente</string>
+	<string name="label_actualizar">Actualizar</string>
+	<string name="label_version1">Copyright 2013 MPopular</string>
+	<string name="label_version2">Todos los derechos reservados</string>
+	<string name="label_ayuda">Ayuda</string>
 </resources>
