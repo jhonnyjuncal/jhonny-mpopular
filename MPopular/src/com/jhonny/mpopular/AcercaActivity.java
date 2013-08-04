@@ -101,7 +101,7 @@ public class AcercaActivity extends SherlockActivity {
 		try{
 			reiniciarFondoOpciones();
 			contador = 0;
-			
+						
 			TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
 			opc_textview1.setText(Util.getNombre());
 			
@@ -256,6 +256,27 @@ public class AcercaActivity extends SherlockActivity {
 	}
 	
 	
+	/**
+	 * muestra l aanimacion de ayuda de la aplicacion
+	 */
+	public void muestraAnimacionAyuda(View view){
+		try{
+			this.view = view;
+			
+			LinearLayout layout_conf = (LinearLayout)findViewById(R.id.opc_layout_ayuda);
+			layout_conf.setBackgroundResource(R.color.gris_oscuro);
+			view.buildDrawingCache(true);
+			
+			Intent intent = new Intent(this, AyudaActivity.class);
+			startActivity(intent);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			menu.toggle();
+		}
+	}
+	
+	
 	private void reiniciarFondoOpciones(){
 		try{
 			LinearLayout layout_busq = (LinearLayout)findViewById(R.id.opc_layout_busq);
@@ -272,6 +293,9 @@ public class AcercaActivity extends SherlockActivity {
 			
 			LinearLayout layout_terminos = (LinearLayout)findViewById(R.id.opc_layout_terminos);
 			layout_terminos.setBackgroundResource(R.color.gris_claro);
+			
+			LinearLayout layout_ayuda = (LinearLayout)findViewById(R.id.opc_layout_ayuda);
+			layout_ayuda.setBackgroundResource(R.color.gris_claro);
 			
 			if(view != null)
 				view.buildDrawingCache(true);
@@ -290,7 +314,10 @@ public class AcercaActivity extends SherlockActivity {
     			Toast.makeText(this, getResources().getString(R.string.txt_salir_1_aviso), Toast.LENGTH_SHORT).show();
     			return true;
     		}else{
-    			finish();
+    			Intent intent = new Intent();
+    			intent.setAction(Intent.ACTION_MAIN);
+    			intent.addCategory(Intent.CATEGORY_HOME);
+    			startActivity(intent);
     		}
     	}
     	//para las demas cosas, se reenvia el evento al listener habitual

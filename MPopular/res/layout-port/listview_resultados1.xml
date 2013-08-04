@@ -12,115 +12,105 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-	
-		<TextView
-		    android:layout_width="58dp"
-		    android:layout_height="wrap_content"
-		    android:layout_marginLeft="10dp"
-		    android:paddingBottom="3dip"
-		    android:paddingTop="2dip"
-		    android:text="@string/label_nombre"
-		    android:textColor="@color/blanco"
-		    android:textSize="13sp"
-		    android:textStyle="bold" />
-		
+			
 		<TextView
 		    android:id="@+id/usuarionombre"
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
-		    android:layout_marginLeft="2dp"
-		    android:paddingBottom="3dip"
-		    android:paddingTop="2dip"
+		    android:layout_marginLeft="10dp"
+		    android:paddingBottom="1dp"
+		    android:paddingTop="1dp"
 		    android:text="@string/txt_cargando"
 		    android:textColor="@color/blanco"
-		    android:textSize="13sp"
-		    android:textStyle="normal" />
-
+		    android:textSize="16sp"
+		    android:textStyle="normal|italic|bold" />
+			
 	</LinearLayout>
+	
+	<LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="3dp"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginRight="10dp"
+	    android:background="@drawable/ext_linea"
+	    android:orientation="horizontal" />
 	
     <LinearLayout
         android:id="@+id/linearDetalle3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-	
 		<TextView
-		    android:layout_width="58dp"
+		    android:layout_width="72dp"
 		    android:layout_height="wrap_content"
 		    android:layout_marginLeft="10dp"
-		    android:paddingBottom="3dip"
-		    android:paddingTop="2dip"
-		    android:text="@string/label_red"
+		    android:paddingBottom="1dip"
+		    android:paddingTop="1dip"
+		    android:text="@string/label_usuario"
 		    android:textColor="@color/blanco"
 		    android:textSize="13sp"
 		    android:textStyle="bold" />
-		
 		<TextView
-		    android:id="@+id/rednombre"
+		    android:id="@+id/cuentanombre"
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
 		    android:layout_marginLeft="2dp"
-		    android:layout_marginRight="3dp"
-		    android:paddingBottom="3dip"
-		    android:paddingTop="2dip"
+		    android:paddingBottom="1dip"
+		    android:paddingTop="1dip"
 		    android:text="@string/txt_cargando"
 		    android:textColor="@color/blanco"
 		    android:textSize="13sp"
 		    android:textStyle="normal" />
-		
 	</LinearLayout>
 	
-    
     <LinearLayout
         android:id="@+id/linearDetalle4"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-		
-        <TextView
-            android:layout_width="58dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:paddingBottom="3dip"
-            android:paddingTop="2dip"
-            android:text="@string/label_cuenta"
-            android:textColor="@color/blanco"
-            android:textSize="13sp"
-            android:textStyle="bold" />
-		
 		<TextView
-		    android:id="@+id/cuentanombre"
-		    android:layout_width="100dp"
+		    android:layout_width="56dp"
 		    android:layout_height="wrap_content"
-		    android:layout_marginLeft="2dp"
-		    android:paddingBottom="3dip"
-		    android:paddingTop="2dip"
-		    android:text="@string/txt_cargando"
-		    android:textColor="@color/blanco"
-		    android:textSize="13sp"
-		    android:textStyle="normal" />
-		
-		<TextView
-		    android:layout_width="54dp"
-		    android:layout_height="wrap_content"
-		    android:layout_marginLeft="2dp"
-		    android:paddingBottom="3dip"
-		    android:paddingTop="2dip"
-		    android:text="@string/label_pais"
+		    android:layout_marginLeft="10dp"
+		    android:paddingBottom="1dip"
+		    android:paddingTop="1dip"
+		    android:text="@string/label_red"
 		    android:textColor="@color/blanco"
 		    android:textSize="13sp"
 		    android:textStyle="bold" />
-		
 		<TextView
-		    android:id="@+id/usuariopais"
+		    android:id="@+id/rednombre"
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
-		    android:paddingBottom="3dip"
-		    android:paddingTop="2dip"
+		    android:layout_marginLeft="3dp"
+		    android:layout_marginRight="3dp"
+		    android:paddingBottom="1dip"
+		    android:paddingTop="1dip"
 		    android:text="@string/txt_cargando"
 		    android:textColor="@color/blanco"
 		    android:textSize="13sp"
 		    android:textStyle="normal" />
-		
+		<TextView
+		    android:layout_width="0dp"
+		    android:layout_height="0dp"
+		    android:layout_marginLeft="2dp"
+		    android:paddingBottom="1dip"
+		    android:paddingTop="1dip"
+		    android:text="@string/label_pais"
+		    android:textColor="@color/blanco"
+		    android:textSize="13sp"
+		    android:visibility="invisible"
+		    android:textStyle="bold" />
+		<TextView
+		    android:id="@+id/usuariopais"
+		    android:layout_width="0dp"
+		    android:layout_height="0dp"
+		    android:paddingBottom="1dip"
+		    android:paddingTop="1dip"
+		    android:text="@string/txt_cargando"
+		    android:textColor="@color/blanco"
+		    android:textSize="13sp"
+		    android:visibility="invisible"
+		    android:textStyle="normal" />
 	</LinearLayout>
 </LinearLayout>

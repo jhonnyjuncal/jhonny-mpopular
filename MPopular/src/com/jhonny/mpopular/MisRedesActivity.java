@@ -17,8 +17,9 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
+import com.actionbarsherlock.view.SubMenu;
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
@@ -69,18 +70,6 @@ public class MisRedesActivity extends SherlockActivity {
 	        menu.setFadeDegree(0.35f);
 	        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
 	        menu.setMenu(R.layout.activity_opciones);
-	        
-	        // muestra el nombre de usuario en la actividad opciones
-	        TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
-			opc_textview1.setText(Util.getNombre());
-			
-			muestraMisRedesSociales();
-			
-			// publicidad
-			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
-			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
-			layout.addView(adView);
-			adView.loadAd(new AdRequest());
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -99,6 +88,12 @@ public class MisRedesActivity extends SherlockActivity {
 			
 			muestraMisRedesSociales();
 			
+			// publicidad
+			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
+			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
+			layout.addView(adView);
+			adView.loadAd(new AdRequest());
+			
 			TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
 			opc_textview1.setText(Util.getNombre());
 			
@@ -110,22 +105,49 @@ public class MisRedesActivity extends SherlockActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.menu_mis_redes, menu);
-		return true;
-	}
-	
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if(item.getItemId() == R.id.mnu_redes_nueva_red){
-			navegaNuevaRedActivity();
-		}else if(item.getItemId() == R.id.mnu_redes_actualizar){
-			actualizaMisRedesSocialesEnPantalla();
+		try{
+			SubMenu subMenu1 = menu.addSubMenu("");
+			subMenu1.add(getResources().getString(R.string.label_actualizar))
+				.setIcon(R.drawable.ic_actualizar)
+				.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+					@Override
+					public boolean onMenuItemClick(MenuItem item) {
+						try{
+							actualizaMisRedesSocialesEnPantalla();
+						}catch(Exception ex){
+							ex.printStackTrace();
+							return false;
+						}
+						return true;
+					}
+				});
+			
+			subMenu1.add(getResources().getString(R.string.label_add_nueva_red))
+				.setIcon(R.drawable.ic_agregar)
+				.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+					@Override
+					public boolean onMenuItemClick(MenuItem item) {
+						try{
+							navegaNuevaRedActivity();
+						}catch(Exception ex){
+							ex.printStackTrace();
+							return false;
+						}
+						return true;
+					}
+				});
+			
+			MenuItem subMenu1Item = subMenu1.getItem();
+			subMenu1Item.setIcon(R.drawable.abs__ic_menu_moreoverflow_holo_light);
+			subMenu1Item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
 		}
+		
 		return true;
 	}
-	
+		
 	
 	private void navegaNuevaRedActivity(){
 		try{
@@ -270,11 +292,32 @@ public class MisRedesActivity extends SherlockActivity {
 	}
 	
 	
+	/**
+	 * muestra l aanimacion de ayuda de la aplicacion
+	 */
+	public void muestraAnimacionAyuda(View view){
+		try{
+			this.view = view;
+			
+			LinearLayout layout_conf = (LinearLayout)findViewById(R.id.opc_layout_ayuda);
+			layout_conf.setBackgroundResource(R.color.gris_oscuro);
+			view.buildDrawingCache(true);
+			
+			Intent intent = new Intent(this, AyudaActivity.class);
+			startActivity(intent);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			menu.toggle();
+		}
+	}
+	
+	
 	private void actualizaMisRedesSocialesEnPantalla(){
 		try{
 			// dialogo de progreso
 			pd = new ProgressDialog(this);
-			pd.setMessage("Actualizando listado...");
+			pd.setMessage(getResources().getString(R.string.txt_actualizando));
 			pd.setCancelable(false);
 			pd.setIndeterminate(true);
 			pd.show();
@@ -291,7 +334,7 @@ public class MisRedesActivity extends SherlockActivity {
 	private void muestraMisRedesSociales(){
 		try{
 			if(Util.getMisRedes() == null || Util.getMisRedes().size() == 0)
-				Util.cargaMisCuentas();
+				Util.cargaMisCuentas(context);
 			
 			for(DetalleRedes dr : Util.getMisRedes()){
 				dr.setImagenEditar((ImageView)findViewById(R.id.imgeditar));
@@ -305,7 +348,7 @@ public class MisRedesActivity extends SherlockActivity {
 			listView.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//						Toast.makeText(MisRedesActivity.this,"Clicked:" + position, Toast.LENGTH_SHORT).show();
+						Util.setPosEnEdicion(position);
 					}
 				}
 			);
@@ -333,6 +376,9 @@ public class MisRedesActivity extends SherlockActivity {
 			LinearLayout layout_terminos = (LinearLayout)findViewById(R.id.opc_layout_terminos);
 			layout_terminos.setBackgroundResource(R.color.gris_claro);
 			
+			LinearLayout layout_ayuda = (LinearLayout)findViewById(R.id.opc_layout_ayuda);
+			layout_ayuda.setBackgroundResource(R.color.gris_claro);
+			
 			if(view != null)
 				view.buildDrawingCache(true);
 			
@@ -350,7 +396,10 @@ public class MisRedesActivity extends SherlockActivity {
     			Toast.makeText(this, getResources().getString(R.string.txt_salir_1_aviso), Toast.LENGTH_SHORT).show();
     			return true;
     		}else{
-    			finish();
+    			Intent intent = new Intent();
+    			intent.setAction(Intent.ACTION_MAIN);
+    			intent.addCategory(Intent.CATEGORY_HOME);
+    			startActivity(intent);
     		}
     	}
     	//para las demas cosas, se reenvia el evento al listener habitual
@@ -371,7 +420,7 @@ public class MisRedesActivity extends SherlockActivity {
 		@Override
 		protected Boolean doInBackground(Void... arg0) {
 			try{
-				Util.cargaMisCuentas();
+				Util.cargaMisCuentas(context);
 				for(DetalleRedes dr : Util.getMisRedes()){
 					dr.setImagenEditar((ImageView)findViewById(R.id.imgeditar));
 					dr.setImagenEliminar((ImageView)findViewById(R.id.imgeliminar));
@@ -396,7 +445,8 @@ public class MisRedesActivity extends SherlockActivity {
 		
 		@Override
 		protected void onCancelled() {
-			Toast.makeText(context, "Actualizacion cancelada...", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, getResources().getString(R.string.txt_actualiza_cancelada)
+					, Toast.LENGTH_SHORT).show();
 		}
 		
 		@Override

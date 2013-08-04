@@ -90,11 +90,10 @@ public class TerminosActivity extends SherlockActivity {
 		super.onResume();
 		
 		try{
+			cargaDatosIniciales();
+			
 			reiniciarFondoOpciones();
 			contador = 0;
-			
-			TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
-			opc_textview1.setText(Util.getNombre());
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -247,6 +246,27 @@ public class TerminosActivity extends SherlockActivity {
 	}
 	
 	
+	/**
+	 * muestra l aanimacion de ayuda de la aplicacion
+	 */
+	public void muestraAnimacionAyuda(View view){
+		try{
+			this.view = view;
+			
+			LinearLayout layout_conf = (LinearLayout)findViewById(R.id.opc_layout_ayuda);
+			layout_conf.setBackgroundResource(R.color.gris_oscuro);
+			view.buildDrawingCache(true);
+			
+			Intent intent = new Intent(this, AyudaActivity.class);
+			startActivity(intent);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			menu.toggle();
+		}
+	}
+	
+	
 	private void reiniciarFondoOpciones(){
 		try{
 			LinearLayout layout_busq = (LinearLayout)findViewById(R.id.opc_layout_busq);
@@ -263,6 +283,9 @@ public class TerminosActivity extends SherlockActivity {
 			
 			LinearLayout layout_terminos = (LinearLayout)findViewById(R.id.opc_layout_terminos);
 			layout_terminos.setBackgroundResource(R.color.gris_claro);
+			
+			LinearLayout layout_ayuda = (LinearLayout)findViewById(R.id.opc_layout_ayuda);
+			layout_ayuda.setBackgroundResource(R.color.gris_claro);
 			
 			if(view != null)
 				view.buildDrawingCache(true);
@@ -283,7 +306,7 @@ public class TerminosActivity extends SherlockActivity {
 			String retornoDeCarro = System.getProperty("line.separator");
 			
 			if(locale != null){
-				if(locale.getCountry().equals("ES"))
+				if(locale.getLanguage().equals("es"))
 					in = getAssets().open("terminos_condiciones.txt");
 				else
 					in = getAssets().open("terms_conditions.txt");
@@ -313,10 +336,36 @@ public class TerminosActivity extends SherlockActivity {
     			Toast.makeText(this, getResources().getString(R.string.txt_salir_1_aviso), Toast.LENGTH_SHORT).show();
     			return true;
     		}else{
-    			finish();
+    			Intent intent = new Intent();
+    			intent.setAction(Intent.ACTION_MAIN);
+    			intent.addCategory(Intent.CATEGORY_HOME);
+    			startActivity(intent);
     		}
     	}
     	//para las demas cosas, se reenvia el evento al listener habitual
     	return super.onKeyDown(keyCode, event);
     }
+	
+	
+	private void cargaDatosIniciales(){
+		try{
+			if(!FileUtil.cargaDatosPersonales(this)){
+				Intent intent = new Intent(this, NuevoUsuarioActivity.class);
+				startActivity(intent);
+			}else{
+				Util.recuperarDatosUsuario(Util.getIdUsuario());
+				TextView textoNombre = (TextView)findViewById(R.id.ppal_textView2);
+				TextView textoTelefono = (TextView)findViewById(R.id.ppal_textView4);
+				TextView textoEmail = (TextView)findViewById(R.id.ppal_textView6);
+				TextView textoPais = (TextView)findViewById(R.id.ppal_textView8);
+				
+				textoNombre.setText(Util.getNombre());
+				textoTelefono.setText(Util.getTelefono());
+				textoEmail.setText(Util.getEmail());
+				textoPais.setText(Util.getPais());
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
 }

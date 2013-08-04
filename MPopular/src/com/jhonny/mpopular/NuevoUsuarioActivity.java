@@ -74,7 +74,7 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 			try{
 				// dialogo de progreso
 				pd = new ProgressDialog(this);
-				pd.setMessage("Guardando datos...");
+				pd.setMessage(getResources().getString(R.string.txt_guardando));
 				pd.setCancelable(false);
 				pd.setIndeterminate(true);
 				pd.show();
@@ -138,7 +138,8 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 				Intent intent = new Intent(this, PrincipalActivity.class);
 				startActivity(intent);
 			}else{
-				Toast.makeText(this, "ERROR DE CONEXION CON EL SERVIDOR", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, getResources().getString(R.string.txt_error_servidor)
+						, Toast.LENGTH_SHORT).show();
 			}
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -154,7 +155,10 @@ public class NuevoUsuarioActivity extends SherlockActivity {
     			Toast.makeText(this, getResources().getString(R.string.txt_salir_1_aviso), Toast.LENGTH_SHORT).show();
     			return true;
     		}else{
-    			finish();
+    			Intent intent = new Intent();
+    			intent.setAction(Intent.ACTION_MAIN);
+    			intent.addCategory(Intent.CATEGORY_HOME);
+    			startActivity(intent);
     		}
     	}
     	//para las demas cosas, se reenvia el evento al listener habitual

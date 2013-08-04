@@ -19,6 +19,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.content.Context;
+
 
 public class Util implements Serializable{
 	
@@ -31,6 +33,7 @@ public class Util implements Serializable{
 	private static HashMap<Integer, Red> redes;
 	private static ArrayList<String> listaRedes = new ArrayList<String>();
 	private static ArrayList<DetalleRedes> misRedes = new ArrayList<DetalleRedes>();
+	private static Integer posEnEdicion;
 	
 	
 	public static int getIdUsuario() {
@@ -97,6 +100,15 @@ public class Util implements Serializable{
 		Util.misRedes = misRedes;
 	}
 	
+	public static Integer getPosEnEdicion() {
+		return Util.posEnEdicion;
+	}
+	
+	public static void setPosEnEdicion(Integer posEnEdicion) {
+		Util.posEnEdicion = posEnEdicion;
+	}
+	
+	
 	
 	public static void cargaRedesSociales(){
 		JSONArray jArray = null;
@@ -129,10 +141,12 @@ public class Util implements Serializable{
 	}
 	
 	
-	public static void cargaMisCuentas(){
+	public static void cargaMisCuentas(Context context){
 		JSONArray jArray = null;
-		
 		try{
+			if(Util.idUsuario <= 0)
+				FileUtil.cargaDatosPersonales(context);
+			
 			String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=4&idUsuario=" + Util.getIdUsuario();
 			jArray = Util.consultaDatosInternet(url);
 			misRedes = new ArrayList<DetalleRedes>();
@@ -153,9 +167,7 @@ public class Util implements Serializable{
 						nombreUsuario = nombreUsuario.replace('.', ' ');
 					
 					DetalleRedes dr = new DetalleRedes(id, idRed, nombreCuenta, nombreUsuario, null, null);
-					
 					misRedes.add(dr);
-					
 					pos++;
 				}
 			}
@@ -223,5 +235,72 @@ public class Util implements Serializable{
 			ex.printStackTrace();
 		}
 		return resultado;
+	}
+	
+	
+	/**
+	 * Metodo que borra todos los datos de la aplicacion en el dispositivo
+	 */
+	public static void eliminacionCompletaDatos(){
+		
+	}
+	
+	
+	/**
+	 * Descarga los datos del usuario de la bbdd en la nube
+	 * @param idUsuario
+	 */
+	public static void recuperarDatosUsuario(Integer idUsuario){
+		JSONArray jArray = null;
+		try{
+			String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=5&idUsuario=" + Util.getIdUsuario();
+			jArray = Util.consultaDatosInternet(url);
+			
+			// Seteo de datos de usuario
+			Util.setIdUsuario(jArray.getInt(0));
+			String nombre = jArray.getString(1);
+			while(nombre.contains("."))
+				nombre = nombre.replace('.', ' ');
+			Util.setNombre(nombre);
+			Util.setTelefono(jArray.getString(2));
+			Util.setEmail(jArray.getString(3));
+			String pais = jArray.getString(4);
+			while(pais.contains("."))
+				pais = pais.replace('.', ' ');
+			Util.setPais(pais);
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	
+	/**
+	 * Comprueba que no se repitan las redes
+	 * @param valorIntroducido
+	 * @param posicionSpinnerSeleccionada
+	 * @return boolean
+	 */
+	public static boolean compruebaExistenciaRed(String valorIntroducido, Integer posicionSpinnerSeleccionada, 
+				Integer posicionEnEdicion){
+		try{
+			if(valorIntroducido != null && posicionSpinnerSeleccionada != null){
+				Red red = Util.getRedes().get(posicionSpinnerSeleccionada);
+				if(misRedes != null && misRedes.size() > 0){
+					for(int i=0; i<misRedes.size(); i++){
+						if(posicionEnEdicion != null && i == posicionEnEdicion)
+							continue;
+						if(misRedes.get(i).getNombreUsuario().equals(valorIntroducido) && 
+									misRedes.get(i).getIdRed().equals(red.getIdRed())){
+							return false;
+						}
+					}
+				}
+				return true;
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return false;
 	}
 }

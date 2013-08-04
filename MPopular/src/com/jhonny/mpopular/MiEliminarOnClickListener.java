@@ -5,9 +5,11 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.view.View.OnClickListener;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -20,7 +22,7 @@ public class MiEliminarOnClickListener implements OnClickListener{
 	private DetalleRedes dr;
 	private ProgressDialog pd = null;
 	private JSONArray jArray = null;
-	private ListView listView = null;
+	private View view;
 	
 	
 	public MiEliminarOnClickListener(int posicion, Context context){
@@ -32,13 +34,21 @@ public class MiEliminarOnClickListener implements OnClickListener{
 	@Override
 	public void onClick(View view) {
 		try{
+			this.view = view;
+			
 			RelativeLayout rl = (RelativeLayout)view.getParent();
-			listView = (ListView)rl.getParent();
+			ListView listView = (ListView)rl.getParent();
 			dr = new DetalleRedes();
 			dr = (DetalleRedes)listView.getItemAtPosition(posicion);
+			dr.setImagenEliminar((ImageView)view.findViewById(R.id.imgeliminar));
+			
+			int imageResource2 = view.getContext().getApplicationContext().getResources().getIdentifier(
+					"ic_eliminar2", "drawable", view.getContext().getApplicationContext().getPackageName());
+			Drawable image2 = view.getContext().getResources().getDrawable(imageResource2);
+			dr.getImagenEliminar().setImageDrawable(image2);
 			
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-			alertDialogBuilder.setMessage("¿Desea borrar la cuenta?");
+			alertDialogBuilder.setMessage(context.getResources().getString(R.string.txt_pregunta_borrar));
 			alertDialogBuilder.setCancelable(false);
 			alertDialogBuilder.setPositiveButton(R.string.txt_aceptar, 
 				new DialogInterface.OnClickListener() {
@@ -49,7 +59,7 @@ public class MiEliminarOnClickListener implements OnClickListener{
 						try{
 							// dialogo de progreso
 							pd = new ProgressDialog(context);
-							pd.setMessage("Eliminando datos...");
+							pd.setMessage(context.getResources().getString(R.string.txt_borrando));
 							pd.setCancelable(false);
 							pd.setIndeterminate(true);
 							pd.show();
@@ -69,6 +79,7 @@ public class MiEliminarOnClickListener implements OnClickListener{
 					public void onClick(DialogInterface dialog, int which) {
 						try{
 							dialog.cancel();
+							devuelveColorFondoBotonEdicion();
 						}catch(Exception ex){
 							ex.printStackTrace();
 						}
@@ -78,6 +89,18 @@ public class MiEliminarOnClickListener implements OnClickListener{
 			
 			AlertDialog alertDialog = alertDialogBuilder.create();
 			alertDialog.show();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	
+	private void devuelveColorFondoBotonEdicion(){
+		try{
+			int imageResource2 = view.getContext().getApplicationContext().getResources().getIdentifier(
+					"ic_eliminar", "drawable", view.getContext().getApplicationContext().getPackageName());
+			Drawable image2 = view.getContext().getResources().getDrawable(imageResource2);
+			dr.getImagenEliminar().setImageDrawable(image2);
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -122,16 +145,17 @@ public class MiEliminarOnClickListener implements OnClickListener{
 			try{
 				if(pd != null)
 					pd.dismiss();
-				
 				// se actualiza el adaptador de la lista de las cuentas del usuario
 				MisRedesActivity.drAdapter.remove(dr);
 				MisRedesActivity.drAdapter.notifyDataSetChanged();
 				
 				if(jArray != null && jArray.getInt(0) == 1){
-					Toast.makeText(context, "Datos eliminados correctamente", Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, context.getResources().getString(R.string.txt_borrado_ok)
+							, Toast.LENGTH_SHORT).show();
 				}else{
 					// se produjo un error al borrar
-					Toast.makeText(context, "Se ha producido un error al eliminar la cuenta", Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, context.getResources().getString(R.string.txt_borrado_error)
+							, Toast.LENGTH_SHORT).show();
 				}
 			}catch(Exception ex){
 				ex.printStackTrace();
@@ -140,18 +164,23 @@ public class MiEliminarOnClickListener implements OnClickListener{
 		
 		@Override
 		protected void onCancelled() {
-			Toast.makeText(context, "Eliminacion cancelada...", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, context.getResources().getString(R.string.txt_borrado_cancelado)
+					, Toast.LENGTH_SHORT).show();
 		}
 		
 		@Override
 		protected void onProgressUpdate(Integer... values) {
 			try{
 				// actualizacion de la lista de cuentas del usuario
-				Util.cargaMisCuentas();
-				
+				Util.cargaMisCuentas(context);
 			}catch(Exception ex){
 				ex.printStackTrace();
 			}
+		}
+		
+		@Override
+		protected void onPreExecute() {
+			devuelveColorFondoBotonEdicion();
 		}
 	}
 }

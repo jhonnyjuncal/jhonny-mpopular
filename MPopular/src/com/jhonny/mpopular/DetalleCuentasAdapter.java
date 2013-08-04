@@ -47,15 +47,8 @@ public class DetalleCuentasAdapter extends BaseAdapter {
 			// Existe, reutilizamos
 			view = (DetalleCuentasView)convertView;
 		}
-		
-		
-        /**
-         * Ahora tenemos que darle los valores correctos, para ello usamos
-         * el método setRectangulo pasándole el rectángulo a mostrar
-         * y finalmente devolvemos el view.
-         */
         view.setDetalleCuentas(detalles.get(position));
- 
+        
         return view;
 	}
 }

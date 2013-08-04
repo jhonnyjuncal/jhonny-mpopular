@@ -6,6 +6,7 @@
     tools:context=".PrincipalActivity" >
 	
     <RelativeLayout
+        android:id="@id/relative_principal"
         android:layout_width="fill_parent"
         android:layout_height="100dp"
         android:background="#666666"
@@ -116,6 +117,16 @@
 		</LinearLayout>
 	</RelativeLayout>
 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="130dp"
+        android:src="@drawable/lanzador2"
+        android:contentDescription="@string/txt_cargando" />
+    
     <LinearLayout
 	    android:id="@+id/linearLayout2"
 	    android:layout_width="fill_parent"

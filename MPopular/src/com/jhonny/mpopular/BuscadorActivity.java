@@ -1,10 +1,10 @@
 package com.jhonny.mpopular;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
 import org.json.JSONArray;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
+import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -15,7 +15,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -24,19 +23,19 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.SearchView;
+import com.actionbarsherlock.widget.SearchView.OnQueryTextListener;
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 
-public class BuscadorActivity extends SherlockActivity implements OnItemSelectedListener {
+public class BuscadorActivity extends SherlockActivity implements OnItemSelectedListener, OnQueryTextListener {
 	
 	private Spinner spRed;
 	private ArrayList<DetalleCuentas> listaResultados = new ArrayList<DetalleCuentas>();
-	private HashMap<Integer, HashMap<Integer, String>> redes = null;
 	private Integer posicionSpinnerSeleccionada = 0;
 	private ListView listView;
 	private AdView adView = null;
@@ -48,6 +47,8 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
 	private ProgressDialog pd = null;
 	private int contador = 0;
 	private Context context = null;
+	private SearchView searchView = null;
+	private String textoBuscar = new String();
 	
 	
 	@Override
@@ -58,6 +59,7 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
 		try{
 			contador = 0;
 			context = (Context)this;
+			listView = (ListView)findViewById(R.id.listView1);
 			
 			// carga las redes sociales de la bbdd
 			cargaRedesSociales();
@@ -76,17 +78,24 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
 	        
 	        actionBar = getSupportActionBar();
 	        if(actionBar != null){
-	        	actionBar.setDisplayShowCustomEnabled(true);
+	        	actionBar.setDisplayShowCustomEnabled(false);
+	        	actionBar.setTitle("");
 	        	
-	        	// boton < de la action bar
-	        	actionBar.setDisplayHomeAsUpEnabled(false);
-	        	actionBar.setHomeButtonEnabled(true);
+//	        	// boton < de la action bar
+//	        	actionBar.setDisplayHomeAsUpEnabled(false);
+//	        	actionBar.setHomeButtonEnabled(true);
 	        	
 //	        	PackageManager pm = getApplicationContext().getPackageManager();
 //	        	ApplicationInfo ai = pm.getApplicationInfo( this.getPackageName(), 0);
 //	        	String applicationName = (String)pm.getApplicationLabel(ai);
 //	        	actionBar.setTitle(applicationName);
 	        }
+	        
+	        searchView = new SearchView(getSupportActionBar().getThemedContext());
+		    searchView.setQueryHint(getResources().getString(R.string.label_usuario2));
+		    searchView.setIconified(false);
+		    searchView.setOnQueryTextListener(this);
+	        
 	        
 			// publicidad
 			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
@@ -102,51 +111,60 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.menu_buscador, menu);
-		return true;
+	    menu.add("Search").setIcon(R.drawable.abs__ic_search)
+	    		.setActionView(searchView)
+	    		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+	    SearchManager searchManager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
+	    SearchableInfo info = searchManager.getSearchableInfo(getComponentName());
+	    searchView.setSearchableInfo(info);
+	    return true;
 	}
 	
 	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()){
-			case android.R.id.home:
-				menu.toggle();
-				return true;
-				
-			case R.id.btn_buscar_usuario:
-				try{
-					// comprobaciones iniciales para la busqueda
-					EditText editTexto = (EditText)findViewById(R.id.editText1);
-					String nombre = editTexto.getText().toString().trim();
-					
-					if(nombre != null){
-						if(nombre.length() == 0)
-							Toast.makeText(context, "No puede estar vacio", Toast.LENGTH_SHORT).show();
-						else if(nombre.length() < 3)
-							Toast.makeText(context, "Busqueda minima 3 caracteres", Toast.LENGTH_SHORT).show();
-						else{
-							// dialogo de progreso
-							pd = new ProgressDialog(this);
-							pd.setMessage("Buscando...");
-							pd.setCancelable(false);
-							pd.setIndeterminate(true);
-							pd.show();
-							
-							BuscadorAsincrono ba = new BuscadorAsincrono();
-							ba.execute();
-						}
-					}
-				}catch(Exception ex){
-					ex.printStackTrace();
-				}
-				return true;
-				
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-	}
+//	@Override
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//		switch(item.getItemId()){
+//			case android.R.id.home:
+//				menu.toggle();
+//				return true;
+//				
+//			case R.id.btn_buscar_usuario:
+//				try{
+//					// comprobaciones iniciales para la busqueda
+//					EditText editTexto = (EditText)findViewById(R.id.editText1);
+//					String nombre = editTexto.getText().toString().trim();
+//					
+//					if(nombre != null){
+//						if(nombre.length() == 0)
+//							Toast.makeText(context, getResources().getString(R.string.txt_no_puede_vacio)
+//									, Toast.LENGTH_SHORT).show();
+//						else if(nombre.length() < 3)
+//							Toast.makeText(context, getResources().getString(R.string.txt_busqueda_minima)
+//									, Toast.LENGTH_SHORT).show();
+//						else if(posicionSpinnerSeleccionada == 0)
+//							Toast.makeText(context, getResources().getString(R.string.txt_selecciona_red)
+//									, Toast.LENGTH_SHORT).show();
+//						else{
+//							// dialogo de progreso
+//							pd = new ProgressDialog(this);
+//							pd.setMessage(getResources().getString(R.string.txt_buscando));
+//							pd.setCancelable(false);
+//							pd.setIndeterminate(true);
+//							pd.show();
+//							
+//							BuscadorAsincrono ba = new BuscadorAsincrono();
+//							ba.execute();
+//						}
+//					}
+//				}catch(Exception ex){
+//					ex.printStackTrace();
+//				}
+//				return true;
+//				
+//			default:
+//				return super.onOptionsItemSelected(item);
+//		}
+//	}
 	
 	
 	@Override
@@ -156,7 +174,6 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
 		try{
 			contador = 0;
 			context = (Context)this;
-			
 			reiniciarFondoOpciones();
 			
 			TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
@@ -300,13 +317,34 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
 	}
 	
 	
+	/**
+	 * muestra l aanimacion de ayuda de la aplicacion
+	 */
+	public void muestraAnimacionAyuda(View view){
+		try{
+			this.view = view;
+			
+			LinearLayout layout_conf = (LinearLayout)findViewById(R.id.opc_layout_ayuda);
+			layout_conf.setBackgroundResource(R.color.gris_oscuro);
+			view.buildDrawingCache(true);
+			
+			Intent intent = new Intent(this, AyudaActivity.class);
+			startActivity(intent);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			menu.toggle();
+		}
+	}
+	
+	
 	private void cargaRedesSociales(){
 		try{
 			if(Util.getRedes() == null)
 				Util.cargaRedesSociales();
 			
 			ArrayList<String> lista = new ArrayList<String>();
-			lista.add("Todas");
+			lista.add(getResources().getString(R.string.label_seleccionar_red));
 			lista.addAll(Util.getListaRedes());
 			
 			ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lista);
@@ -339,35 +377,22 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
 		
 		try{
 			listaResultados = new ArrayList<DetalleCuentas>();
-			EditText editTexto = (EditText)findViewById(R.id.editText1);
-			String nombre = editTexto.getText().toString().trim();
 			
-			// oculta el teclado
-			InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(editTexto.getWindowToken(), 0);
-			
-			if(nombre != null && nombre.length() > 0){
+			if(textoBuscar != null && textoBuscar.length() > 0){
 				Integer idRed = 0;
-				if(posicionSpinnerSeleccionada != null && posicionSpinnerSeleccionada > 0){
-					HashMap<Integer, String> elemento = redes.get(posicionSpinnerSeleccionada);
-					
-					Set<Integer> listaIds = elemento.keySet();
-					for(Integer i : listaIds){
-						if(i != null)
-							idRed = i;
-					}
-				}
+				if(posicionSpinnerSeleccionada != null && posicionSpinnerSeleccionada > 0)
+					idRed = Util.getRedes().get(posicionSpinnerSeleccionada).getIdRed();
 				
-				while(nombre.contains(" "))
-					nombre = nombre.replace(' ', '.');
+				while(textoBuscar.contains(" "))
+					textoBuscar = textoBuscar.replace(' ', '.');
 				
 				String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=2" +
-						"&nombre=" + nombre + "&idRed=" + idRed;
+						"&nombre=" + textoBuscar + "&idRed=" + idRed;
+				
 				jArrayClave = Util.consultaDatosInternet(url);
 				
 				rLabel = (TextView)findViewById(R.id.busq_textView2);
 				rTexto = (TextView)findViewById(R.id.busq_textView3);
-				listView = (ListView)findViewById(R.id.listView1);
 				
 				if(jArrayClave != null){
 					// hay datos que mostrar
@@ -376,16 +401,21 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
 							jArrayValor = (JSONArray)jArrayClave.get(i);
 							
 							String n1 = (String)jArrayValor.get(0);
+							if(n1.contains("."))
+								n1 = n1.replace('.', ' ');
 							String n2 = (String)jArrayValor.get(1);
 							String n3 = (String)jArrayValor.get(2);
 							String n4 = (String)jArrayValor.get(3);
 							String n5 = (String)jArrayValor.get(4);
+							if(n5.contains("."))
+								n5 = n5.replace('.', ' ');
 							String n6 = (String)jArrayValor.get(5);
 							
 							DetalleCuentas detalle = new DetalleCuentas(n1, n2, n3, n4, n5, n6);
 							listaResultados.add(detalle);
 						}
 					}
+					textoBuscar = new String();
 				}
 			}
 		}catch(Exception ex){
@@ -428,6 +458,9 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
 			LinearLayout layout_terminos = (LinearLayout)findViewById(R.id.opc_layout_terminos);
 			layout_terminos.setBackgroundResource(R.color.gris_claro);
 			
+			LinearLayout layout_ayuda = (LinearLayout)findViewById(R.id.opc_layout_ayuda);
+			layout_ayuda.setBackgroundResource(R.color.gris_claro);
+			
 			if(view != null)
 				view.buildDrawingCache(true);
 			
@@ -445,7 +478,10 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
     			Toast.makeText(this, getResources().getString(R.string.txt_salir_1_aviso), Toast.LENGTH_SHORT).show();
     			return true;
     		}else{
-    			finish();
+    			Intent intent = new Intent();
+    			intent.setAction(Intent.ACTION_MAIN);
+    			intent.addCategory(Intent.CATEGORY_HOME);
+    			startActivity(intent);
     		}
     	}
     	//para las demas cosas, se reenvia el evento al listener habitual
@@ -480,6 +516,26 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
 			try{
 				if(pd != null)
 					pd.dismiss();
+				
+//				Display display = getWindowManager().getDefaultDisplay();
+//			    int width = (display.getWidth());
+//			    int height = (display.getHeight());
+				
+				// cambiar el tamaño del listview segun la cantidad de resultados
+//				LinearLayout.LayoutParams paramsListView1 = new LinearLayout.LayoutParams(width, height*2);
+//				AbsListView.LayoutParams paramsListView2 = new AbsListView.LayoutParams(width, height*2);
+//				RelativeLayout.LayoutParams paramsListView3 = new RelativeLayout.LayoutParams(width, height*2);
+//				paramsListView3.setMargins(0, 0, 0, 0);
+//				listView.setLayoutParams(paramsListView);
+//				relative.setLayoutParams(paramsListView3);
+//				linear.setLayoutParams(paramsListView1);
+//			    relative.getLayoutParams().height = height*2;
+//			    relative.getLayoutParams().width = width;
+			    
+			    // oculta el teclado
+				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+				
 			}catch(Exception ex){
 				ex.printStackTrace();
 			}
@@ -487,7 +543,8 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
 		
 		@Override
 		protected void onCancelled() {
-			Toast.makeText(context, "Busqueda cancelada...", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, getResources().getString(R.string.txt_busq_cancelada)
+					, Toast.LENGTH_SHORT).show();
 		}
 		
 		@Override
@@ -503,5 +560,40 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
 				ex.printStackTrace();
 			}
 		}
+	}
+	
+	
+	@Override
+	public boolean onQueryTextSubmit(String query) {
+		if(query.length() == 0)
+			Toast.makeText(context, getResources().getString(R.string.txt_no_puede_vacio)
+					, Toast.LENGTH_SHORT).show();
+		else if(query.length() < 3)
+			Toast.makeText(context, getResources().getString(R.string.txt_busqueda_minima)
+					, Toast.LENGTH_SHORT).show();
+		else if(posicionSpinnerSeleccionada == 0)
+			Toast.makeText(context, getResources().getString(R.string.txt_selecciona_red)
+					, Toast.LENGTH_SHORT).show();
+		else{
+			textoBuscar = query;
+			
+			// dialogo de progreso
+			pd = new ProgressDialog(this);
+			pd.setMessage(getResources().getString(R.string.txt_buscando));
+			pd.setCancelable(false);
+			pd.setIndeterminate(true);
+			pd.show();
+			
+			BuscadorAsincrono ba = new BuscadorAsincrono();
+			ba.execute();
+			return true;
+		}
+		return false;
+	}
+
+
+	@Override
+	public boolean onQueryTextChange(String newText) {
+		return false;
 	}
 }

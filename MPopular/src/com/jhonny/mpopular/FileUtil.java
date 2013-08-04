@@ -18,7 +18,6 @@ public class FileUtil implements Serializable{
 	
 	public static boolean cargaDatosPersonales(Context ctx){
 		boolean resp = false;
-		
 		try{
 			InputStream instream = ctx.openFileInput(Constantes.FICHERO_CONFIGURACION);
 			if(instream != null){

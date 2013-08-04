@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -30,6 +32,7 @@ public class MiEditarOnClickListener implements OnClickListener{
 	private EditText et = null;
 	private JSONArray jArray = null;
 	private String nCuenta = null;
+	private View view;
 	
 	
 	public MiEditarOnClickListener(int posicion, Context context){
@@ -41,13 +44,19 @@ public class MiEditarOnClickListener implements OnClickListener{
 	@Override
 	public void onClick(View view) {
 		try{
-			//this.view = view;
+			this.view = view;
 			
 			// al pulsar el boton editar de la lista de redes
 			RelativeLayout rl = (RelativeLayout)view.getParent();
 			ListView lv = (ListView)rl.getParent();
 			drViejo = new DetalleRedes();
 			drViejo = (DetalleRedes)lv.getItemAtPosition(posicionMisRedes);
+			drViejo.setImagenEditar((ImageView)view.findViewById(R.id.imgeditar));
+			
+			int imageResource2 = view.getContext().getApplicationContext().getResources().getIdentifier(
+					"ic_editar2", "drawable", view.getContext().getApplicationContext().getPackageName());
+			Drawable image2 = view.getContext().getResources().getDrawable(imageResource2);
+			drViejo.getImagenEditar().setImageDrawable(image2);
 			
 			dialog = new Dialog(context);
 			dialog.setContentView(R.layout.dialog_editar_cuenta);
@@ -68,23 +77,33 @@ public class MiEditarOnClickListener implements OnClickListener{
 						try{
 							// validacion de datos
 							if(et.getText().length() == 0){
-								Toast.makeText(context, "No puede estar vacio", Toast.LENGTH_SHORT).show();
+								Toast.makeText(context, context.getResources().getString(R.string.txt_nombre_no_vacio)
+										, Toast.LENGTH_SHORT).show();
 							}else if(et.length() < 3){
-								Toast.makeText(context, "Minimo 3 caracteres", Toast.LENGTH_SHORT).show();
+								Toast.makeText(context, context.getResources().getString(R.string.txt_nombre_menos3)
+										, Toast.LENGTH_SHORT).show();
 							}else{
-								// boton aceptar de la ventana emergente
-								pd = new ProgressDialog(context);
-								pd.setMessage("Guardando datos...");
-								pd.setCancelable(false);
-								pd.setIndeterminate(true);
-								pd.show();
-								
 								RelativeLayout rl = (RelativeLayout)view.getParent();
 								EditText dialogCuenta = (EditText)rl.findViewById(R.id.diag_nombre_cuenta);
 								nCuenta = dialogCuenta.getText().toString();
 								
-								EdicionAsincrona ea = new EdicionAsincrona();
-								ea.execute();
+								if(Util.compruebaExistenciaRed(nCuenta, posicionSpinnerSeleccionada + 1, posicionMisRedes)){
+									// boton aceptar de la ventana emergente
+									pd = new ProgressDialog(context);
+									pd.setMessage(context.getResources().getString(R.string.txt_guardando));
+									pd.setCancelable(false);
+									pd.setIndeterminate(true);
+									pd.show();
+									
+									
+									EdicionAsincrona ea = new EdicionAsincrona();
+									ea.execute();
+									
+								}else{
+									// La red ya existe
+									Toast.makeText(context, context.getResources().getString(R.string.txt_cuenta_duplicada)
+											, Toast.LENGTH_SHORT).show();
+								}
 							}
 						}catch(Exception ex){
 							ex.printStackTrace();
@@ -98,11 +117,24 @@ public class MiEditarOnClickListener implements OnClickListener{
 					public void onClick(View v) {
 						// boton cancelar de la ventana emergente
 						dialog.cancel();
+						devuelveColorFondoBotonEdicion();
 					}
 				}
 			);
 			dialog.show();
 			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	
+	private void devuelveColorFondoBotonEdicion(){
+		try{
+			int imageResource2 = view.getContext().getApplicationContext().getResources().getIdentifier(
+					"ic_editar", "drawable", view.getContext().getApplicationContext().getPackageName());
+			Drawable image2 = view.getContext().getResources().getDrawable(imageResource2);
+			drViejo.getImagenEditar().setImageDrawable(image2);
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -195,8 +227,9 @@ public class MiEditarOnClickListener implements OnClickListener{
 		@Override
 		protected void onPreExecute() {
 			try{
-				if(dialog != null)
-					dialog.dismiss();
+				if(pd != null)
+					pd.dismiss();
+				devuelveColorFondoBotonEdicion();
 			}catch(Exception ex){
 				ex.printStackTrace();
 			}
@@ -205,18 +238,20 @@ public class MiEditarOnClickListener implements OnClickListener{
 		@Override
 		protected void onPostExecute(Boolean result) {
 			try{
-				if(pd != null)
-					pd.dismiss();
+				if(dialog != null)
+					dialog.dismiss();
 				if(jArray != null && jArray.getInt(0) == 1){
 					// si la actualizacion en bbdd fue correcta
-					Util.cargaMisCuentas();
+					Util.cargaMisCuentas(context);
 					MisRedesActivity.drAdapter.remove(drViejo);
 					MisRedesActivity.drAdapter.add(drNuevo);
 					MisRedesActivity.drAdapter.notifyDataSetChanged();
-					Toast.makeText(context, "Datos modificados correctamente", Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, context.getResources().getString(R.string.txt_guardado_ok)
+							, Toast.LENGTH_SHORT).show();
 				}else{
 					// se produjo un error al modificar los datos
-					Toast.makeText(context, "Error al modificar los datos", Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, context.getResources().getString(R.string.txt_guardado_error)
+							, Toast.LENGTH_SHORT).show();
 				}
 			}catch(Exception ex){
 				ex.printStackTrace();
@@ -225,16 +260,8 @@ public class MiEditarOnClickListener implements OnClickListener{
 		
 		@Override
 		protected void onCancelled() {
-			Toast.makeText(context, "Actualizacion cancelada...", Toast.LENGTH_SHORT).show();
-		}
-		
-		@Override
-		protected void onProgressUpdate(Integer... values) {
-			try{
-				
-			}catch(Exception ex){
-				ex.printStackTrace();
-			}
+			Toast.makeText(context, context.getResources().getString(R.string.txt_guardado_cancelado)
+					, Toast.LENGTH_SHORT).show();
 		}
 	}
 }

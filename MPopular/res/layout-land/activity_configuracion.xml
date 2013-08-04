@@ -1,17 +1,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="800dp"
+    android:layout_height="400dp"
     tools:context=".ConfiguracionActivity" >
     
     <ScrollView
-        android:id="@+id/opc_scrollView"
+        android:id="@+id/conf_scrollView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
         
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="800dp"
+            android:layout_height="450dp"
             android:background="@color/gris_claro" >
 	
 	    <TextView
@@ -136,12 +136,13 @@
 	        android:text="@string/label_desea_eliminar" />
 		
 	    <Button
-	        android:id="@+id/boton_baja"
+	        android:id="@+id/relative_principal"
 	        android:layout_width="wrap_content"
 	        android:layout_height="35dp"
 	        android:layout_alignParentRight="true"
 	        android:layout_below="@+id/conf_textView3"
 	        android:layout_marginRight="15dp"
+	        android:onClick="eliminaUsuarioDefinitivamente"
 	        android:text="@string/label_borrar_cuenta"
 	        android:textSize="16sp" />
 		

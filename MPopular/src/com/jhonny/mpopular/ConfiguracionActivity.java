@@ -1,16 +1,19 @@
 package com.jhonny.mpopular;
 
 import org.json.JSONArray;
-
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
@@ -30,6 +33,12 @@ public class ConfiguracionActivity extends SherlockActivity {
 	private View view;
 	private ProgressDialog pd = null;
 	private int contador = 0;
+	private Context context;
+	private EditText tNombre;
+	private EditText tTelefono;
+	private EditText tEmail;
+	private EditText tPais;
+	private JSONArray jArray2 = null;
 	
 	
 	@Override
@@ -39,19 +48,7 @@ public class ConfiguracionActivity extends SherlockActivity {
 		
 		try{
 			contador = 0;
-			
-			EditText tNombre = (EditText)findViewById(R.id.conf_editText1);
-			tNombre.setText(Util.getNombre());
-			
-			EditText tTelefono = (EditText)findViewById(R.id.conf_editText2);
-			tTelefono.setText(Util.getTelefono());
-			
-			EditText tEmail = (EditText)findViewById(R.id.conf_editText3);
-			tEmail.setText(Util.getEmail());
-			
-			EditText tPais = (EditText)findViewById(R.id.conf_editText4);
-			tPais.setText(Util.getPais());
-			
+			this.context = this;
 			
 			menu = new SlidingMenu(this);
 	        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
@@ -100,8 +97,14 @@ public class ConfiguracionActivity extends SherlockActivity {
 		super.onResume();
 		
 		try{
+			cargaDatosIniciales();
 			reiniciarFondoOpciones();
+			cargaDatosUsuario();
 			contador = 0;
+			
+			TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
+			opc_textview1.setText(Util.getNombre());
+			
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -118,35 +121,49 @@ public class ConfiguracionActivity extends SherlockActivity {
 			case R.id.conf_btn_guardar:
 				try{
 					// comprobacion de datos obligatorios
-					EditText conf_editText1 = (EditText)findViewById(R.id.conf_editText1);
-					String nombre = conf_editText1.getText().toString().trim();
+					String nombre = tNombre.getText().toString().trim();
+					String telefono = tTelefono.getText().toString().trim();
+					String email = tEmail.getText().toString().trim();
+					String pais = tPais.getText().toString().trim();
 					
-					EditText conf_editText2 = (EditText)findViewById(R.id.conf_editText2);
-					String telefono = conf_editText2.getText().toString().trim();
-					
-					EditText conf_editText3 = (EditText)findViewById(R.id.conf_editText3);
-					String email = conf_editText1.getText().toString().trim();
-					
-					EditText conf_editText4 = (EditText)findViewById(R.id.conf_editText4);
-					String pais = conf_editText1.getText().toString().trim();
-					
-					
-					
-					// dialogo de progreso
-					pd = new ProgressDialog(this);
-					pd.setMessage("Guardando datos...");
-					pd.setCancelable(false);
-					pd.setIndeterminate(true);
-					pd.show();
-					
-					new Thread(new Runnable(){
-						@Override
-						public void run(){
-							guardaDatosConfiguracion();
-							if(pd != null)
-								pd.dismiss();
-						}
-					}).start();
+					if(nombre == null)
+						Toast.makeText(context, getResources().getString(R.string.txt_nombre_no_vacio)
+								, Toast.LENGTH_SHORT).show();
+					else if(nombre.length() < 3)
+						Toast.makeText(context, getResources().getString(R.string.txt_nombre_menos3)
+								, Toast.LENGTH_SHORT).show();
+					else if(telefono == null)
+						Toast.makeText(context, getResources().getString(R.string.txt_telefono_no_vacio)
+								, Toast.LENGTH_SHORT).show();
+					else if(telefono.length() < 3)
+						Toast.makeText(context, getResources().getString(R.string.txt_telefono_menos3)
+								, Toast.LENGTH_SHORT).show();
+					else if(email == null)
+						Toast.makeText(context, getResources().getString(R.string.txt_email_no_vacio)
+								, Toast.LENGTH_SHORT).show();
+					else if(!email.contains("@") || !email.contains("."))
+						Toast.makeText(context, getResources().getString(R.string.txt_email_incorrecto)
+								, Toast.LENGTH_SHORT).show();
+					else if(email.length() < 3)
+						Toast.makeText(context, getResources().getString(R.string.txt_email_menos3)
+								, Toast.LENGTH_SHORT).show();
+					else if(pais == null)
+						Toast.makeText(context, getResources().getString(R.string.txt_pais_no_vacio)
+								, Toast.LENGTH_SHORT).show();
+					else if(pais.length() < 3)
+						Toast.makeText(context, getResources().getString(R.string.txt_pais_menos3)
+								, Toast.LENGTH_SHORT).show();
+					else{
+						// dialogo de progreso
+						pd = new ProgressDialog(this);
+						pd.setMessage("Guardando datos...");
+						pd.setCancelable(false);
+						pd.setIndeterminate(true);
+						pd.show();
+						
+						ConfiguracionAsincrono ca = new ConfiguracionAsincrono();
+						ca.execute();
+					}
 					
 				}catch(Exception ex){
 					ex.printStackTrace();
@@ -155,6 +172,26 @@ public class ConfiguracionActivity extends SherlockActivity {
 				
 			default:
 				return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	
+	private void cargaDatosUsuario(){
+		try{
+			tNombre = (EditText)findViewById(R.id.conf_editText1);
+			tNombre.setText(Util.getNombre());
+			
+			tTelefono = (EditText)findViewById(R.id.conf_editText2);
+			tTelefono.setText(Util.getTelefono());
+			
+			tEmail = (EditText)findViewById(R.id.conf_editText3);
+			tEmail.setText(Util.getEmail());
+			
+			tPais = (EditText)findViewById(R.id.conf_editText4);
+			tPais.setText(Util.getPais());
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
 		}
 	}
 	
@@ -291,6 +328,27 @@ public class ConfiguracionActivity extends SherlockActivity {
 	}
 	
 	
+	/**
+	 * muestra l aanimacion de ayuda de la aplicacion
+	 */
+	public void muestraAnimacionAyuda(View view){
+		try{
+			this.view = view;
+			
+			LinearLayout layout_conf = (LinearLayout)findViewById(R.id.opc_layout_ayuda);
+			layout_conf.setBackgroundResource(R.color.gris_oscuro);
+			view.buildDrawingCache(true);
+			
+			Intent intent = new Intent(this, AyudaActivity.class);
+			startActivity(intent);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			menu.toggle();
+		}
+	}
+	
+	
 	private void reiniciarFondoOpciones(){
 		try{
 			LinearLayout layout_busq = (LinearLayout)findViewById(R.id.opc_layout_busq);
@@ -308,6 +366,9 @@ public class ConfiguracionActivity extends SherlockActivity {
 			LinearLayout layout_terminos = (LinearLayout)findViewById(R.id.opc_layout_terminos);
 			layout_terminos.setBackgroundResource(R.color.gris_claro);
 			
+			LinearLayout layout_ayuda = (LinearLayout)findViewById(R.id.opc_layout_ayuda);
+			layout_ayuda.setBackgroundResource(R.color.gris_claro);
+			
 			if(view != null)
 				view.buildDrawingCache(true);
 			
@@ -318,48 +379,107 @@ public class ConfiguracionActivity extends SherlockActivity {
 	
 	
 	private void guardaDatosConfiguracion(){
-		JSONArray jArray = null;
+		JSONArray jArray1 = null;
 		
 		try{
 			// se recogen los datos introducidos
-			EditText editNombre = (EditText)findViewById(R.id.conf_editText1);
-			EditText editTelefono = (EditText)findViewById(R.id.conf_editText2);
-			EditText editEmail = (EditText)findViewById(R.id.conf_editText3);
-			EditText editPais = (EditText)findViewById(R.id.conf_editText4);
-			
-			String n1 = editNombre.getText().toString().replaceAll(" ", ".");
-			String n2 = editTelefono.getText().toString();
-			String n3 = editEmail.getText().toString();
-			String n4 = editPais.getText().toString().replaceAll(" ", ".");
+			String n1 = tNombre.getText().toString().replaceAll(" ", ".");
+			String n2 = tTelefono.getText().toString();
+			String n3 = tEmail.getText().toString();
+			String n4 = tPais.getText().toString().replaceAll(" ", ".");
 			
 			String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=8";
 			url+="&idUsuario=" + Util.getIdUsuario() + "&nombre=";
 			url+= n1 + "&telefono=" + n2 + "&email=" + n3 + "&pais=" + n4;
-			jArray = Util.consultaDatosInternet(url);
 			
-			if(jArray != null && jArray.length() > 0){
+			jArray1 = Util.consultaDatosInternet(url);
+			
+			if(jArray1 != null && jArray1.length() > 0){
 				// Seteo de datos de usuario
-				Util.setIdUsuario(jArray.getInt(0));
-				String nombre = jArray.getString(1);
+				Util.setIdUsuario(jArray1.getInt(0));
+				String nombre = jArray1.getString(1);
 				while(nombre.contains("."))
 					nombre = nombre.replace('.', ' ');
 				Util.setNombre(nombre);
-				Util.setTelefono(jArray.getString(2));
-				Util.setEmail(jArray.getString(3));
-				String pais = jArray.getString(4);
+				Util.setTelefono(jArray1.getString(2));
+				Util.setEmail(jArray1.getString(3));
+				String pais = jArray1.getString(4);
 				while(pais.contains("."))
 					pais = pais.replace('.', ' ');
 				Util.setPais(pais);
 				
-				FileUtil.almacenaDatosConfiguracion(this);
-				
-				Toast.makeText(this, "Datos guardados correctamente", Toast.LENGTH_SHORT).show();
+				FileUtil.almacenaDatosConfiguracion(context);
 			}
 		}catch(Exception ex){
 			ex.printStackTrace();
-		}finally{
-			if(pd != null)
-				pd.dismiss();
+		}
+	}
+	
+	
+	private void eliminaUsuarioYDatos(){
+		try{
+			String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=10" +
+					"&idUsuario=" + Util.getIdUsuario();
+			
+			jArray2 = Util.consultaDatosInternet(url);
+			
+			if(jArray2 != null && jArray2.getInt(0) == 1){
+				// borrado realizado correctamente
+				Util.eliminacionCompletaDatos();
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	
+	public void eliminaUsuarioDefinitivamente(View view){
+		try{
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+			alertDialogBuilder.setTitle("Borrado total");
+			alertDialogBuilder.setMessage("Todos los datos seran borrados permanentemente\n¿Desea continuar?");
+			alertDialogBuilder.setCancelable(false);
+			alertDialogBuilder.setPositiveButton(R.string.txt_aceptar, 
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.cancel();
+							
+							try{
+								// dialogo de progreso
+								pd = new ProgressDialog(context);
+								pd.setMessage("Eliminando datos...");
+								pd.setCancelable(false);
+								pd.setIndeterminate(true);
+								pd.show();
+								
+								EliminaUsuarioAsincrono eua = new EliminaUsuarioAsincrono();
+								eua.execute();
+								
+							}catch(Exception ex){
+								ex.printStackTrace();
+							}
+						}
+					}
+				);
+				alertDialogBuilder.setNegativeButton(R.string.txt_cancelar, 
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							try{
+								dialog.cancel();
+							}catch(Exception ex){
+								ex.printStackTrace();
+							}
+						}
+					}
+				);
+				
+				AlertDialog alertDialog = alertDialogBuilder.create();
+				alertDialog.show();
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
 		}
 	}
 	
@@ -372,10 +492,114 @@ public class ConfiguracionActivity extends SherlockActivity {
     			Toast.makeText(this, getResources().getString(R.string.txt_salir_1_aviso), Toast.LENGTH_SHORT).show();
     			return true;
     		}else{
-    			finish();
+    			Intent intent = new Intent();
+    			intent.setAction(Intent.ACTION_MAIN);
+    			intent.addCategory(Intent.CATEGORY_HOME);
+    			startActivity(intent);
     		}
     	}
     	//para las demas cosas, se reenvia el evento al listener habitual
     	return super.onKeyDown(keyCode, event);
     }
+	
+	
+	
+	
+	
+	
+	
+	private class ConfiguracionAsincrono extends AsyncTask<Void, Integer, Boolean>{
+		
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			try{
+				guardaDatosConfiguracion();
+			}catch(Exception ex){
+				ex.printStackTrace();
+				return false;
+			}
+			return true;
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean result) {
+			try{
+				if(pd != null)
+					pd.dismiss();
+				Toast.makeText(context, "Datos guardados correctamente", Toast.LENGTH_SHORT).show();
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+		}
+		
+		@Override
+		protected void onCancelled() {
+			Toast.makeText(context, "Guardado cancelado...", Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	
+	
+	
+	
+	
+	private class EliminaUsuarioAsincrono extends AsyncTask<Void, Integer, Boolean>{
+		
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			try{
+				eliminaUsuarioYDatos();
+			}catch(Exception ex){
+				ex.printStackTrace();
+				return false;
+			}
+			return true;
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean result) {
+			try{
+				if(pd != null)
+					pd.dismiss();
+				Toast.makeText(context, "Datos eliminados correctamente", Toast.LENGTH_SHORT).show();
+				
+				Intent intent = new Intent(context, NuevoUsuarioActivity.class);
+				startActivity(intent);
+				
+				TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
+				opc_textview1.setText(Util.getNombre());
+				
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+		}
+		
+		@Override
+		protected void onCancelled() {
+			Toast.makeText(context, "Eliminacion cancelada...", Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	
+	private void cargaDatosIniciales(){
+		try{
+			if(!FileUtil.cargaDatosPersonales(this)){
+				Intent intent = new Intent(this, NuevoUsuarioActivity.class);
+				startActivity(intent);
+			}else{
+				Util.recuperarDatosUsuario(Util.getIdUsuario());
+				TextView textoNombre = (TextView)findViewById(R.id.ppal_textView2);
+				TextView textoTelefono = (TextView)findViewById(R.id.ppal_textView4);
+				TextView textoEmail = (TextView)findViewById(R.id.ppal_textView6);
+				TextView textoPais = (TextView)findViewById(R.id.ppal_textView8);
+				
+				textoNombre.setText(Util.getNombre());
+				textoTelefono.setText(Util.getTelefono());
+				textoEmail.setText(Util.getEmail());
+				textoPais.setText(Util.getPais());
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
 }

@@ -38,6 +38,7 @@
 	    android:layout_alignParentRight="true"
 	    android:layout_marginRight="50dp"
 	    android:layout_marginTop="20dp"
+	    android:background="@color/gris_oscuro"
 	    android:contentDescription="@string/txt_editar"
 	    android:src="@drawable/ic_editar" />
 
@@ -48,6 +49,7 @@
 	    android:layout_alignParentRight="true"
 	    android:layout_marginRight="10dp"
 	    android:layout_marginTop="20dp"
+	    android:background="@color/gris_oscuro"
 	    android:contentDescription="@string/txt_eliminar"
 	    android:src="@drawable/ic_eliminar" />
 	

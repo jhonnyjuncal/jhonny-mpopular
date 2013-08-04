@@ -113,24 +113,33 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 					
 					if(valorIntroducido != null){
 						if(valorIntroducido.length() == 0){
-							Toast.makeText(context, "No puede estar vacio", Toast.LENGTH_SHORT).show();
+							Toast.makeText(context, getResources().getString(R.string.txt_nombre_no_vacio)
+									, Toast.LENGTH_SHORT).show();
 						}else if(valorIntroducido.length() <= 3){
-							Toast.makeText(context, "Minimo 4 caracteres", Toast.LENGTH_SHORT).show();
+							Toast.makeText(context, getResources().getString(R.string.txt_nombre_menos3)
+									, Toast.LENGTH_SHORT).show();
 						}else{
-							// oculta el teclado
-							InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-							imm.hideSoftInputFromWindow(nombreRed.getWindowToken(), 0);
-							
-							// dialogo de progreso
-							pd = new ProgressDialog(this);
-							pd.setMessage("Guardando datos...");
-							pd.setCancelable(false);
-							pd.setIndeterminate(true);
-							pd.show();
-							
-							// llamada al hilo asincrono
-							InsertaRedAsincrono ira = new InsertaRedAsincrono();
-							ira.execute();
+							if(Util.compruebaExistenciaRed(valorIntroducido, posicionSpinnerSeleccionada, null)){
+								// oculta el teclado
+								InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+								imm.hideSoftInputFromWindow(nombreRed.getWindowToken(), 0);
+								
+								// dialogo de progreso
+								pd = new ProgressDialog(this);
+								pd.setMessage(getResources().getString(R.string.txt_guardando));
+								pd.setCancelable(false);
+								pd.setIndeterminate(true);
+								pd.show();
+								
+								// llamada al hilo asincrono
+								InsertaRedAsincrono ira = new InsertaRedAsincrono();
+								ira.execute();
+								
+							}else{
+								// La red ya existe
+								Toast.makeText(context, context.getResources().getString(R.string.txt_cuenta_duplicada)
+										, Toast.LENGTH_SHORT).show();
+							}
 						}
 					}
 				}catch(Exception ex){
@@ -294,6 +303,27 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 	}
 	
 	
+	/**
+	 * muestra l aanimacion de ayuda de la aplicacion
+	 */
+	public void muestraAnimacionAyuda(View view){
+		try{
+			this.view = view;
+			
+			LinearLayout layout_conf = (LinearLayout)findViewById(R.id.opc_layout_ayuda);
+			layout_conf.setBackgroundResource(R.color.gris_oscuro);
+			view.buildDrawingCache(true);
+			
+			Intent intent = new Intent(this, AyudaActivity.class);
+			startActivity(intent);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			menu.toggle();
+		}
+	}
+	
+	
 	private void insertarCuentaNueva(){
 		try{
 			String nombreCuenta = nombreRed.getText().toString();
@@ -338,7 +368,7 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 				Util.cargaRedesSociales();
 			
 			ArrayList<String> lista = new ArrayList<String>();
-			lista.add("Seleccionar");
+			lista.add(getResources().getString(R.string.label_seleccionar_red));
 			lista.addAll(Util.getListaRedes());
 			
 			ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lista);
@@ -371,6 +401,9 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 			LinearLayout layout_terminos = (LinearLayout)findViewById(R.id.opc_layout_terminos);
 			layout_terminos.setBackgroundResource(R.color.gris_claro);
 			
+			LinearLayout layout_ayuda = (LinearLayout)findViewById(R.id.opc_layout_ayuda);
+			layout_ayuda.setBackgroundResource(R.color.gris_claro);
+			
 			if(view != null)
 				view.buildDrawingCache(true);
 			
@@ -383,7 +416,7 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 	@Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
     	if(keyCode == KeyEvent.KEYCODE_BACK) {
-    		Util.setMisRedes(null);
+    		Util.cargaMisCuentas(context);
     	}
     	//para las demas cosas, se reenvia el evento al listener habitual
     	return super.onKeyDown(keyCode, event);
@@ -420,9 +453,11 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 					nombreRed.setText("");
 					posicionSpinnerSeleccionada = 0;
 					spRed.setSelection(0);
-					Toast.makeText(context, "Cuenta añadida correctamente", Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, getResources().getString(R.string.txt_cuanta_guardada_ok)
+							, Toast.LENGTH_SHORT).show();
 				}else{
-					Toast.makeText(context, "Error al añadir la red", Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, getResources().getString(R.string.txt_cuanta_guardada_error)
+							, Toast.LENGTH_SHORT).show();
 				}
 			}catch(Exception ex){
 				ex.printStackTrace();
@@ -431,7 +466,8 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 		
 		@Override
 		protected void onCancelled() {
-			Toast.makeText(context, "Busqueda cancelada...", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, getResources().getString(R.string.txt_cuanta_guardada_cancel)
+					, Toast.LENGTH_SHORT).show();
 		}
 		
 		@Override
