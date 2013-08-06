@@ -2,11 +2,14 @@ package com.jhonny.mpopular;
 
 import org.json.JSONArray;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
@@ -24,6 +27,11 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 	private ProgressDialog pd = null;
 	private ActionBar actionBar;
 	private int contador = 0;
+	private EditText editNombre;
+	private EditText editTelefono;
+	private EditText editEmail;
+	private EditText editPais;
+	private Context context;
 	
 	
 	@Override
@@ -33,6 +41,7 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 		
 		try{
 			contador = 0;
+			this.context = (Context)this;
 			
 			actionBar = getSupportActionBar();
 	        if(actionBar != null){
@@ -48,6 +57,8 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 //	        	actionBar.setTitle(applicationName);
 	        }
 	        
+	        estableceFuenteRoboto();
+	        
 			// publicidad
 			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
 			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
@@ -57,6 +68,18 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
+	}
+	
+	
+	private void estableceFuenteRoboto(){
+		TextView textView = (TextView)findViewById(R.id.nue_textView3);
+		textView.setTypeface(Util.getRoboto7(this));
+		textView = (TextView)findViewById(R.id.nue_textView4);
+		textView.setTypeface(Util.getRoboto7(this));
+		textView = (TextView)findViewById(R.id.nue_textView5);
+		textView.setTypeface(Util.getRoboto7(this));
+		textView = (TextView)findViewById(R.id.nue_textView6);
+		textView.setTypeface(Util.getRoboto7(this));
 	}
 	
 	
@@ -72,22 +95,55 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(item.getItemId() == R.id.btn_guardar){
 			try{
-				// dialogo de progreso
-				pd = new ProgressDialog(this);
-				pd.setMessage(getResources().getString(R.string.txt_guardando));
-				pd.setCancelable(false);
-				pd.setIndeterminate(true);
-				pd.show();
+				// comprobacion de datos obligatorios
+				editNombre = (EditText)findViewById(R.id.nue_editText1);
+				editTelefono = (EditText)findViewById(R.id.nue_editText2);
+				editEmail = (EditText)findViewById(R.id.nue_editText3);
+				editPais = (EditText)findViewById(R.id.nue_editText4);
 				
-				new Thread(new Runnable(){
-					@Override
-                    public void run(){
-						guardaDatosPersonales();
-						if(pd != null)
-							pd.dismiss();
-					}
-				}).start();
+				String nombre = editNombre.getText().toString().trim();
+				String telefono = editTelefono.getText().toString().trim();
+				String email = editEmail.getText().toString().trim();
+				String pais = editPais.getText().toString().trim();
 				
+				if(nombre == null || nombre.length() == 0)
+					Toast.makeText(context, getResources().getString(R.string.txt_nombre_no_vacio)
+							, Toast.LENGTH_SHORT).show();
+				else if(nombre.length() < 3)
+					Toast.makeText(context, getResources().getString(R.string.txt_nombre_menos3)
+							, Toast.LENGTH_SHORT).show();
+				else if(telefono == null || telefono.length() == 0)
+					Toast.makeText(context, getResources().getString(R.string.txt_telefono_no_vacio)
+							, Toast.LENGTH_SHORT).show();
+				else if(telefono.length() < 3)
+					Toast.makeText(context, getResources().getString(R.string.txt_telefono_menos3)
+							, Toast.LENGTH_SHORT).show();
+				else if(email == null || email.length() == 0)
+					Toast.makeText(context, getResources().getString(R.string.txt_email_no_vacio)
+							, Toast.LENGTH_SHORT).show();
+				else if(email.length() < 3)
+					Toast.makeText(context, getResources().getString(R.string.txt_email_menos3)
+							, Toast.LENGTH_SHORT).show();
+				else if(!email.contains("@") || !email.contains("."))
+					Toast.makeText(context, getResources().getString(R.string.txt_email_incorrecto)
+							, Toast.LENGTH_SHORT).show();
+				else if(pais == null || pais.length() == 0)
+					Toast.makeText(context, getResources().getString(R.string.txt_pais_no_vacio)
+							, Toast.LENGTH_SHORT).show();
+				else if(pais.length() < 3)
+					Toast.makeText(context, getResources().getString(R.string.txt_pais_menos3)
+							, Toast.LENGTH_SHORT).show();
+				else{
+					// dialogo de progreso
+					pd = new ProgressDialog(this);
+					pd.setMessage(getResources().getString(R.string.txt_guardando));
+					pd.setCancelable(false);
+					pd.setIndeterminate(true);
+					pd.show();
+					
+					NuevoUsuarioAsincrono nua = new NuevoUsuarioAsincrono();
+					nua.execute();
+				}
 			}catch(Exception ex){
 				ex.printStackTrace();
 			}finally{
@@ -104,10 +160,10 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 		
 		try{
 			// se recogen los datos introducidos
-			EditText editNombre = (EditText)findViewById(R.id.editText1);
-			EditText editTelefono = (EditText)findViewById(R.id.editText2);
-			EditText editEmail = (EditText)findViewById(R.id.editText3);
-			EditText editPais = (EditText)findViewById(R.id.editText4);
+			editNombre = (EditText)findViewById(R.id.nue_editText1);
+			editTelefono = (EditText)findViewById(R.id.nue_editText2);
+			editEmail = (EditText)findViewById(R.id.nue_editText3);
+			editPais = (EditText)findViewById(R.id.nue_editText4);
 			
 			String n1 = editNombre.getText().toString().replaceAll(" ", ".");
 			String n2 = editTelefono.getText().toString();
@@ -152,9 +208,10 @@ public class NuevoUsuarioActivity extends SherlockActivity {
     	if(keyCode == KeyEvent.KEYCODE_BACK) {
     		if(contador == 0){
     			contador++;
-    			Toast.makeText(this, getResources().getString(R.string.txt_salir_1_aviso), Toast.LENGTH_SHORT).show();
+    			Toast.makeText(this, getResources().getString(R.string.txt_antes_de_salir), Toast.LENGTH_SHORT).show();
     			return true;
     		}else{
+    			contador = 0;
     			Intent intent = new Intent();
     			intent.setAction(Intent.ACTION_MAIN);
     			intent.addCategory(Intent.CATEGORY_HOME);
@@ -164,4 +221,45 @@ public class NuevoUsuarioActivity extends SherlockActivity {
     	//para las demas cosas, se reenvia el evento al listener habitual
     	return super.onKeyDown(keyCode, event);
     }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	private class NuevoUsuarioAsincrono extends AsyncTask<Void, Integer, Boolean>{
+		
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			try{
+				guardaDatosPersonales();
+			}catch(Exception ex){
+				ex.printStackTrace();
+				return false;
+			}
+			return true;
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean result) {
+			try{
+				if(pd != null)
+					pd.dismiss();
+				Toast.makeText(context, getResources().getString(R.string.txt_guardado_ok)
+						, Toast.LENGTH_SHORT).show();
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+		}
+		
+		@Override
+		protected void onCancelled() {
+			Toast.makeText(context, getResources().getString(R.string.txt_guardado_cancelado)
+					, Toast.LENGTH_SHORT).show();
+		}
+	}
 }

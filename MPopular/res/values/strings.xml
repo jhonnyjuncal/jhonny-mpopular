@@ -40,10 +40,13 @@
 	<string name="txt_borrando">Eliminando datos...</string>
 	<string name="txt_borrado_ok">Datos eliminados correctamente</string>
 	<string name="txt_borrado_error">Se ha producido un error al eliminar la cuenta</string>
+	<string name="txt_borrado_cancelado">Eliminacion cancelada...</string>
+	<string name="txt_borrado_total">Borrado total</string>
+	<string name="txt_borrado_total_confirma">Todos los datos seran borrados permanentemente\n¿Desea continuar?</string>
 	<string name="txt_actualizando">Actualizando listado...</string>
 	<string name="txt_actualiza_cancelada">Actualización cancelada...</string>
-	<string name="txt_cuanta_guardada">Cuenta añadida correctamente</string>
-	<string name="txt_cuanta_guardada">Error al añadir la cuenta</string>
+	<string name="txt_cuanta_guardada_ok">Cuenta añadida correctamente</string>
+	<string name="txt_cuanta_guardada_error">Error al añadir la cuenta</string>
 	<string name="txt_cuanta_guardada_cancel">Guardado cancelado</string>
 	<string name="txt_error_servidor">Error de conexion con el servidor</string>
 	<string name="txt_cuenta_duplicada">Ya existe una red con estos valores</string>
@@ -54,10 +57,8 @@
     <string name="label_telefono">Teléfono:</string>
     <string name="label_email">E-mail:</string>
     <string name="label_pais">País:</string>
-    <string name="label_idioma">Idioma:</string>
     <string name="label_mostrar_buscador">Mostrar buscador</string>
     <string name="label_red_social">Red social:</string>
-    <string name="label_buscar">Buscar</string>
     <string name="label_guardar_datos">Guardar datos</string>
     <string name="label_mis_redes">Mis redes sociales</string>
     <string name="label_nueva_cuenta">Insertar cuenta nueva</string>
@@ -71,7 +72,6 @@
     <string name="label_inicio">Principal</string>
     <string name="label_acerca_de">Acerca de MPopular</string>
     <string name="label_valora">Valora MPopular</string>
-    <string name="label_editar">Editar</string>
     <string name="label_terminos">Terminos y condiciones de MPopular</string>
     <string name="label_version">Version:</string>
     <string name="label_creacion">Creacion:</string>

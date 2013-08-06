@@ -96,7 +96,37 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
 		    searchView.setIconified(false);
 		    searchView.setOnQueryTextListener(this);
 	        
-	        
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    menu.add(getResources().getString(R.string.label_buscador))
+	    		.setIcon(R.drawable.abs__ic_search)
+	    		.setActionView(searchView)
+	    		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+	    SearchManager searchManager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
+	    SearchableInfo info = searchManager.getSearchableInfo(getComponentName());
+	    searchView.setSearchableInfo(info);
+	    return true;
+	}
+	
+	
+	@Override
+    protected void onResume(){
+		super.onResume();
+
+		try{
+			contador = 0;
+			context = (Context)this;
+			
+			reiniciarFondoOpciones();
+			reiniciodelaaplicacion();
+			estableceFuenteRoboto();
+			
 			// publicidad
 			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
 			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
@@ -109,79 +139,26 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
 	}
 	
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    menu.add("Search").setIcon(R.drawable.abs__ic_search)
-	    		.setActionView(searchView)
-	    		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-	    SearchManager searchManager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
-	    SearchableInfo info = searchManager.getSearchableInfo(getComponentName());
-	    searchView.setSearchableInfo(info);
-	    return true;
+	private void reiniciodelaaplicacion(){
+		if(!FileUtil.cargaDatosPersonales(this)){
+			Intent intent = new Intent(this, NuevoUsuarioActivity.class);
+			startActivity(intent);
+		}
+		
+		TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
+		if(Util.getNombre() == null || Util.getNombre().length() == 0)
+			FileUtil.cargaDatosPersonales(context);
+		opc_textview1.setText(Util.getNombre());
 	}
 	
 	
-//	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
-//		switch(item.getItemId()){
-//			case android.R.id.home:
-//				menu.toggle();
-//				return true;
-//				
-//			case R.id.btn_buscar_usuario:
-//				try{
-//					// comprobaciones iniciales para la busqueda
-//					EditText editTexto = (EditText)findViewById(R.id.editText1);
-//					String nombre = editTexto.getText().toString().trim();
-//					
-//					if(nombre != null){
-//						if(nombre.length() == 0)
-//							Toast.makeText(context, getResources().getString(R.string.txt_no_puede_vacio)
-//									, Toast.LENGTH_SHORT).show();
-//						else if(nombre.length() < 3)
-//							Toast.makeText(context, getResources().getString(R.string.txt_busqueda_minima)
-//									, Toast.LENGTH_SHORT).show();
-//						else if(posicionSpinnerSeleccionada == 0)
-//							Toast.makeText(context, getResources().getString(R.string.txt_selecciona_red)
-//									, Toast.LENGTH_SHORT).show();
-//						else{
-//							// dialogo de progreso
-//							pd = new ProgressDialog(this);
-//							pd.setMessage(getResources().getString(R.string.txt_buscando));
-//							pd.setCancelable(false);
-//							pd.setIndeterminate(true);
-//							pd.show();
-//							
-//							BuscadorAsincrono ba = new BuscadorAsincrono();
-//							ba.execute();
-//						}
-//					}
-//				}catch(Exception ex){
-//					ex.printStackTrace();
-//				}
-//				return true;
-//				
-//			default:
-//				return super.onOptionsItemSelected(item);
-//		}
-//	}
-	
-	
-	@Override
-    protected void onResume(){
-		super.onResume();
-
-		try{
-			contador = 0;
-			context = (Context)this;
-			reiniciarFondoOpciones();
-			
-			TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
-			opc_textview1.setText(Util.getNombre());
-			
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
+	private void estableceFuenteRoboto(){
+		TextView textView = (TextView)findViewById(R.id.busq_textView1);
+		textView.setTypeface(Util.getRoboto7(this));
+		textView = (TextView)findViewById(R.id.busq_textView2);
+		textView.setTypeface(Util.getRoboto7(this));
+		textView = (TextView)findViewById(R.id.busq_textView3);
+		textView.setTypeface(Util.getRoboto7(this));
 	}
 	
 	
@@ -478,6 +455,7 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
     			Toast.makeText(this, getResources().getString(R.string.txt_salir_1_aviso), Toast.LENGTH_SHORT).show();
     			return true;
     		}else{
+    			contador = 0;
     			Intent intent = new Intent();
     			intent.setAction(Intent.ACTION_MAIN);
     			intent.addCategory(Intent.CATEGORY_HOME);

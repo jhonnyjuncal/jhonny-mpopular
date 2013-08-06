@@ -19,4 +19,16 @@ public class Constantes {
 	public static String PROP_TELEFONO = "telefono";
 	public static String PROP_EMAIL = "email";
 	public static String PROP_PAIS = "pais";
+	
+	
+	/** FUNTES */
+	public static String ROBOTO1 = "fonts/Roboto-Thin.ttf";
+	public static String ROBOTO2 = "fonts/Roboto-ThinItalic.ttf";
+	public static String ROBOTO3 = "fonts/Roboto-Bold.ttf";
+	public static String ROBOTO4 = "fonts/Roboto-Black.ttf";
+	public static String ROBOTO5 = "fonts/Roboto-BlackItalic.ttf";
+	public static String ROBOTO6 = "fonts/Roboto-Medium.ttf";
+	public static String ROBOTO7 = "fonts/Roboto-Regular.ttf";
+	public static String ROBOTO8 = "fonts/Roboto-Light.ttf";
+	
 }

@@ -50,7 +50,7 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 		setContentView(R.layout.activity_nueva_red);
 		
 		try{
-			this.context = this;
+			this.context = (Context)this;
 			
 			actionBar = getSupportActionBar();
 	        if(actionBar != null){
@@ -78,6 +78,31 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 			// carga las redes sociales de la bbdd
 			cargaRedesSociales();
 			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.menu_nueva_red, menu);
+		return true;
+	}
+
+	
+	@Override
+    protected void onResume(){
+		super.onResume();
+		
+		try{
+			this.context = (Context)this;
+			
+			reiniciarFondoOpciones();
+			reiniciodelaaplicacion();
+			estableceFuenteRoboto();
+			
 			// publicidad
 			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
 			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
@@ -90,11 +115,24 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 	}
 	
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.menu_nueva_red, menu);
-		return true;
+	private void reiniciodelaaplicacion(){
+		if(!FileUtil.cargaDatosPersonales(this)){
+			Intent intent = new Intent(this, NuevoUsuarioActivity.class);
+			startActivity(intent);
+		}
+		
+		TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
+		if(Util.getNombre() == null || Util.getNombre().length() == 0)
+			FileUtil.cargaDatosPersonales(context);
+		opc_textview1.setText(Util.getNombre());
+	}
+	
+	
+	private void estableceFuenteRoboto(){
+		TextView textView = (TextView)findViewById(R.id.new_textView1);
+		textView.setTypeface(Util.getRoboto7(this));
+		textView = (TextView)findViewById(R.id.new_textView2);
+		textView.setTypeface(Util.getRoboto7(this));
 	}
 	
 	
@@ -115,7 +153,7 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 						if(valorIntroducido.length() == 0){
 							Toast.makeText(context, getResources().getString(R.string.txt_nombre_no_vacio)
 									, Toast.LENGTH_SHORT).show();
-						}else if(valorIntroducido.length() <= 3){
+						}else if(valorIntroducido.length() < 3){
 							Toast.makeText(context, getResources().getString(R.string.txt_nombre_menos3)
 									, Toast.LENGTH_SHORT).show();
 						}else{
@@ -149,23 +187,6 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 				
 			default:
 				return super.onOptionsItemSelected(item);
-		}
-	}
-	
-	
-	@Override
-    protected void onResume(){
-		super.onResume();
-		
-		try{
-			this.context = this;
-			reiniciarFondoOpciones();
-			
-			TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
-			opc_textview1.setText(Util.getNombre());
-			
-		}catch(Exception ex){
-			ex.printStackTrace();
 		}
 	}
 	

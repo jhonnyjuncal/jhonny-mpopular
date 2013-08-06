@@ -7,12 +7,13 @@
     tools:context=".BuscadorActivity" >
 
 	<TextView
-	    android:id="@+id/textView1"
+	    android:id="@+id/busq_textView1"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_marginLeft="13dp"
 	    android:layout_marginTop="17dp"
-	    android:text="@string/label_red_social" />
+	    android:text="@string/label_red_social"
+	    android:textSize="@dimen/tamano_fuente" />
 	
 	<Spinner
         android:id="@+id/spinner_busq"
@@ -23,7 +24,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="115dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp"
+        android:textSize="@dimen/tamano_fuente" />
 	
 	<TextView
 	    android:id="@+id/busq_textView2"
@@ -31,7 +33,8 @@
 	    android:layout_height="wrap_content"
 	    android:layout_marginLeft="12dp"
 	    android:layout_marginTop="55dp"
-	    android:text="@string/label_resultados" />
+	    android:text="@string/label_resultados"
+	    android:textSize="@dimen/tamano_fuente" />
 	
 	<TextView
 	    android:id="@+id/busq_textView3"
@@ -39,7 +42,8 @@
 	    android:layout_height="wrap_content"
 	    android:layout_marginLeft="100dp"
 	    android:layout_marginTop="55dp"
-	    android:text="@string/txt_cargando" />
+	    android:text="@string/txt_cargando"
+	    android:textSize="@dimen/tamano_fuente" />
 	    
     <ListView
         android:id="@+id/listView1"

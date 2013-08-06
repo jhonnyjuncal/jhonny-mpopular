@@ -6,14 +6,15 @@
     android:id="@+id/relativedialog">
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/busq_textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="17dp"
-        android:text="@string/label_red_social" />
+        android:text="@string/label_red_social"
+        android:textSize="@dimen/tamano_fuente" />
 
     <Spinner
         android:id="@+id/spinner1"
@@ -24,7 +25,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="100dp"
         android:layout_marginRight="9dp"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp"
+        android:textSize="@dimen/tamano_fuente" />
 
     <TextView
         android:id="@+id/textView2"
@@ -32,7 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="60dp"
-        android:text="@string/label_nombre_usuario" />
+        android:text="@string/label_nombre_usuario"
+        android:textSize="@dimen/tamano_fuente" />
 
     <EditText
         android:id="@+id/diag_nombre_cuenta"
@@ -46,7 +49,7 @@
         android:layout_marginTop="80dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:textSize="17sp" />
+        android:textSize="@dimen/tamano_fuente" />
 
     <Button
         android:id="@+id/button1"
@@ -56,7 +59,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="135dp"
-        android:text="@string/txt_aceptar" />
+        android:text="@string/txt_aceptar"
+        android:textSize="@dimen/tamano_fuente" />
     
     <Button
         android:id="@+id/button2"
@@ -66,6 +70,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="30dp"
         android:layout_marginTop="135dp"
-        android:text="@string/txt_cancelar" />
+        android:text="@string/txt_cancelar"
+        android:textSize="@dimen/tamano_fuente" />
 	
 </RelativeLayout>

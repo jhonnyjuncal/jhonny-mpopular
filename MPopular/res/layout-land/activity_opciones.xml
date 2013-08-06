@@ -14,10 +14,13 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
+
 		    <LinearLayout
 		        android:layout_width="fill_parent"
 		        android:layout_height="50dp"
+		        android:background="@color/gris_oscuro"
 		        android:orientation="horizontal" >
+
 		    	<TextView
 		    	    android:id="@+id/opc_textView1"
 		    	    android:layout_width="wrap_content"
@@ -25,14 +28,11 @@
 		    	    android:layout_gravity="center_vertical"
 		    	    android:layout_marginLeft="5dp"
 		    	    android:text="@string/txt_cargando"
-		    	    android:textSize="18sp"
+		    	    android:textColor="@color/blanco"
+		    	    android:textSize="@dimen/tamano_fuente_grande"
 		    	    android:textStyle="bold" />
+
 			</LinearLayout>
-			<LinearLayout
-			    android:layout_width="fill_parent"
-			    android:layout_height="5dp"
-			    android:background="@drawable/ext_linea"
-			    android:orientation="horizontal" />
 			
 			
 			
@@ -58,7 +58,7 @@
 				    android:layout_gravity="center_vertical"
 				    android:layout_marginLeft="5dp"
 				    android:text="@string/label_inicio"
-				    android:textSize="16sp"
+				    android:textSize="@dimen/tamano_fuente"
 				    android:textStyle="bold" />
 			</LinearLayout>
 			<LinearLayout
@@ -90,7 +90,7 @@
 				    android:layout_gravity="center_vertical"
 				    android:layout_marginLeft="5dp"
 				    android:text="@string/label_buscador"
-				    android:textSize="16sp"
+				    android:textSize="@dimen/tamano_fuente"
 				    android:textStyle="bold" />
 			</LinearLayout>
 			<LinearLayout
@@ -123,7 +123,7 @@
 				    android:layout_gravity="center_vertical"
 				    android:layout_marginLeft="5dp"
 				    android:text="@string/label_mis_redes"
-				    android:textSize="16sp"
+				    android:textSize="@dimen/tamano_fuente"
 				    android:textStyle="bold" />
 			</LinearLayout>
 			<LinearLayout
@@ -156,7 +156,7 @@
 				    android:layout_gravity="center_vertical"
 				    android:layout_marginLeft="5dp"
 				    android:text="@string/title_activity_configuracion"
-				    android:textSize="16sp"
+				    android:textSize="@dimen/tamano_fuente"
 				    android:textStyle="bold" />
 			</LinearLayout>
 			<LinearLayout
@@ -181,7 +181,7 @@
 				    android:layout_gravity="center_vertical"
 				    android:layout_marginLeft="5dp"
 				    android:text="@string/label_acerca_de"
-				    android:textSize="16sp"
+				    android:textSize="@dimen/tamano_fuente"
 				    android:textStyle="bold" />
 			</LinearLayout>
 			<LinearLayout
@@ -206,7 +206,7 @@
 				    android:layout_gravity="center_vertical"
 				    android:layout_marginLeft="5dp"
 				    android:text="@string/title_activity_terminos"
-				    android:textSize="16sp"
+				    android:textSize="@dimen/tamano_fuente"
 				    android:textStyle="bold" />
 			</LinearLayout>
 			<LinearLayout
@@ -241,7 +241,7 @@
 				    android:duplicateParentState="true"
 				    android:longClickable="true"
 				    android:text="@string/label_ayuda"
-				    android:textSize="16sp"
+				    android:textSize="@dimen/tamano_fuente"
 				    android:textStyle="bold" />
 			</LinearLayout>
 			<LinearLayout

@@ -22,7 +22,8 @@
 		        android:layout_alignParentTop="true"
 		        android:layout_marginLeft="15dp"
 		        android:layout_marginTop="10dp"
-		        android:text="@string/label_datos_personales" />
+		        android:text="@string/label_datos_personales"
+		        android:textSize="@dimen/tamano_fuente" />
 			
 		    <LinearLayout
 		        android:id="@+id/lineaLayout1"
@@ -46,12 +47,11 @@
 		        android:ems="10"
 		        android:hint="@string/label_nombre"
 		        android:inputType="text"
-		        android:paddingBottom="5dp"
-		        android:paddingLeft="15dp"
-		        android:paddingRight="5dp"
-		        android:textSize="13sp" >
-			
-		    </EditText>
+		        android:paddingBottom="@dimen/padding_abajo"
+        		android:paddingLeft="@dimen/padding_izquierda"
+        		android:paddingRight="@dimen/padding_derecha"
+        		android:paddingTop="@dimen/padding_arriba"
+		        android:textSize="@dimen/tamano_fuente" />
 			
 		    <EditText
 		        android:id="@+id/conf_editText2"
@@ -66,10 +66,11 @@
 		        android:ems="10"
 		        android:hint="@string/label_telefono"
 		        android:inputType="number"
-		        android:paddingBottom="5dp"
-		        android:paddingLeft="15dp"
-		        android:paddingRight="5dp"
-		        android:textSize="13sp" />
+		        android:paddingBottom="@dimen/padding_abajo"
+        		android:paddingLeft="@dimen/padding_izquierda"
+        		android:paddingRight="@dimen/padding_derecha"
+        		android:paddingTop="@dimen/padding_arriba"
+		        android:textSize="@dimen/tamano_fuente" />
 		    
 		    <EditText
 		        android:id="@+id/conf_editText3"
@@ -84,10 +85,11 @@
 		        android:ems="10"
 		        android:hint="@string/label_email"
 		        android:inputType="textEmailAddress"
-		        android:paddingBottom="5dp"
-		        android:paddingLeft="15dp"
-		        android:paddingRight="5dp"
-		        android:textSize="13sp" />
+		        android:paddingBottom="@dimen/padding_abajo"
+        		android:paddingLeft="@dimen/padding_izquierda"
+        		android:paddingRight="@dimen/padding_derecha"
+        		android:paddingTop="@dimen/padding_arriba"
+		        android:textSize="@dimen/tamano_fuente" />
 		    
 		    <EditText
 		        android:id="@+id/conf_editText4"
@@ -102,10 +104,11 @@
 		        android:ems="10"
 		        android:hint="@string/label_pais"
 		        android:inputType="text"
-		        android:paddingBottom="5dp"
-		        android:paddingLeft="15dp"
-		        android:paddingRight="5dp"
-		        android:textSize="13sp" />
+		        android:paddingBottom="@dimen/padding_abajo"
+        		android:paddingLeft="@dimen/padding_izquierda"
+        		android:paddingRight="@dimen/padding_derecha"
+        		android:paddingTop="@dimen/padding_arriba"
+		        android:textSize="@dimen/tamano_fuente" />
 			
 		    <TextView
 		        android:id="@+id/conf_textView2"
@@ -113,7 +116,8 @@
 		        android:layout_height="wrap_content"
 		        android:layout_marginLeft="15dp"
 		        android:layout_marginTop="230dp"
-		        android:text="@string/label_eliminar_cuenta" />
+		        android:text="@string/label_eliminar_cuenta"
+		        android:textSize="@dimen/tamano_fuente" />
 		    
 		    <LinearLayout
 		        android:id="@+id/lineaLayout2"
@@ -132,10 +136,11 @@
 		        android:layout_marginLeft="15dp"
 		        android:layout_marginRight="15dp"
 		        android:layout_marginTop="5dp"
-		        android:text="@string/label_desea_eliminar" />
+		        android:text="@string/label_desea_eliminar"
+		        android:textSize="@dimen/tamano_fuente" />
 			
 		    <Button
-		        android:id="@+id/relative_principal"
+		        android:id="@+id/btn_baja_definitiva"
 		        android:layout_width="wrap_content"
 		        android:layout_height="35dp"
 		        android:layout_alignParentRight="true"
@@ -143,7 +148,7 @@
 		        android:layout_marginRight="15dp"
 		        android:onClick="eliminaUsuarioDefinitivamente"
 		        android:text="@string/label_borrar_cuenta"
-		        android:textSize="16sp" />
+		        android:textSize="@dimen/tamano_fuente" />
 			
 		    <LinearLayout
 			    android:id="@+id/linearLayout2"

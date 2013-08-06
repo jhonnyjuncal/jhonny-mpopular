@@ -9,35 +9,35 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_marginLeft="10dp"
-	    android:layout_marginRight="90dp"
+	    android:layout_marginRight="110dp"
 	    android:layout_marginTop="2dp"
-	    android:paddingBottom="5dp"
-	    android:paddingTop="5dp"
+	    android:paddingBottom="1dp"
+	    android:paddingTop="2dp"
 	    android:textColor="@color/blanco"
 	    android:textIsSelectable="false"
-	    android:textSize="17sp"
-	    android:textStyle="bold" />
+	    android:textSize="@dimen/tamano_fuente_grande"
+	    android:textStyle="bold|italic" />
 	
 	<TextView
 	    android:id="@+id/nCuenta"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_marginLeft="10dp"
-	    android:layout_marginRight="90dp"
+	    android:layout_marginRight="110dp"
 	    android:layout_marginTop="33dp"
-	    android:paddingBottom="5dp"
-	    android:paddingTop="5dp"
+	    android:paddingBottom="1dp"
+	    android:paddingTop="2dp"
 	    android:textColor="@color/blanco"
 	    android:textIsSelectable="false"
-	    android:textSize="15sp" />
+	    android:textSize="@dimen/tamano_fuente" />
 
 	<ImageView
 	    android:id="@+id/imgeditar"
 	    android:layout_width="35dp"
 	    android:layout_height="35dp"
 	    android:layout_alignParentRight="true"
-	    android:layout_marginRight="50dp"
-	    android:layout_marginTop="20dp"
+	    android:layout_centerVertical="true"
+	    android:layout_marginRight="70dp"
 	    android:background="@color/gris_oscuro"
 	    android:contentDescription="@string/txt_editar"
 	    android:src="@drawable/ic_editar" />
@@ -47,8 +47,8 @@
 	    android:layout_width="35dp"
 	    android:layout_height="35dp"
 	    android:layout_alignParentRight="true"
-	    android:layout_marginRight="10dp"
-	    android:layout_marginTop="20dp"
+	    android:layout_centerVertical="true"
+	    android:layout_marginRight="20dp"
 	    android:background="@color/gris_oscuro"
 	    android:contentDescription="@string/txt_eliminar"
 	    android:src="@drawable/ic_eliminar" />

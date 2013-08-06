@@ -22,14 +22,14 @@
 		    android:paddingTop="1dip"
 		    android:text="@string/txt_cargando"
 		    android:textColor="@color/blanco"
-		    android:textSize="16sp"
+		    android:textSize="@dimen/tamano_fuente"
 		    android:textStyle="normal|italic|bold" />
 
 	</LinearLayout>
 	
 	<LinearLayout
 	    android:layout_width="fill_parent"
-	    android:layout_height="3dp"
+	    android:layout_height="4dp"
 	    android:layout_marginLeft="10dp"
 	    android:layout_marginRight="10dp"
 	    android:background="@drawable/ext_linea"
@@ -40,7 +40,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-		<TextView
+		<TextView
 		    android:layout_width="72dp"
 		    android:layout_height="wrap_content"
 		    android:layout_marginLeft="10dp"
@@ -48,8 +48,9 @@
 		    android:paddingTop="1dip"
 		    android:text="@string/label_usuario"
 		    android:textColor="@color/blanco"
-		    android:textSize="13sp"
+		    android:textSize="@dimen/tamano_fuente"
 		    android:textStyle="bold" />
+
 		<TextView
 		    android:id="@+id/cuentanombre"
 		    android:layout_width="fill_parent"
@@ -59,8 +60,9 @@
 		    android:paddingTop="1dip"
 		    android:text="@string/txt_cargando"
 		    android:textColor="@color/blanco"
-		    android:textSize="13sp"
+		    android:textSize="@dimen/tamano_fuente"
 		    android:textStyle="normal" />
+
 	</LinearLayout>
 	
     <LinearLayout
@@ -68,7 +70,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-		<TextView
+		<TextView
 		    android:layout_width="56dp"
 		    android:layout_height="wrap_content"
 		    android:layout_marginLeft="10dp"
@@ -76,8 +78,9 @@
 		    android:paddingTop="1dip"
 		    android:text="@string/label_red"
 		    android:textColor="@color/blanco"
-		    android:textSize="13sp"
+		    android:textSize="@dimen/tamano_fuente"
 		    android:textStyle="bold" />
+
 		<TextView
 		    android:id="@+id/rednombre"
 		    android:layout_width="140dp"
@@ -88,9 +91,10 @@
 		    android:paddingTop="1dip"
 		    android:text="@string/txt_cargando"
 		    android:textColor="@color/blanco"
-		    android:textSize="13sp"
+		    android:textSize="@dimen/tamano_fuente"
 		    android:textStyle="normal" />
-		<TextView
+
+		<TextView
 		    android:layout_width="58dp"
 		    android:layout_height="wrap_content"
 		    android:layout_marginLeft="2dp"
@@ -98,8 +102,9 @@
 		    android:paddingTop="1dip"
 		    android:text="@string/label_pais"
 		    android:textColor="@color/blanco"
-		    android:textSize="13sp"
+		    android:textSize="@dimen/tamano_fuente"
 		    android:textStyle="bold" />
+
 		<TextView
 		    android:id="@+id/usuariopais"
 		    android:layout_width="fill_parent"
@@ -108,7 +113,8 @@
 		    android:paddingTop="1dip"
 		    android:text="@string/txt_cargando"
 		    android:textColor="@color/blanco"
-		    android:textSize="13sp"
+		    android:textSize="@dimen/tamano_fuente"
 		    android:textStyle="normal" />
+
 	</LinearLayout>
 </LinearLayout>

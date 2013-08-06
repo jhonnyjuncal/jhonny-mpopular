@@ -13,6 +13,8 @@ import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -29,6 +31,7 @@ public class TerminosActivity extends SherlockActivity {
 	private ActionBar actionBar;
 	private View view;
 	private int contador = 0;
+	private Context context;
 	
 	
 	@Override
@@ -38,6 +41,7 @@ public class TerminosActivity extends SherlockActivity {
 		
 		try{
 			contador = 0;
+			this.context = (Context)this;
 			
 			actionBar = getSupportActionBar();
 	        if(actionBar != null){
@@ -64,12 +68,6 @@ public class TerminosActivity extends SherlockActivity {
 	        
 	        Locale locale = getResources().getConfiguration().locale;
 	        leeFicheroTerminosCondiciones(locale);
-	        
-			// publicidad
-			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
-			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
-			layout.addView(adView);
-			adView.loadAd(new AdRequest());
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -90,14 +88,43 @@ public class TerminosActivity extends SherlockActivity {
 		super.onResume();
 		
 		try{
-			cargaDatosIniciales();
+			contador = 0;
+			this.context = (Context)this;
 			
 			reiniciarFondoOpciones();
-			contador = 0;
+			reiniciodelaaplicacion();
+			estableceFuenteRoboto();
+			
+			// publicidad
+			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
+			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
+			layout.addView(adView);
+			adView.loadAd(new AdRequest());
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
+	}
+	
+	
+	private void reiniciodelaaplicacion(){
+		if(!FileUtil.cargaDatosPersonales(this)){
+			Intent intent = new Intent(this, NuevoUsuarioActivity.class);
+			startActivity(intent);
+		}
+		
+		TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
+		if(Util.getNombre() == null || Util.getNombre().length() == 0)
+			FileUtil.cargaDatosPersonales(context);
+		opc_textview1.setText(Util.getNombre());
+	}
+	
+	
+	private void estableceFuenteRoboto(){
+		TextView textView = (TextView)findViewById(R.id.ter_textView1);
+		textView.setTypeface(Util.getRoboto7(this));
+		textView = (TextView)findViewById(R.id.ter_textView2);
+		textView.setTypeface(Util.getRoboto7(this));
 	}
 	
 	
@@ -336,6 +363,7 @@ public class TerminosActivity extends SherlockActivity {
     			Toast.makeText(this, getResources().getString(R.string.txt_salir_1_aviso), Toast.LENGTH_SHORT).show();
     			return true;
     		}else{
+    			contador = 0;
     			Intent intent = new Intent();
     			intent.setAction(Intent.ACTION_MAIN);
     			intent.addCategory(Intent.CATEGORY_HOME);
@@ -345,27 +373,4 @@ public class TerminosActivity extends SherlockActivity {
     	//para las demas cosas, se reenvia el evento al listener habitual
     	return super.onKeyDown(keyCode, event);
     }
-	
-	
-	private void cargaDatosIniciales(){
-		try{
-			if(!FileUtil.cargaDatosPersonales(this)){
-				Intent intent = new Intent(this, NuevoUsuarioActivity.class);
-				startActivity(intent);
-			}else{
-				Util.recuperarDatosUsuario(Util.getIdUsuario());
-				TextView textoNombre = (TextView)findViewById(R.id.ppal_textView2);
-				TextView textoTelefono = (TextView)findViewById(R.id.ppal_textView4);
-				TextView textoEmail = (TextView)findViewById(R.id.ppal_textView6);
-				TextView textoPais = (TextView)findViewById(R.id.ppal_textView8);
-				
-				textoNombre.setText(Util.getNombre());
-				textoTelefono.setText(Util.getTelefono());
-				textoEmail.setText(Util.getEmail());
-				textoPais.setText(Util.getPais());
-			}
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
-	}
 }

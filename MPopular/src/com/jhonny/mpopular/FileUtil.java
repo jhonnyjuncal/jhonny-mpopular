@@ -3,6 +3,7 @@ package com.jhonny.mpopular;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -84,6 +85,34 @@ public class FileUtil implements Serializable{
 			try{
 				if(out != null)
 					out.close();
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+		}
+	}
+	
+	
+	/**
+	 * borra el fichero de la aplicacion
+	 * @param ctx
+	 */
+	public static void borraFicheroActualDeLaAplicacion(Context ctx){
+		OutputStreamWriter out = null;
+		try{
+			OutputStream output = ctx.openFileOutput(Constantes.FICHERO_CONFIGURACION, Context.MODE_PRIVATE);
+			out = new OutputStreamWriter(output);
+			out.write("");
+		}catch(FileNotFoundException e){
+			e.printStackTrace();
+		}catch(IOException e){
+			e.printStackTrace();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			try {
+				out.close();
+			}catch(IOException e){
+				e.printStackTrace();
 			}catch(Exception ex){
 				ex.printStackTrace();
 			}

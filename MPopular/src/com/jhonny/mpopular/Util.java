@@ -18,8 +18,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import android.content.Context;
+import android.graphics.Typeface;
 
 
 public class Util implements Serializable{
@@ -107,6 +107,39 @@ public class Util implements Serializable{
 	public static void setPosEnEdicion(Integer posEnEdicion) {
 		Util.posEnEdicion = posEnEdicion;
 	}
+	
+	public static Typeface getRoboto1(Context context){
+		return Typeface.createFromAsset(context.getAssets(), Constantes.ROBOTO1);
+	}
+	
+	public static Typeface getRoboto2(Context context){
+		return Typeface.createFromAsset(context.getAssets(), Constantes.ROBOTO2);
+	}
+	
+	public static Typeface getRoboto3(Context context){
+		return Typeface.createFromAsset(context.getAssets(), Constantes.ROBOTO3);
+	}
+	
+	public static Typeface getRoboto4(Context context){
+		return Typeface.createFromAsset(context.getAssets(), Constantes.ROBOTO4);
+	}
+	
+	public static Typeface getRoboto5(Context context){
+		return Typeface.createFromAsset(context.getAssets(), Constantes.ROBOTO5);
+	}
+	
+	public static Typeface getRoboto6(Context context){
+		return Typeface.createFromAsset(context.getAssets(), Constantes.ROBOTO6);
+	}
+	
+	public static Typeface getRoboto7(Context context){
+		return Typeface.createFromAsset(context.getAssets(), Constantes.ROBOTO7);
+	}
+	
+	public static Typeface getRoboto8(Context context){
+		return Typeface.createFromAsset(context.getAssets(), Constantes.ROBOTO8);
+	}
+	
 	
 	
 	
@@ -241,8 +274,19 @@ public class Util implements Serializable{
 	/**
 	 * Metodo que borra todos los datos de la aplicacion en el dispositivo
 	 */
-	public static void eliminacionCompletaDatos(){
-		
+	public static void eliminacionCompletaDatos(Context context){
+		try{
+			FileUtil.borraFicheroActualDeLaAplicacion(context);
+			
+			Util.setIdUsuario(0);
+			Util.setNombre(null);
+			Util.setTelefono(null);
+			Util.setEmail(null);
+			Util.setPais(null);
+			Util.setMisRedes(null);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 	}
 	
 	

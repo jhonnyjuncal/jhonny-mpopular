@@ -24,7 +24,7 @@
 			    android:layout_marginTop="10dp"
 			    android:text="@string/label_nombre"
 			    android:textColor="#ffffff"
-			    android:textSize="17sp" />
+			    android:textSize="@dimen/tamano_fuente" />
 				
 			<TextView
 			    android:id="@+id/ppal_textView2"
@@ -33,7 +33,7 @@
 			    android:layout_marginTop="10dp"
 			    android:text="@string/txt_cargando"
 			    android:textColor="#ffffff"
-			    android:textSize="17sp" />
+			    android:textSize="@dimen/tamano_fuente" />
 
 	    </LinearLayout>
 	    
@@ -50,7 +50,7 @@
 			    android:layout_marginTop="30dp"
 			    android:text="@string/label_telefono"
 			    android:textColor="#ffffff"
-			    android:textSize="17sp" />
+			    android:textSize="@dimen/tamano_fuente" />
 		
 			<TextView
 			    android:id="@+id/ppal_textView4"
@@ -59,7 +59,7 @@
 			    android:layout_marginTop="30dp"
 			    android:text="@string/txt_cargando"
 			    android:textColor="#ffffff"
-			    android:textSize="17sp" />
+			    android:textSize="@dimen/tamano_fuente" />
 
 		</LinearLayout>
 		
@@ -76,7 +76,7 @@
 			    android:layout_marginTop="50dp"
 			    android:text="@string/label_email"
 			    android:textColor="#ffffff"
-			    android:textSize="17sp" />
+			    android:textSize="@dimen/tamano_fuente" />
 		
 			<TextView
 			    android:id="@+id/ppal_textView6"
@@ -85,7 +85,7 @@
 			    android:layout_marginTop="50dp"
 			    android:text="@string/txt_cargando"
 			    android:textColor="#ffffff"
-			    android:textSize="17sp" />
+			    android:textSize="@dimen/tamano_fuente" />
 
 		</LinearLayout>
 		
@@ -102,7 +102,7 @@
 			    android:layout_marginTop="70dp"
 			    android:text="@string/label_pais"
 			    android:textColor="#ffffff"
-			    android:textSize="17sp" />
+			    android:textSize="@dimen/tamano_fuente" />
 		
 			<TextView
 			    android:id="@+id/ppal_textView8"
@@ -111,7 +111,7 @@
 			    android:layout_marginTop="70dp"
 			    android:text="@string/txt_cargando"
 			    android:textColor="#ffffff"
-			    android:textSize="17sp" />
+			    android:textSize="@dimen/tamano_fuente" />
 
 		</LinearLayout>
 	</RelativeLayout>

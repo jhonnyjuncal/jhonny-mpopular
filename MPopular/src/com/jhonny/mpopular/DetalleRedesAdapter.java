@@ -58,9 +58,12 @@ public class DetalleRedesAdapter extends ArrayAdapter<DetalleRedes> {
 			DetalleRedes dr = misRedes.get(position);
 			
 			if(vi != null){
-				// imagen editar
-				holder.nombreCuenta.setText(dr.getNombreCuenta());
+				// Rellena la lista de MisRedes
 				holder.nombreUsuario.setText(dr.getNombreUsuario());
+				holder.nombreUsuario.setTypeface(Util.getRoboto3(context));
+				holder.nombreCuenta.setText(dr.getNombreCuenta());
+				holder.nombreCuenta.setTypeface(Util.getRoboto7(context));
+				// imagen editar
 				int imageResource1 = vi.getContext().getApplicationContext().getResources().getIdentifier(
 						"ic_editar", "drawable", vi.getContext().getApplicationContext().getPackageName());
 				Drawable image1 = vi.getContext().getResources().getDrawable(imageResource1);

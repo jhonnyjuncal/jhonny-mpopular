@@ -12,10 +12,9 @@ import com.google.ads.AdSize;
 import com.google.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import android.os.Bundle;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -30,6 +29,7 @@ public class AcercaActivity extends SherlockActivity {
 	private AdView adView = null;
 	private View view;
 	private int contador = 0;
+	private Context context;
 	
 	
 	@Override
@@ -39,14 +39,15 @@ public class AcercaActivity extends SherlockActivity {
 		
 		try{
 			contador = 0;
+			this.context = (Context)this;
 			
 			// version de la aplicacion
 			PackageInfo pInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0);
-			TextView textoVersion = (TextView)findViewById(R.id.textView2);
+			TextView textoVersion = (TextView)findViewById(R.id.acer_textView2);
 			textoVersion.setText(pInfo.versionName);
 			
 			// fecha de creacion
-			TextView textoFecha = (TextView)findViewById(R.id.textView4);
+			TextView textoFecha = (TextView)findViewById(R.id.acer_textView4);
 			DateTime fecha = new DateTime("2013-07-16");
 			Locale locale = getResources().getConfiguration().locale;
 			textoFecha.setText(Util.getFechaFormateada(fecha.toDate(), locale));
@@ -74,12 +75,6 @@ public class AcercaActivity extends SherlockActivity {
 	        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
 	        menu.setMenu(R.layout.activity_opciones);
 			
-			// publicidad
-			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
-			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
-			layout.addView(adView);
-			adView.loadAd(new AdRequest());
-			
 		}catch(Exception ex){
 			ex.printStackTrace();	
 		}
@@ -99,15 +94,59 @@ public class AcercaActivity extends SherlockActivity {
 		super.onResume();
 		
 		try{
-			reiniciarFondoOpciones();
 			contador = 0;
-						
-			TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
-			opc_textview1.setText(Util.getNombre());
+			this.context = (Context)this;
+			
+			reiniciarFondoOpciones();
+			reiniciodelaaplicacion();
+			estableceFuenteRoboto();
+			
+			// publicidad
+			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
+			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
+			layout.addView(adView);
+			adView.loadAd(new AdRequest());
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
+	}
+	
+	
+	private void reiniciodelaaplicacion(){
+		if(!FileUtil.cargaDatosPersonales(this)){
+			Intent intent = new Intent(this, NuevoUsuarioActivity.class);
+			startActivity(intent);
+		}
+		
+		TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
+		if(Util.getNombre() == null || Util.getNombre().length() == 0)
+			FileUtil.cargaDatosPersonales(context);
+		opc_textview1.setText(Util.getNombre());
+	}
+	
+	
+	private void estableceFuenteRoboto(){
+		TextView texto = (TextView)findViewById(R.id.acer_textView1);
+		texto.setTypeface(Util.getRoboto7((Context)this));
+		texto = (TextView)findViewById(R.id.acer_textView2);
+		texto.setTypeface(Util.getRoboto7((Context)this));
+		texto = (TextView)findViewById(R.id.acer_textView3);
+		texto.setTypeface(Util.getRoboto7((Context)this));
+		texto = (TextView)findViewById(R.id.acer_textView4);
+		texto.setTypeface(Util.getRoboto7((Context)this));
+		texto = (TextView)findViewById(R.id.acer_textView5);
+		texto.setTypeface(Util.getRoboto7((Context)this));
+		texto = (TextView)findViewById(R.id.acer_textView6);
+		texto.setTypeface(Util.getRoboto7((Context)this));
+		texto = (TextView)findViewById(R.id.acer_textView7);
+		texto.setTypeface(Util.getRoboto7((Context)this));
+		texto = (TextView)findViewById(R.id.acer_textView8);
+		texto.setTypeface(Util.getRoboto4((Context)this));
+		texto = (TextView)findViewById(R.id.acer_textView9);
+		texto.setTypeface(Util.getRoboto7((Context)this));
+		texto = (TextView)findViewById(R.id.acer_textView10);
+		texto.setTypeface(Util.getRoboto7((Context)this));
 	}
 	
 	
@@ -314,6 +353,7 @@ public class AcercaActivity extends SherlockActivity {
     			Toast.makeText(this, getResources().getString(R.string.txt_salir_1_aviso), Toast.LENGTH_SHORT).show();
     			return true;
     		}else{
+    			contador = 0;
     			Intent intent = new Intent();
     			intent.setAction(Intent.ACTION_MAIN);
     			intent.addCategory(Intent.CATEGORY_HOME);

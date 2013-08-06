@@ -38,18 +38,24 @@ public class DetalleCuentasView extends LinearLayout {
 	 */
 	public void setDetalleCuentas(DetalleCuentas detalleCuenta){
 		try{
-			if(usuarioNombre != null)
+			if(usuarioNombre != null){
 				usuarioNombre.setText(detalleCuenta.getUsuario_nombre());
-			if(redNombre != null)
+			}
+			if(redNombre != null){
 				redNombre.setText(detalleCuenta.getRed_nombre());
-			if(usuarioEmail != null)
+			}
+			if(usuarioEmail != null){
 				usuarioEmail.setText(detalleCuenta.getUsuario_email());
-			if(cuentaNombre != null)
+			}
+			if(cuentaNombre != null){
 				cuentaNombre.setText(detalleCuenta.getCuenta_nombre());
-			if(usuarioPais != null)
+			}
+			if(usuarioPais != null){
 				usuarioPais.setText(detalleCuenta.getUsuario_pais());
-			if(usuarioTelefono != null)
+			}
+			if(usuarioTelefono != null){
 				usuarioTelefono.setText(detalleCuenta.getUsuario_telefono());
+			}
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}

@@ -82,11 +82,12 @@ public class MisRedesActivity extends SherlockActivity {
 		super.onResume();
 		
 		try{
-			reiniciarFondoOpciones();
 			contador = 0;
 			this.context = this;
 			
+			reiniciarFondoOpciones();
 			muestraMisRedesSociales();
+			reiniciodelaaplicacion();
 			
 			// publicidad
 			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
@@ -94,12 +95,21 @@ public class MisRedesActivity extends SherlockActivity {
 			layout.addView(adView);
 			adView.loadAd(new AdRequest());
 			
-			TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
-			opc_textview1.setText(Util.getNombre());
-			
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
+	}
+	
+	private void reiniciodelaaplicacion(){
+		if(!FileUtil.cargaDatosPersonales(this)){
+			Intent intent = new Intent(this, NuevoUsuarioActivity.class);
+			startActivity(intent);
+		}
+		
+		TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
+		if(Util.getNombre() == null || Util.getNombre().length() == 0)
+			FileUtil.cargaDatosPersonales(context);
+		opc_textview1.setText(Util.getNombre());
 	}
 	
 	
@@ -396,6 +406,7 @@ public class MisRedesActivity extends SherlockActivity {
     			Toast.makeText(this, getResources().getString(R.string.txt_salir_1_aviso), Toast.LENGTH_SHORT).show();
     			return true;
     		}else{
+    			contador = 0;
     			Intent intent = new Intent();
     			intent.setAction(Intent.ACTION_MAIN);
     			intent.addCategory(Intent.CATEGORY_HOME);

@@ -1,5 +1,6 @@
 package com.jhonny.mpopular;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -25,6 +26,7 @@ public class PrincipalActivity extends SherlockActivity {
 	private ActionBar actionBar;
 	private View view;
 	private int contador = 0;
+	private Context context;
 	
 	
 	@Override
@@ -34,6 +36,7 @@ public class PrincipalActivity extends SherlockActivity {
 		
 		try{
 			contador = 0;
+			this.context = (Context)context;
 			
 			menu = new SlidingMenu(this);
 	        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
@@ -89,16 +92,57 @@ public class PrincipalActivity extends SherlockActivity {
 		super.onResume();
 		
 		try{
+			contador = 0;
+			
 			// muestra el nombre de usuario en las opciones y recarga la publicidad
 			cargaDatosIniciales();
-			
 			// reinicia la actividad de opciones
 			reiniciarFondoOpciones();
-			contador = 0;
+			reiniciodelaaplicacion();
+			estableceFuenteRoboto();
+			
+			// publicidad
+			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
+			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
+			layout.addView(adView);
+			adView.loadAd(new AdRequest());
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
+	}
+	
+	
+	private void reiniciodelaaplicacion(){
+		if(!FileUtil.cargaDatosPersonales(this)){
+			Intent intent = new Intent(this, NuevoUsuarioActivity.class);
+			startActivity(intent);
+		}
+		
+		TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
+		if(Util.getNombre() == null || Util.getNombre().length() == 0)
+			FileUtil.cargaDatosPersonales(context);
+		opc_textview1.setText(Util.getNombre());
+	}
+	
+	
+	private void estableceFuenteRoboto(){
+		TextView textView = (TextView)findViewById(R.id.ppal_textView1);
+		textView.setTypeface(Util.getRoboto7(this));
+		textView = (TextView)findViewById(R.id.ppal_textView2);
+		textView.setTypeface(Util.getRoboto7(this));
+		textView = (TextView)findViewById(R.id.ppal_textView3);
+		textView.setTypeface(Util.getRoboto7(this));
+		textView = (TextView)findViewById(R.id.ppal_textView4);
+		textView.setTypeface(Util.getRoboto7(this));
+		textView = (TextView)findViewById(R.id.ppal_textView5);
+		textView.setTypeface(Util.getRoboto7(this));
+		textView = (TextView)findViewById(R.id.ppal_textView6);
+		textView.setTypeface(Util.getRoboto7(this));
+		textView = (TextView)findViewById(R.id.ppal_textView7);
+		textView.setTypeface(Util.getRoboto7(this));
+		textView = (TextView)findViewById(R.id.ppal_textView8);
+		textView.setTypeface(Util.getRoboto7(this));
 	}
 	
 	
@@ -114,13 +158,9 @@ public class PrincipalActivity extends SherlockActivity {
 			
 			// se muestra el nombre completo del usuario en la activity opciones
 			TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
+			if(Util.getNombre() == null || Util.getNombre().length() == 0)
+				FileUtil.cargaDatosPersonales(context);
 			opc_textview1.setText(Util.getNombre());
-			
-			// publicidad
-			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
-			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
-			layout.addView(adView);
-			adView.loadAd(new AdRequest());
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -336,6 +376,7 @@ public class PrincipalActivity extends SherlockActivity {
     			Toast.makeText(this, getResources().getString(R.string.txt_salir_1_aviso), Toast.LENGTH_SHORT).show();
     			return true;
     		}else{
+    			contador = 0;
     			Intent intent = new Intent();
     			intent.setAction(Intent.ACTION_MAIN);
     			intent.addCategory(Intent.CATEGORY_HOME);

@@ -6,7 +6,7 @@
     tools:context=".AcercaActivity" >
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/acer_imageView1"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_alignParentLeft="true"
@@ -16,76 +16,84 @@
         android:src="@drawable/lanzador" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/acer_textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="10dp"
-        android:layout_toRightOf="@id/imageView1"
-        android:text="@string/label_version" />
+        android:layout_toRightOf="@id/acer_imageView1"
+        android:text="@string/label_version"
+        android:textSize="@dimen/tamano_fuente" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/acer_textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
-        android:layout_toRightOf="@+id/textView1"
-        android:text="@string/txt_cargando" />
+        android:layout_toRightOf="@+id/acer_textView1"
+        android:text="@string/txt_cargando"
+        android:textSize="@dimen/tamano_fuente" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/acer_textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="35dp"
-        android:layout_toRightOf="@id/imageView1"
-        android:text="@string/label_creacion" />
+        android:layout_toRightOf="@id/acer_imageView1"
+        android:text="@string/label_creacion"
+        android:textSize="@dimen/tamano_fuente" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/acer_textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="35dp"
-        android:layout_toRightOf="@id/textView3"
-        android:text="@string/txt_cargando" />
+        android:layout_toRightOf="@id/acer_textView3"
+        android:text="@string/txt_cargando"
+        android:textSize="@dimen/tamano_fuente" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/acer_textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="60dp"
-        android:layout_toRightOf="@id/imageView1"
-        android:text="@string/label_pais" />
+        android:layout_toRightOf="@id/acer_imageView1"
+        android:text="@string/label_pais"
+        android:textSize="@dimen/tamano_fuente" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/acer_textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="60dp"
-        android:layout_toRightOf="@id/textView5"
-        android:text="@string/txt_pais" />
+        android:layout_toRightOf="@id/acer_textView5"
+        android:text="@string/txt_pais"
+        android:textSize="@dimen/tamano_fuente" />
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/acer_textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView1"
+        android:layout_below="@+id/acer_imageView1"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
-        android:text="@string/label_desarrollado" />
+        android:text="@string/label_desarrollado"
+        android:textSize="@dimen/tamano_fuente" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/acer_textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView7"
+        android:layout_below="@+id/acer_textView7"
         android:layout_marginLeft="30dp"
         android:text="@string/txt_desarrollador"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textSize="@dimen/tamano_fuente" />
     
     <LinearLayout
 	    android:id="@+id/linearLayout2"
@@ -96,7 +104,7 @@
 	    android:weightSum="1" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/acer_textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -104,12 +112,13 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="100dp"
-        android:layout_toRightOf="@id/imageView1"
+        android:layout_toRightOf="@id/acer_imageView1"
         android:gravity="center_horizontal"
-        android:text="@string/label_version1" />
+        android:text="@string/label_version1"
+        android:textSize="@dimen/tamano_fuente" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/acer_textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -117,8 +126,9 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="120dp"
-        android:layout_toRightOf="@id/imageView1"
+        android:layout_toRightOf="@id/acer_imageView1"
         android:gravity="center_horizontal"
-        android:text="@string/label_version2" />
+        android:text="@string/label_version2"
+        android:textSize="@dimen/tamano_fuente" />
 	
 </RelativeLayout>
