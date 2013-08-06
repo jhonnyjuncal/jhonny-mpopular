@@ -249,7 +249,7 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 			try{
 				if(pd != null)
 					pd.dismiss();
-				Toast.makeText(context, getResources().getString(R.string.txt_guardado_ok)
+				Toast.makeText(context, getResources().getString(R.string.txt_primer_guardado_ok)
 						, Toast.LENGTH_SHORT).show();
 			}catch(Exception ex){
 				ex.printStackTrace();

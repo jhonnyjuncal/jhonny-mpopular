@@ -33,6 +33,7 @@
 	<string name="txt_pais_no_vacio">Country cannot be empty</string>
 	<string name="txt_pais_menos3">Country must be more than 3 characters</string>
 	<string name="txt_guardando">Saving data...</string>
+	<string name="txt_primer_guardado_ok">Created data correctly</string>
 	<string name="txt_guardado_ok">Modified data correctly</string>
 	<string name="txt_guardado_error">Failed to modify the data</string>
 	<string name="txt_guardado_cancelado">Modification canceled ...</string>
