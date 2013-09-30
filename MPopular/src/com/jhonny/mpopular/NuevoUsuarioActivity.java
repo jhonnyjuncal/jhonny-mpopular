@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -56,9 +57,22 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 //	        	String applicationName = (String)pm.getApplicationLabel(ai);
 //	        	actionBar.setTitle(applicationName);
 	        }
-	        
-	        estableceFuenteRoboto();
-	        
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	
+	@Override
+    protected void onResume(){
+		super.onResume();
+		
+		try{
+			contador = 0;
+			this.context = (Context)this;
+			
+			estableceFuenteRoboto();
+			
 			// publicidad
 			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
 			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
@@ -69,6 +83,8 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 			ex.printStackTrace();
 		}
 	}
+	
+	
 	
 	
 	private void estableceFuenteRoboto(){
@@ -112,6 +128,9 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 				else if(nombre.length() < 3)
 					Toast.makeText(context, getResources().getString(R.string.txt_nombre_menos3)
 							, Toast.LENGTH_SHORT).show();
+				else if(nombre.contains(" "))
+					Toast.makeText(context, getResources().getString(R.string.txt_nombre_no_espacio)
+							, Toast.LENGTH_SHORT).show();
 				else if(telefono == null || telefono.length() == 0)
 					Toast.makeText(context, getResources().getString(R.string.txt_telefono_no_vacio)
 							, Toast.LENGTH_SHORT).show();
@@ -134,6 +153,10 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 					Toast.makeText(context, getResources().getString(R.string.txt_pais_menos3)
 							, Toast.LENGTH_SHORT).show();
 				else{
+					// oculta el teclado
+					InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(editPais.getWindowToken(), 0);
+					
 					// dialogo de progreso
 					pd = new ProgressDialog(this);
 					pd.setMessage(getResources().getString(R.string.txt_guardando));
@@ -146,9 +169,6 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 				}
 			}catch(Exception ex){
 				ex.printStackTrace();
-			}finally{
-				if(pd != null)
-					pd.dismiss();
 			}
 		}
 		return true;
@@ -170,7 +190,7 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 			String n3 = editEmail.getText().toString();
 			String n4 = editPais.getText().toString().replaceAll(" ", ".");
 			
-			String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=0&nombre="; 
+			String url = "http://jhonnyspring-mpopular.rhcloud.com/index.jsp?consulta=0&nombre="; 
 			url+= n1 + "&telefono=" + n2;
 			url+= "&email=" + n3 + "&pais=" + n4;
 			jArray = Util.consultaDatosInternet(url);
@@ -191,8 +211,6 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 				
 				FileUtil.almacenaDatosConfiguracion(this);
 				
-				Intent intent = new Intent(this, PrincipalActivity.class);
-				startActivity(intent);
 			}else{
 				Toast.makeText(this, getResources().getString(R.string.txt_error_servidor)
 						, Toast.LENGTH_SHORT).show();
@@ -222,7 +240,10 @@ public class NuevoUsuarioActivity extends SherlockActivity {
     	return super.onKeyDown(keyCode, event);
     }
 	
-	
+	private void iniciaActividadIncial(){
+		Intent intent = new Intent(this, PrincipalActivity.class);
+		startActivity(intent);
+	}
 	
 	
 	
@@ -251,6 +272,8 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 					pd.dismiss();
 				Toast.makeText(context, getResources().getString(R.string.txt_primer_guardado_ok)
 						, Toast.LENGTH_SHORT).show();
+				
+				iniciaActividadIncial();
 			}catch(Exception ex){
 				ex.printStackTrace();
 			}

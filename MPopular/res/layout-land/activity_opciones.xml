@@ -26,7 +26,7 @@
 		    	    android:layout_width="wrap_content"
 		    	    android:layout_height="wrap_content"
 		    	    android:layout_gravity="center_vertical"
-		    	    android:layout_marginLeft="5dp"
+		    	    android:layout_marginLeft="@dimen/activity_horizontal_margin"
 		    	    android:text="@string/txt_cargando"
 		    	    android:textColor="@color/blanco"
 		    	    android:textSize="@dimen/tamano_fuente_grande"

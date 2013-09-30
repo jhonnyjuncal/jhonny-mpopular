@@ -25,6 +25,7 @@
 	<string name="txt_busq_cancelada">Search canceled...</string>
 	<string name="txt_nombre_no_vacio">Name cannot be empty</string>
 	<string name="txt_nombre_menos3">Name must be more than 3 characters</string>
+	<string name="txt_nombre_no_espacio">Name can not contain white spaces</string>
 	<string name="txt_telefono_no_vacio">Phone number cannot be empty</string>
 	<string name="txt_telefono_menos3">Phone number must be more than 3 characters</string>
 	<string name="txt_email_no_vacio">E-mail cannot be empty</string>

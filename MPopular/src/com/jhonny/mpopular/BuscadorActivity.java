@@ -363,7 +363,7 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
 				while(textoBuscar.contains(" "))
 					textoBuscar = textoBuscar.replace(' ', '.');
 				
-				String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=2" +
+				String url = "http://jhonnyspring-mpopular.rhcloud.com/index.jsp?consulta=2" +
 						"&nombre=" + textoBuscar + "&idRed=" + idRed;
 				
 				jArrayClave = Util.consultaDatosInternet(url);

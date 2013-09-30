@@ -109,7 +109,7 @@ public class MiEliminarOnClickListener implements OnClickListener{
 	
 	private void eliminaRedUsuario(){
 		try{
-			String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=6&idCuenta=" + 
+			String url = "http://jhonnyspring-mpopular.rhcloud.com/index.jsp?consulta=6&idCuenta=" + 
 			dr.getIdCuenta() + "&idRed=" + dr.getIdRed() + "&idUsuario=" + Util.getIdUsuario();
 			
 			jArray = Util.consultaDatosInternet(url);

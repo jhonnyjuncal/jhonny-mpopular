@@ -156,6 +156,9 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 						}else if(valorIntroducido.length() < 3){
 							Toast.makeText(context, getResources().getString(R.string.txt_nombre_menos3)
 									, Toast.LENGTH_SHORT).show();
+						}else if(valorIntroducido.contains(" ")){
+							Toast.makeText(context, getResources().getString(R.string.txt_nombre_no_espacio)
+									, Toast.LENGTH_SHORT).show();
 						}else{
 							if(Util.compruebaExistenciaRed(valorIntroducido, posicionSpinnerSeleccionada, null)){
 								// oculta el teclado
@@ -353,7 +356,7 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 			if(posicionSpinnerSeleccionada != null && posicionSpinnerSeleccionada > 0){
 				elemento = Util.getRedes().get(posicionSpinnerSeleccionada);
 				
-				String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=3&nombre=" + 
+				String url = "http://jhonnyspring-mpopular.rhcloud.com/index.jsp?consulta=3&nombre=" + 
 						nombreCuenta + "&idUsuario=" + Util.getIdUsuario() + "&idRed=" + elemento.getIdRed();
 				jArray = Util.consultaDatosInternet(url);
 				

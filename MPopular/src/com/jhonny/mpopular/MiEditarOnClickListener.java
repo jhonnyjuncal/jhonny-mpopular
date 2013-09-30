@@ -31,7 +31,6 @@ public class MiEditarOnClickListener implements OnClickListener{
 	private Dialog dialog = null;
 	private EditText et = null;
 	private JSONArray jArray = null;
-	private String nCuenta = null;
 	private View view;
 	
 	
@@ -76,25 +75,23 @@ public class MiEditarOnClickListener implements OnClickListener{
 					public void onClick(View view) {
 						try{
 							// validacion de datos
-							if(et.getText().length() == 0){
+							if(et.getText().toString().length() == 0){
 								Toast.makeText(context, context.getResources().getString(R.string.txt_nombre_no_vacio)
 										, Toast.LENGTH_SHORT).show();
-							}else if(et.length() < 3){
+							}else if(et.getText().toString().length() < 3){
 								Toast.makeText(context, context.getResources().getString(R.string.txt_nombre_menos3)
 										, Toast.LENGTH_SHORT).show();
+							}else if(et.getText().toString().contains(" ")){
+								Toast.makeText(context, context.getResources().getString(R.string.txt_nombre_no_espacio)
+										, Toast.LENGTH_SHORT).show();
 							}else{
-								RelativeLayout rl = (RelativeLayout)view.getParent();
-								EditText dialogCuenta = (EditText)rl.findViewById(R.id.diag_nombre_cuenta);
-								nCuenta = dialogCuenta.getText().toString();
-								
-								if(Util.compruebaExistenciaRed(nCuenta, posicionSpinnerSeleccionada + 1, posicionMisRedes)){
+								if(Util.compruebaExistenciaRed(et.getText().toString(), posicionSpinnerSeleccionada + 1, posicionMisRedes)){
 									// boton aceptar de la ventana emergente
 									pd = new ProgressDialog(context);
 									pd.setMessage(context.getResources().getString(R.string.txt_guardando));
 									pd.setCancelable(false);
 									pd.setIndeterminate(true);
 									pd.show();
-									
 									
 									EdicionAsincrona ea = new EdicionAsincrona();
 									ea.execute();
@@ -144,17 +141,11 @@ public class MiEditarOnClickListener implements OnClickListener{
 	private void guardaDatosEdicionRedUsuario(){
 		try{
 			Red red_nueva = Util.getRedes().get(posicionSpinnerSeleccionada + 1);
-			
-			while(nCuenta.contains(" "))
-				nCuenta = nCuenta.replace(' ', '.');
-			
-			String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=7&idCuenta=" +
+			String url = "http://jhonnyspring-mpopular.rhcloud.com/index.jsp?consulta=7&idCuenta=" +
 					drViejo.getIdCuenta() + "&idRed=" + red_nueva.getIdRed() + "&idUsuario=" + 
-					Util.getIdUsuario() + "&nombre=" + nCuenta;
-			
+					Util.getIdUsuario() + "&nombre=" + et.getText().toString();
 			drNuevo = new DetalleRedes(drViejo.getIdCuenta(), red_nueva.getIdRed(), 
-					red_nueva.getNombreRed(), nCuenta, null, null);
-			
+					red_nueva.getNombreRed(), et.getText().toString(), null, null);
 			jArray = Util.consultaDatosInternet(url);
 			
 		}catch(Exception ex){

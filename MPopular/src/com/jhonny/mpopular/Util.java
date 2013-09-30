@@ -146,7 +146,7 @@ public class Util implements Serializable{
 	public static void cargaRedesSociales(){
 		JSONArray jArray = null;
 		try{
-			String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=1";
+			String url = "http://jhonnyspring-mpopular.rhcloud.com/index.jsp?consulta=1";
 			jArray = Util.consultaDatosInternet(url);
 			
 			if(jArray != null){
@@ -180,7 +180,7 @@ public class Util implements Serializable{
 			if(Util.idUsuario <= 0)
 				FileUtil.cargaDatosPersonales(context);
 			
-			String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=4&idUsuario=" + Util.getIdUsuario();
+			String url = "http://jhonnyspring-mpopular.rhcloud.com/index.jsp?consulta=4&idUsuario=" + Util.getIdUsuario();
 			jArray = Util.consultaDatosInternet(url);
 			misRedes = new ArrayList<DetalleRedes>();
 			
@@ -297,7 +297,7 @@ public class Util implements Serializable{
 	public static void recuperarDatosUsuario(Integer idUsuario){
 		JSONArray jArray = null;
 		try{
-			String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=5&idUsuario=" + Util.getIdUsuario();
+			String url = "http://jhonnyspring-mpopular.rhcloud.com/index.jsp?consulta=5&idUsuario=" + Util.getIdUsuario();
 			jArray = Util.consultaDatosInternet(url);
 			
 			// Seteo de datos de usuario

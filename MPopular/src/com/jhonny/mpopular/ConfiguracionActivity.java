@@ -163,6 +163,9 @@ public class ConfiguracionActivity extends SherlockActivity {
 					else if(nombre.length() < 3)
 						Toast.makeText(context, getResources().getString(R.string.txt_nombre_menos3)
 								, Toast.LENGTH_SHORT).show();
+					else if(nombre.contains(" "))
+						Toast.makeText(context, getResources().getString(R.string.txt_nombre_no_espacio)
+								, Toast.LENGTH_SHORT).show();
 					else if(telefono == null || telefono.length() == 0)
 						Toast.makeText(context, getResources().getString(R.string.txt_telefono_no_vacio)
 								, Toast.LENGTH_SHORT).show();
@@ -428,7 +431,7 @@ public class ConfiguracionActivity extends SherlockActivity {
 			String n3 = editEmail.getText().toString();
 			String n4 = editPais.getText().toString().replaceAll(" ", ".");
 			
-			String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=8";
+			String url = "http://jhonnyspring-mpopular.rhcloud.com/index.jsp?consulta=8";
 			url+="&idUsuario=" + Util.getIdUsuario() + "&nombre=";
 			url+= n1 + "&telefono=" + n2 + "&email=" + n3 + "&pais=" + n4;
 			
@@ -458,7 +461,7 @@ public class ConfiguracionActivity extends SherlockActivity {
 	
 	private void eliminaUsuarioYDatos(){
 		try{
-			String url = "http://jhonnyapps-mpopular.rhcloud.com/index.jsp?consulta=10" +
+			String url = "http://jhonnyspring-mpopular.rhcloud.com/index.jsp?consulta=10" +
 					"&idUsuario=" + Util.getIdUsuario();
 			jArray2 = Util.consultaDatosInternet(url);
 			

@@ -24,7 +24,8 @@
 	<string name="txt_buscando">Buscando...</string>
 	<string name="txt_busq_cancelada">Busqueda cancelada...</string>
 	<string name="txt_nombre_no_vacio">El nombre no puede estar vacio</string>
-	<string name="txt_nombre_menos3">Nombre debe tener mas de 3 caracteres</string>
+	<string name="txt_nombre_menos3">El nombre debe tener mas de 3 caracteres</string>
+	<string name="txt_nombre_no_espacio">El nombre no puede tener espacios en blanco</string>
 	<string name="txt_telefono_no_vacio">El teléfono no puede estar vacio</string>
 	<string name="txt_telefono_menos3">El teléfono debe tener mas de 3 números</string>
 	<string name="txt_email_no_vacio">El e-mail no puede estar vacio</string>
