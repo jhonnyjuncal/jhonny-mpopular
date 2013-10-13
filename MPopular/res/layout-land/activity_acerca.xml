@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_toRightOf="@id/acer_imageView1"
         android:text="@string/label_version"
         android:textSize="@dimen/tamano_fuente" />
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_toRightOf="@+id/acer_textView1"
         android:text="@string/txt_cargando"
         android:textSize="@dimen/tamano_fuente" />
@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="25dp"
         android:layout_toRightOf="@id/acer_imageView1"
         android:text="@string/label_creacion"
         android:textSize="@dimen/tamano_fuente" />
@@ -50,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="25dp"
         android:layout_toRightOf="@id/acer_textView3"
         android:text="@string/txt_cargando"
         android:textSize="@dimen/tamano_fuente" />
@@ -60,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="45dp"
         android:layout_toRightOf="@id/acer_imageView1"
         android:text="@string/label_pais"
         android:textSize="@dimen/tamano_fuente" />
@@ -70,7 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="45dp"
         android:layout_toRightOf="@id/acer_textView5"
         android:text="@string/txt_pais"
         android:textSize="@dimen/tamano_fuente" />
@@ -111,7 +111,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:layout_toRightOf="@id/acer_imageView1"
         android:gravity="center_horizontal"
         android:text="@string/label_version1"
@@ -125,10 +125,19 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="100dp"
         android:layout_toRightOf="@id/acer_imageView1"
         android:gravity="center_horizontal"
         android:text="@string/label_version2"
         android:textSize="@dimen/tamano_fuente" />
+
+    <ImageView
+        android:id="@+id/acer_imageView2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="270dp"
+        android:layout_marginTop="140dp"
+        android:contentDescription="@string/txt_cargando"
+        android:src="@drawable/ic_facebook" />
 	
 </RelativeLayout>

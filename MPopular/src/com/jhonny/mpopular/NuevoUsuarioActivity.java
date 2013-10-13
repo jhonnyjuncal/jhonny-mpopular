@@ -128,9 +128,6 @@ public class NuevoUsuarioActivity extends SherlockActivity {
 				else if(nombre.length() < 3)
 					Toast.makeText(context, getResources().getString(R.string.txt_nombre_menos3)
 							, Toast.LENGTH_SHORT).show();
-				else if(nombre.contains(" "))
-					Toast.makeText(context, getResources().getString(R.string.txt_nombre_no_espacio)
-							, Toast.LENGTH_SHORT).show();
 				else if(telefono == null || telefono.length() == 0)
 					Toast.makeText(context, getResources().getString(R.string.txt_telefono_no_vacio)
 							, Toast.LENGTH_SHORT).show();

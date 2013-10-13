@@ -156,7 +156,7 @@ public class Util implements Serializable{
 				for(int i=0; i<jArray.length(); i++){
 					JSONObject obj = (JSONObject)jArray.get(i);
 					Integer idRed = (Integer)obj.get("idRed");
-					String cadena = (String)obj.get("nombreRed");
+					String cadena = (String)obj.get("nombre");
 					
 					while(cadena.contains("."))
 						cadena = cadena.replace('.', ' ');
@@ -190,16 +190,24 @@ public class Util implements Serializable{
 				for(int i=0; i<jArray.length(); i++){
 					JSONObject obj = (JSONObject)jArray.get(i);
 					
-					Integer id = (Integer)obj.get("idCuenta");
-					Integer idRed = (Integer)obj.get("idRed");
-					String nombreCuenta = (String)obj.get("nombreCuenta");
-					while(nombreCuenta.contains("."))
-						nombreCuenta = nombreCuenta.replace('.', ' ');
-					String nombreUsuario = (String)obj.get("nombreUsuario");
-					while(nombreUsuario.contains("."))
-						nombreUsuario = nombreUsuario.replace('.', ' ');
+					String cuentaNombre = (String)obj.getString("nombre");
+					JSONObject obj2 = (JSONObject)obj.get("usuario");
+					String usuarioNombre = (String)obj2.getString("nombre");
+					while(usuarioNombre.contains("."))
+						usuarioNombre = usuarioNombre.replace(".", " ");
+					String usuarioTelefono = (String)obj2.getString("telefono");
+					Integer usuarioIdUsuario = (Integer)obj2.getInt("idUsuario");
+					String usuarioPais = (String)obj2.getString("pais");
+					String usuarioEmail = (String)obj2.getString("email");
+					Integer cuentaIdCuenta = (Integer)obj.getInt("idCuenta");
+					JSONObject obj3 = (JSONObject)obj.get("red");
+					Integer redIdRed = (Integer)obj3.getInt("idRed");
+					String redNombre = (String)obj3.getString("nombre");
 					
-					DetalleRedes dr = new DetalleRedes(id, idRed, nombreCuenta, nombreUsuario, null, null);
+					Usuario usuario = new Usuario(usuarioIdUsuario, usuarioNombre, usuarioTelefono, usuarioEmail, usuarioPais, null);
+					Red red = new Red(redIdRed, redNombre);
+					Cuenta cuenta = new Cuenta(cuentaIdCuenta, red, usuario, cuentaNombre);
+					DetalleRedes dr = new DetalleRedes(cuenta.getIdCuenta(), red.getIdRed(), cuenta.getNombre(), usuario.getNombre(), null, null);
 					misRedes.add(dr);
 					pos++;
 				}
@@ -301,17 +309,23 @@ public class Util implements Serializable{
 			jArray = Util.consultaDatosInternet(url);
 			
 			// Seteo de datos de usuario
-			Util.setIdUsuario(jArray.getInt(0));
-			String nombre = jArray.getString(1);
-			while(nombre.contains("."))
-				nombre = nombre.replace('.', ' ');
-			Util.setNombre(nombre);
-			Util.setTelefono(jArray.getString(2));
-			Util.setEmail(jArray.getString(3));
-			String pais = jArray.getString(4);
-			while(pais.contains("."))
-				pais = pais.replace('.', ' ');
-			Util.setPais(pais);
+			if(jArray != null){
+				JSONObject obj = (JSONObject)jArray.get(0);
+				
+				if(obj != null){
+					Util.setIdUsuario(obj.getInt("idUsuario"));
+					String nombre = obj.getString("nombre");
+					while(nombre.contains("."))
+						nombre = nombre.replace('.', ' ');
+					Util.setNombre(nombre);
+					Util.setTelefono(obj.getString("telefono"));
+					Util.setEmail(obj.getString("email"));
+					String pais = obj.getString("pais");
+					while(pais.contains("."))
+						pais = pais.replace('.', ' ');
+					Util.setPais(pais);
+				}
+			}
 			
 		}catch(Exception ex){
 			ex.printStackTrace();

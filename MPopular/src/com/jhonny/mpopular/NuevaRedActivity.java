@@ -363,7 +363,7 @@ public class NuevaRedActivity extends SherlockActivity implements OnItemSelected
 				if(jArray != null){
 					dr.setIdCuenta(jArray.getInt(0));
 					dr.setIdRed(jArray.getInt(1));
-					Red red = Util.getRedes().get(dr.getIdRed());
+					Red red = Util.getRedes().get(elemento.getIdRed());
 					dr.setNombreCuenta(red.getNombreRed());
 					dr.setNombreUsuario(jArray.getString(3));
 				}

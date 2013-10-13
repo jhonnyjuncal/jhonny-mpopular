@@ -15,7 +15,7 @@
     <string name="txt_aceptar">Accept</string>
     <string name="txt_cancelar">Cancel</string>
     <string name="txt_pais">Spain</string>
-	<string name="txt_desarrollador">Jhonny Juncal Gonzalez</string>
+	<string name="txt_desarrollador"><a href="https://plus.google.com/u/0/115840161297230406504/posts">Jhonny Juncal Gonzalez</a></string>
 	<string name="txt_antes_de_salir">To access the application, you must first register</string>
 	<string name="txt_salir_1_aviso">Press again to exit</string>
 	<string name="txt_no_puede_vacio">User name cannot be empty</string>

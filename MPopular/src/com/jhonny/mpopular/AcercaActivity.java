@@ -11,12 +11,17 @@ import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+
+import android.net.Uri;
 import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +56,24 @@ public class AcercaActivity extends SherlockActivity {
 			DateTime fecha = new DateTime("2013-07-16");
 			Locale locale = getResources().getConfiguration().locale;
 			textoFecha.setText(Util.getFechaFormateada(fecha.toDate(), locale));
+			
+			// link de mi perfil en google+
+			TextView link = (TextView)findViewById(R.id.acer_textView8);
+			link.setMovementMethod(LinkMovementMethod.getInstance());
+			
+			// link de facebook
+			ImageView imgFacebook = (ImageView)findViewById(R.id.acer_imageView2);
+			imgFacebook.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent();
+			        intent.setAction(Intent.ACTION_VIEW);
+			        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+			        intent.setData(Uri.parse("https://www.facebook.com/pages/MPopular/575438089180259"));
+			        startActivity(intent);
+				}
+			});
 			
 			actionBar = getSupportActionBar();
 	        if(actionBar != null){
