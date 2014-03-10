@@ -15,7 +15,7 @@
     <string name="txt_aceptar">Aceptar</string>
     <string name="txt_cancelar">Cancelar</string>
     <string name="txt_pais">España</string>
-	<string name="txt_desarrollador"><a href="https://plus.google.com/u/0/115840161297230406504/posts">Jhonny Juncal Gonzalez</a></string>
+	<string name="txt_desarrollador"><a href="https://plus.google.com/+jhonnyjuncal/">Jhonny Juncal Gonzalez</a></string>
     <string name="txt_antes_de_salir">Para acceder a la aplicación, antes debe registrarse</string>
     <string name="txt_salir_1_aviso">Pulse de nuevo para salir</string>
     <string name="txt_no_puede_vacio">Usuario no puede estar vacio</string>
