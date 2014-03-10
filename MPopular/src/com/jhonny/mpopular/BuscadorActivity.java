@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -26,10 +28,10 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.actionbarsherlock.widget.SearchView.OnQueryTextListener;
-import com.google.ads.AdRequest;
-import com.google.ads.AdSize;
-import com.google.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.millennialmedia.android.MMAdView;
+import com.millennialmedia.android.MMRequest;
+import com.millennialmedia.android.MMSDK;
 
 
 public class BuscadorActivity extends SherlockActivity implements OnItemSelectedListener, OnQueryTextListener {
@@ -38,7 +40,6 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
 	private ArrayList<DetalleCuentas> listaResultados = new ArrayList<DetalleCuentas>();
 	private Integer posicionSpinnerSeleccionada = 0;
 	private ListView listView;
-	private AdView adView = null;
 	private TextView rLabel;
 	private TextView rTexto;
 	private SlidingMenu menu;
@@ -49,6 +50,13 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
 	private Context context = null;
 	private SearchView searchView = null;
 	private String textoBuscar = new String();
+	
+	//Constants for tablet sized ads (728x90)
+	private static final int IAB_LEADERBOARD_WIDTH = 728;
+	private static final int MED_BANNER_WIDTH = 480;
+	//Constants for phone sized ads (320x50)
+	private static final int BANNER_AD_WIDTH = 320;
+	private static final int BANNER_AD_HEIGHT = 50;
 	
 	
 	@Override
@@ -80,15 +88,6 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
 	        if(actionBar != null){
 	        	actionBar.setDisplayShowCustomEnabled(false);
 	        	actionBar.setTitle("");
-	        	
-//	        	// boton < de la action bar
-//	        	actionBar.setDisplayHomeAsUpEnabled(false);
-//	        	actionBar.setHomeButtonEnabled(true);
-	        	
-//	        	PackageManager pm = getApplicationContext().getPackageManager();
-//	        	ApplicationInfo ai = pm.getApplicationInfo( this.getPackageName(), 0);
-//	        	String applicationName = (String)pm.getApplicationLabel(ai);
-//	        	actionBar.setTitle(applicationName);
 	        }
 	        
 	        searchView = new SearchView(getSupportActionBar().getThemedContext());
@@ -126,13 +125,7 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
 			reiniciarFondoOpciones();
 			reiniciodelaaplicacion();
 			estableceFuenteRoboto();
-			
-			// publicidad
-			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
-			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
-			layout.addView(adView);
-			adView.loadAd(new AdRequest());
-			
+			cargaPublicidad();
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -573,5 +566,35 @@ public class BuscadorActivity extends SherlockActivity implements OnItemSelected
 	@Override
 	public boolean onQueryTextChange(String newText) {
 		return false;
+	}
+	
+	private void cargaPublicidad(){
+		int placementWidth = BANNER_AD_WIDTH;
+		
+		//Finds an ad that best fits a users device.
+		if(canFit(IAB_LEADERBOARD_WIDTH)) {
+		    placementWidth = IAB_LEADERBOARD_WIDTH;
+		}else if(canFit(MED_BANNER_WIDTH)) {
+		    placementWidth = MED_BANNER_WIDTH;
+		}
+		
+		MMAdView adView = new MMAdView(this);
+		adView.setApid("154899");
+		MMRequest request = new MMRequest();
+		adView.setMMRequest(request);
+		adView.setId(MMSDK.getDefaultAdId());
+		adView.setWidth(placementWidth);
+		adView.setHeight(BANNER_AD_HEIGHT);
+		
+		LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
+		layout.removeAllViews();
+		layout.addView(adView);
+		adView.getAd();
+	}
+	
+	protected boolean canFit(int adWidth) {
+		int adWidthPx = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, adWidth, getResources().getDisplayMetrics());
+		DisplayMetrics metrics = this.getResources().getDisplayMetrics();
+		return metrics.widthPixels >= adWidthPx;
 	}
 }

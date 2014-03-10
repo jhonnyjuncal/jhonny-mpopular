@@ -7,17 +7,18 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.ads.AdRequest;
-import com.google.ads.AdSize;
-import com.google.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-
+import com.millennialmedia.android.MMAdView;
+import com.millennialmedia.android.MMRequest;
+import com.millennialmedia.android.MMSDK;
 import android.net.Uri;
 import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.text.method.LinkMovementMethod;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,10 +32,16 @@ public class AcercaActivity extends SherlockActivity {
 	
 	private SlidingMenu menu;
 	private ActionBar actionBar;
-	private AdView adView = null;
 	private View view;
 	private int contador = 0;
 	private Context context;
+	
+	//Constants for tablet sized ads (728x90)
+	private static final int IAB_LEADERBOARD_WIDTH = 728;
+	private static final int MED_BANNER_WIDTH = 480;
+	//Constants for phone sized ads (320x50)
+	private static final int BANNER_AD_WIDTH = 320;
+	private static final int BANNER_AD_HEIGHT = 50;
 	
 	
 	@Override
@@ -103,14 +110,12 @@ public class AcercaActivity extends SherlockActivity {
 		}
 	}
 	
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSupportMenuInflater();
 		inflater.inflate(R.menu.menu_acerca, menu);
 		return true;
 	}
-	
 	
 	@Override
     protected void onResume(){
@@ -123,18 +128,11 @@ public class AcercaActivity extends SherlockActivity {
 			reiniciarFondoOpciones();
 			reiniciodelaaplicacion();
 			estableceFuenteRoboto();
-			
-			// publicidad
-			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
-			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
-			layout.addView(adView);
-			adView.loadAd(new AdRequest());
-			
+			cargaPublicidad();
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
-	
 	
 	private void reiniciodelaaplicacion(){
 		if(!FileUtil.cargaDatosPersonales(this)){
@@ -147,7 +145,6 @@ public class AcercaActivity extends SherlockActivity {
 			FileUtil.cargaDatosPersonales(context);
 		opc_textview1.setText(Util.getNombre());
 	}
-	
 	
 	private void estableceFuenteRoboto(){
 		TextView texto = (TextView)findViewById(R.id.acer_textView1);
@@ -172,7 +169,6 @@ public class AcercaActivity extends SherlockActivity {
 		texto.setTypeface(Util.getRoboto7((Context)this));
 	}
 	
-	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()){
@@ -184,7 +180,6 @@ public class AcercaActivity extends SherlockActivity {
 				return super.onOptionsItemSelected(item);
         }
     }
-	
 	
 	/**
 	 * Inicia la actividad principal
@@ -207,7 +202,6 @@ public class AcercaActivity extends SherlockActivity {
 		}
 	}
 	
-	
 	/**
 	 * Inicia la actividad del buscador
 	 * @param view
@@ -228,7 +222,6 @@ public class AcercaActivity extends SherlockActivity {
 			menu.toggle();
 		}
 	}
-	
 	
 	/**
 	 * Inicia la actividad las redes del usuario
@@ -251,7 +244,6 @@ public class AcercaActivity extends SherlockActivity {
 		}
 	}
 	
-	
 	/**
 	 * Inicia la actividad Acerca de MPopular
 	 * @param view
@@ -272,7 +264,6 @@ public class AcercaActivity extends SherlockActivity {
 			menu.toggle();
 		}
 	}
-	
 	
 	/**
 	 * Muestra los terminos y condiciones de la aplicacion
@@ -295,7 +286,6 @@ public class AcercaActivity extends SherlockActivity {
 		}
 	}
 	
-	
 	/**
 	 * Muestra la actividad de configuraciones de la aplicacion
 	 * @param view
@@ -317,7 +307,6 @@ public class AcercaActivity extends SherlockActivity {
 		}
 	}
 	
-	
 	/**
 	 * muestra l aanimacion de ayuda de la aplicacion
 	 */
@@ -337,7 +326,6 @@ public class AcercaActivity extends SherlockActivity {
 			menu.toggle();
 		}
 	}
-	
 	
 	private void reiniciarFondoOpciones(){
 		try{
@@ -367,7 +355,6 @@ public class AcercaActivity extends SherlockActivity {
 		}
 	}
 	
-	
 	@Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
     	if(keyCode == KeyEvent.KEYCODE_BACK) {
@@ -386,4 +373,34 @@ public class AcercaActivity extends SherlockActivity {
     	//para las demas cosas, se reenvia el evento al listener habitual
     	return super.onKeyDown(keyCode, event);
     }
+	
+	private void cargaPublicidad(){
+		int placementWidth = BANNER_AD_WIDTH;
+		
+		//Finds an ad that best fits a users device.
+		if(canFit(IAB_LEADERBOARD_WIDTH)) {
+		    placementWidth = IAB_LEADERBOARD_WIDTH;
+		}else if(canFit(MED_BANNER_WIDTH)) {
+		    placementWidth = MED_BANNER_WIDTH;
+		}
+		
+		MMAdView adView = new MMAdView(this);
+		adView.setApid("154899");
+		MMRequest request = new MMRequest();
+		adView.setMMRequest(request);
+		adView.setId(MMSDK.getDefaultAdId());
+		adView.setWidth(placementWidth);
+		adView.setHeight(BANNER_AD_HEIGHT);
+		
+		LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
+		layout.removeAllViews();
+		layout.addView(adView);
+		adView.getAd();
+	}
+	
+	protected boolean canFit(int adWidth) {
+		int adWidthPx = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, adWidth, getResources().getDisplayMetrics());
+		DisplayMetrics metrics = this.getResources().getDisplayMetrics();
+		return metrics.widthPixels >= adWidthPx;
+	}
 }

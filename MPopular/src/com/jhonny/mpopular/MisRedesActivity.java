@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,16 +22,15 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.actionbarsherlock.view.SubMenu;
-import com.google.ads.AdRequest;
-import com.google.ads.AdSize;
-import com.google.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.millennialmedia.android.MMAdView;
+import com.millennialmedia.android.MMRequest;
+import com.millennialmedia.android.MMSDK;
 
 
 public class MisRedesActivity extends SherlockActivity {
 	
 	private ListView listView;
-	private AdView adView = null;
 	private SlidingMenu menu;
 	private ActionBar actionBar;
 	private View view;
@@ -37,6 +38,13 @@ public class MisRedesActivity extends SherlockActivity {
 	private ProgressDialog pd = null;
 	private Context context;
 	public static DetalleRedesAdapter drAdapter = null;
+	
+	//Constants for tablet sized ads (728x90)
+	private static final int IAB_LEADERBOARD_WIDTH = 728;
+	private static final int MED_BANNER_WIDTH = 480;
+	//Constants for phone sized ads (320x50)
+	private static final int BANNER_AD_WIDTH = 320;
+	private static final int BANNER_AD_HEIGHT = 50;
 	
 	
 	@Override
@@ -51,15 +59,9 @@ public class MisRedesActivity extends SherlockActivity {
 			actionBar = getSupportActionBar();
 	        if(actionBar != null){
 	        	actionBar.setDisplayShowCustomEnabled(true);
-	        	
 	        	// boton < de la action bar
 	        	actionBar.setDisplayHomeAsUpEnabled(false);
 	        	actionBar.setHomeButtonEnabled(true);
-	        	
-//	        	PackageManager pm = getApplicationContext().getPackageManager();
-//	        	ApplicationInfo ai = pm.getApplicationInfo( this.getPackageName(), 0);
-//	        	String applicationName = (String)pm.getApplicationLabel(ai);
-//	        	actionBar.setTitle(applicationName);
 	        }
 	        
 			menu = new SlidingMenu(this);
@@ -88,13 +90,7 @@ public class MisRedesActivity extends SherlockActivity {
 			reiniciarFondoOpciones();
 			muestraMisRedesSociales();
 			reiniciodelaaplicacion();
-			
-			// publicidad
-			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
-			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
-			layout.addView(adView);
-			adView.loadAd(new AdRequest());
-			
+			cargaPublicidad();
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -416,6 +412,36 @@ public class MisRedesActivity extends SherlockActivity {
     	//para las demas cosas, se reenvia el evento al listener habitual
     	return super.onKeyDown(keyCode, event);
     }
+	
+	private void cargaPublicidad(){
+		int placementWidth = BANNER_AD_WIDTH;
+		
+		//Finds an ad that best fits a users device.
+		if(canFit(IAB_LEADERBOARD_WIDTH)) {
+		    placementWidth = IAB_LEADERBOARD_WIDTH;
+		}else if(canFit(MED_BANNER_WIDTH)) {
+		    placementWidth = MED_BANNER_WIDTH;
+		}
+		
+		MMAdView adView = new MMAdView(this);
+		adView.setApid("154899");
+		MMRequest request = new MMRequest();
+		adView.setMMRequest(request);
+		adView.setId(MMSDK.getDefaultAdId());
+		adView.setWidth(placementWidth);
+		adView.setHeight(BANNER_AD_HEIGHT);
+		
+		LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
+		layout.removeAllViews();
+		layout.addView(adView);
+		adView.getAd();
+	}
+	
+	protected boolean canFit(int adWidth) {
+		int adWidthPx = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, adWidth, getResources().getDisplayMetrics());
+		DisplayMetrics metrics = this.getResources().getDisplayMetrics();
+		return metrics.widthPixels >= adWidthPx;
+	}
 	
 	
 	
