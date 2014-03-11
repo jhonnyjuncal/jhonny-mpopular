@@ -4,16 +4,21 @@
     android:versionCode="3"
     android:versionName="1.3" >
 
-    <uses-sdk android:minSdkVersion="7" />
+    <uses-sdk android:minSdkVersion="8" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+	
     <application
         android:allowBackup="true"
         android:icon="@drawable/lanzador"
         android:label="@string/app_name"
         android:theme="@style/Theme.Sherlock.Light" >
+        
+	    <activity android:name="com.millennialmedia.android.MMActivity"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar" 
+			android:configChanges="keyboardHidden|orientation|keyboard" >
+		</activity>
         <activity
             android:name="com.jhonny.mpopular.PrincipalActivity"
             android:label="@string/app_name" >
