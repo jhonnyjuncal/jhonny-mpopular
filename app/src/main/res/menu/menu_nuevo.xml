@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+	<item
+		android:id="@+id/btn_guardar"
+		android:icon="@mipmap/ic_guardar"
+		android:title="@string/label_guardar_datos"
+		android:visible="true" 
+		android:enabled="true" />
+</menu>

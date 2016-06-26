@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+	<group android:id="@+id/group_redes" 
+	    android:visible="true"
+	    android:enabled="true" 
+	    android:menuCategory="container">
+	    
+		<item
+			android:id="@+id/mnu_redes_nueva_red"
+			android:icon="@mipmap/ic_agregar"
+			android:showAsAction="always"
+			android:title="@string/label_mis_redes" />
+		
+		<item
+			android:id="@+id/mnu_redes_actualizar"
+			android:icon="@mipmap/ic_actualizar"
+			android:showAsAction="always"
+			android:title="@string/label_actualizar" />
+	</group>
+</menu>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:paddingBottom="@dimen/activity_vertical_margin"
+	android:paddingLeft="@dimen/activity_horizontal_margin"
+	android:paddingRight="@dimen/activity_horizontal_margin"
+	android:paddingTop="@dimen/activity_vertical_margin"
+	app:layout_behavior="@string/appbar_scrolling_view_behavior"
+	tools:context=".activity.ConfiguracionActivity"
+	tools:showIn="@layout/app_bar_configuracion">
+    
+    <ScrollView
+        android:id="@+id/conf_scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+        
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="450dp"
+            android:background="@color/gris_claro" >
+	
+		    <TextView
+		        android:id="@+id/conf_textView1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentLeft="true"
+		        android:layout_alignParentTop="true"
+		        android:layout_marginLeft="15dp"
+		        android:layout_marginTop="10dp"
+		        android:text="@string/label_datos_personales"
+		        android:textSize="@dimen/tamano_fuente" />
+			
+		    <LinearLayout
+		        android:id="@+id/lineaLayout1"
+		        android:layout_width="fill_parent"
+		        android:layout_height="5dp"
+		        android:layout_below="@id/conf_textView1"
+		        android:layout_marginLeft="15dp"
+		        android:orientation="horizontal" />
+			<!--android:background="@drawable/ext_linea"-->
+
+		    <EditText
+		        android:id="@+id/conf_editText1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="35dp"
+		        android:layout_alignParentLeft="true"
+		        android:layout_alignParentRight="true"
+		        android:layout_alignParentTop="true"
+		        android:layout_marginLeft="15dp"
+		        android:layout_marginRight="50dp"
+		        android:layout_marginTop="40dp"
+		        android:ems="10"
+		        android:hint="@string/label_nombre"
+		        android:inputType="text"
+		        android:paddingBottom="@dimen/padding_abajo"
+        		android:paddingLeft="@dimen/padding_izquierda"
+        		android:paddingRight="@dimen/padding_derecha"
+        		android:paddingTop="@dimen/padding_arriba"
+		        android:textSize="@dimen/tamano_fuente" />
+		
+		    <EditText
+		        android:id="@+id/conf_editText2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="35dp"
+		        android:layout_alignParentLeft="true"
+		        android:layout_alignParentRight="true"
+		        android:layout_alignParentTop="true"
+		        android:layout_marginLeft="15dp"
+		        android:layout_marginRight="50dp"
+		        android:layout_marginTop="70dp"
+		        android:ems="10"
+		        android:hint="@string/label_telefono"
+		        android:inputType="number"
+		        android:paddingBottom="@dimen/padding_abajo"
+        		android:paddingLeft="@dimen/padding_izquierda"
+        		android:paddingRight="@dimen/padding_derecha"
+        		android:paddingTop="@dimen/padding_arriba"
+		        android:textSize="@dimen/tamano_fuente" />
+	    
+		    <EditText
+		        android:id="@+id/conf_editText3"
+		        android:layout_width="wrap_content"
+		        android:layout_height="35dp"
+		        android:layout_alignParentLeft="true"
+		        android:layout_alignParentRight="true"
+		        android:layout_alignParentTop="true"
+		        android:layout_marginLeft="15dp"
+		        android:layout_marginRight="50dp"
+		        android:layout_marginTop="100dp"
+		        android:ems="10"
+		        android:hint="@string/label_email"
+		        android:inputType="textEmailAddress"
+		        android:paddingBottom="@dimen/padding_abajo"
+        		android:paddingLeft="@dimen/padding_izquierda"
+        		android:paddingRight="@dimen/padding_derecha"
+        		android:paddingTop="@dimen/padding_arriba"
+		        android:textSize="@dimen/tamano_fuente" />
+	    
+		    <EditText
+		        android:id="@+id/conf_editText4"
+		        android:layout_width="wrap_content"
+		        android:layout_height="35dp"
+		        android:layout_alignParentLeft="true"
+		        android:layout_alignParentRight="true"
+		        android:layout_alignParentTop="true"
+		        android:layout_marginLeft="15dp"
+		        android:layout_marginRight="50dp"
+		        android:layout_marginTop="130dp"
+		        android:ems="10"
+		        android:hint="@string/label_pais"
+		        android:inputType="text"
+		        android:paddingBottom="@dimen/padding_abajo"
+        		android:paddingLeft="@dimen/padding_izquierda"
+        		android:paddingRight="@dimen/padding_derecha"
+        		android:paddingTop="@dimen/padding_arriba"
+		        android:textSize="@dimen/tamano_fuente" />
+		
+		    <TextView
+		        android:id="@+id/conf_textView2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="15dp"
+		        android:layout_marginTop="200dp"
+		        android:text="@string/label_eliminar_cuenta"
+		        android:textSize="@dimen/tamano_fuente" />
+		    
+		    <LinearLayout
+		        android:id="@+id/lineaLayout2"
+		        android:layout_width="fill_parent"
+		        android:layout_height="5dp"
+		        android:layout_below="@id/conf_textView2"
+		        android:layout_marginLeft="15dp"
+		        android:orientation="horizontal" />
+			<!--android:background="@drawable/ext_linea"-->
+
+		    <TextView
+		        android:id="@+id/conf_textView3"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/lineaLayout2"
+		        android:layout_marginLeft="15dp"
+		        android:layout_marginRight="15dp"
+		        android:layout_marginTop="5dp"
+		        android:text="@string/label_desea_eliminar"
+		        android:textSize="@dimen/tamano_fuente" />
+			
+		    <Button
+		        android:id="@+id/btn_baja_definitiva"
+		        android:layout_width="wrap_content"
+		        android:layout_height="35dp"
+		        android:layout_alignParentRight="true"
+		        android:layout_below="@+id/conf_textView3"
+		        android:layout_marginRight="15dp"
+		        android:onClick="eliminaUsuarioDefinitivamente"
+		        android:text="@string/label_borrar_cuenta"
+		        android:textSize="@dimen/tamano_fuente" />
+			
+		    <LinearLayout
+			    android:id="@+id/linearLayout2"
+			    android:layout_width="fill_parent"
+			    android:layout_height="50dp"
+			    android:layout_alignParentBottom="true"
+			    android:orientation="vertical"
+			    android:weightSum="1" />
+	    
+	    </RelativeLayout>
+
+	</ScrollView>
+
+</RelativeLayout>

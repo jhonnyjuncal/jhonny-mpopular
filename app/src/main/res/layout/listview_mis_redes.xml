@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="70dp"
+    android:background="@layout/fondo_detalle"
+    android:orientation="horizontal" >
+    
+	<TextView
+	    android:id="@+id/nUsuario"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginRight="110dp"
+	    android:layout_marginTop="2dp"
+	    android:paddingBottom="1dp"
+	    android:paddingTop="2dp"
+	    android:textColor="@color/blanco"
+	    android:textIsSelectable="false"
+	    android:textSize="@dimen/tamano_fuente_grande"
+	    android:textStyle="bold|italic" />
+	
+	<TextView
+	    android:id="@+id/nCuenta"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginRight="110dp"
+	    android:layout_marginTop="33dp"
+	    android:paddingBottom="1dp"
+	    android:paddingTop="2dp"
+	    android:textColor="@color/blanco"
+	    android:textIsSelectable="false"
+	    android:textSize="@dimen/tamano_fuente" />
+
+	<ImageView
+	    android:id="@+id/imgeditar"
+	    android:layout_width="35dp"
+	    android:layout_height="35dp"
+	    android:layout_alignParentRight="true"
+	    android:layout_centerVertical="true"
+	    android:layout_marginRight="70dp"
+	    android:background="@color/gris_oscuro"
+	    android:contentDescription="@string/txt_editar"
+	    android:src="@mipmap/ic_editar" />
+
+	<ImageView
+	    android:id="@+id/imgeliminar"
+	    android:layout_width="35dp"
+	    android:layout_height="35dp"
+	    android:layout_alignParentRight="true"
+	    android:layout_centerVertical="true"
+	    android:layout_marginRight="20dp"
+	    android:background="@color/gris_oscuro"
+	    android:contentDescription="@string/txt_eliminar"
+	    android:src="@mipmap/ic_eliminar" />
+	
+</RelativeLayout>
