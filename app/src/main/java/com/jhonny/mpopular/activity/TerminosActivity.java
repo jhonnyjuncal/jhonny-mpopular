@@ -30,7 +30,6 @@ import android.widget.Toast;
 
 public class TerminosActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 	
-	private AdView adView = null;
 	private View view;
 	private int contador = 0;
 	private Context context;
@@ -38,7 +37,7 @@ public class TerminosActivity extends AppCompatActivity implements NavigationVie
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.content_terminos);
+		setContentView(R.layout.activity_terminos);
 		
 		try{
 			// barra de herramientas
@@ -80,16 +79,9 @@ public class TerminosActivity extends AppCompatActivity implements NavigationVie
 			contador = 0;
 			this.context = (Context)this;
 			
-			reiniciarFondoOpciones();
+//			reiniciarFondoOpciones();
 			reiniciodelaaplicacion();
 			estableceFuenteRoboto();
-			
-			// publicidad
-			adView = new AdView(this, AdSize.BANNER, "a1518312d054c38");
-			LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout2);
-			layout.addView(adView);
-			adView.loadAd(new AdRequest());
-			
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -101,10 +93,10 @@ public class TerminosActivity extends AppCompatActivity implements NavigationVie
 			startActivity(intent);
 		}
 		
-		TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
-		if(Util.getNombre() == null || Util.getNombre().length() == 0)
-			FileUtil.cargaDatosPersonales(context);
-		opc_textview1.setText(Util.getNombre());
+//		TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
+//		if(Util.getNombre() == null || Util.getNombre().length() == 0)
+//			FileUtil.cargaDatosPersonales(context);
+//		opc_textview1.setText(Util.getNombre());
 	}
 	
 	private void estableceFuenteRoboto(){
@@ -126,33 +118,33 @@ public class TerminosActivity extends AppCompatActivity implements NavigationVie
 		}
 	}
 	
-	private void reiniciarFondoOpciones(){
-		try{
-			LinearLayout layout_busq = (LinearLayout)findViewById(R.id.opc_layout_busq);
-			layout_busq.setBackgroundResource(R.color.gris_claro);
-			
-			LinearLayout layout_redes = (LinearLayout)findViewById(R.id.opc_layout_redes);
-			layout_redes.setBackgroundResource(R.color.gris_claro);
-			
-			LinearLayout layout_conf = (LinearLayout)findViewById(R.id.opc_layout_conf);
-			layout_conf.setBackgroundResource(R.color.gris_claro);
-			
-			LinearLayout layout_acerca = (LinearLayout)findViewById(R.id.opc_layout_acerca);
-			layout_acerca.setBackgroundResource(R.color.gris_claro);
-			
-			LinearLayout layout_terminos = (LinearLayout)findViewById(R.id.opc_layout_terminos);
-			layout_terminos.setBackgroundResource(R.color.gris_claro);
-			
-			LinearLayout layout_ayuda = (LinearLayout)findViewById(R.id.opc_layout_ayuda);
-			layout_ayuda.setBackgroundResource(R.color.gris_claro);
-			
-			if(view != null)
-				view.buildDrawingCache(true);
-			
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
-	}
+//	private void reiniciarFondoOpciones(){
+//		try{
+//			LinearLayout layout_busq = (LinearLayout)findViewById(R.id.opc_layout_busq);
+//			layout_busq.setBackgroundResource(R.color.gris_claro);
+//
+//			LinearLayout layout_redes = (LinearLayout)findViewById(R.id.opc_layout_redes);
+//			layout_redes.setBackgroundResource(R.color.gris_claro);
+//
+//			LinearLayout layout_conf = (LinearLayout)findViewById(R.id.opc_layout_conf);
+//			layout_conf.setBackgroundResource(R.color.gris_claro);
+//
+//			LinearLayout layout_acerca = (LinearLayout)findViewById(R.id.opc_layout_acerca);
+//			layout_acerca.setBackgroundResource(R.color.gris_claro);
+//
+//			LinearLayout layout_terminos = (LinearLayout)findViewById(R.id.opc_layout_terminos);
+//			layout_terminos.setBackgroundResource(R.color.gris_claro);
+//
+//			LinearLayout layout_ayuda = (LinearLayout)findViewById(R.id.opc_layout_ayuda);
+//			layout_ayuda.setBackgroundResource(R.color.gris_claro);
+//
+//			if(view != null)
+//				view.buildDrawingCache(true);
+//
+//		}catch(Exception ex){
+//			ex.printStackTrace();
+//		}
+//	}
 
 	private void leeFicheroTerminosCondiciones(Locale locale){
 		String linea = null;
@@ -185,24 +177,24 @@ public class TerminosActivity extends AppCompatActivity implements NavigationVie
 		}
 	}
 	
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-    	if(keyCode == KeyEvent.KEYCODE_BACK) {
-    		if(contador == 0){
-    			contador++;
-    			Toast.makeText(this, getResources().getString(R.string.txt_salir_1_aviso), Toast.LENGTH_SHORT).show();
-    			return true;
-    		}else{
-    			contador = 0;
-    			Intent intent = new Intent();
-    			intent.setAction(Intent.ACTION_MAIN);
-    			intent.addCategory(Intent.CATEGORY_HOME);
-    			startActivity(intent);
-    		}
-    	}
-    	//para las demas cosas, se reenvia el evento al listener habitual
-    	return super.onKeyDown(keyCode, event);
-    }
+//	@Override
+//	public boolean onKeyDown(int keyCode, KeyEvent event) {
+//    	if(keyCode == KeyEvent.KEYCODE_BACK) {
+//    		if(contador == 0){
+//    			contador++;
+//    			Toast.makeText(this, getResources().getString(R.string.txt_salir_1_aviso), Toast.LENGTH_SHORT).show();
+//    			return true;
+//    		}else{
+//    			contador = 0;
+//    			Intent intent = new Intent();
+//    			intent.setAction(Intent.ACTION_MAIN);
+//    			intent.addCategory(Intent.CATEGORY_HOME);
+//    			startActivity(intent);
+//    		}
+//    	}
+//    	//para las demas cosas, se reenvia el evento al listener habitual
+//    	return super.onKeyDown(keyCode, event);
+//    }
 
 	@Override
 	public boolean onNavigationItemSelected(MenuItem item) {

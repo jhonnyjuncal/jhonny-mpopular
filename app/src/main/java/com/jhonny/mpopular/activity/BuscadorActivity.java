@@ -65,7 +65,7 @@ public class BuscadorActivity extends AppCompatActivity implements NavigationVie
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.content_buscador);
+		setContentView(R.layout.activity_buscador);
 		
 		try{
 			contador = 0;
@@ -155,7 +155,7 @@ public class BuscadorActivity extends AppCompatActivity implements NavigationVie
 			contador = 0;
 			context = (Context)this;
 			
-			reiniciarFondoOpciones();
+//			reiniciarFondoOpciones();
 			reiniciodelaaplicacion();
 			estableceFuenteRoboto();
 			cargaPublicidad();
@@ -171,10 +171,10 @@ public class BuscadorActivity extends AppCompatActivity implements NavigationVie
 			startActivity(intent);
 		}
 		
-		TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
-		if(Util.getNombre() == null || Util.getNombre().length() == 0)
-			FileUtil.cargaDatosPersonales(context);
-		opc_textview1.setText(Util.getNombre());
+//		TextView opc_textview1 = (TextView)findViewById(R.id.opc_textView1);
+//		if(Util.getNombre() == null || Util.getNombre().length() == 0)
+//			FileUtil.cargaDatosPersonales(context);
+//		opc_textview1.setText(Util.getNombre());
 	}
 	
 	
@@ -285,33 +285,33 @@ public class BuscadorActivity extends AppCompatActivity implements NavigationVie
 		}
 	}
 	
-	private void reiniciarFondoOpciones(){
-		try{
-			LinearLayout layout_busq = (LinearLayout)findViewById(R.id.opc_layout_busq);
-			layout_busq.setBackgroundResource(R.color.gris_claro);
-			
-			LinearLayout layout_redes = (LinearLayout)findViewById(R.id.opc_layout_redes);
-			layout_redes.setBackgroundResource(R.color.gris_claro);
-			
-			LinearLayout layout_conf = (LinearLayout)findViewById(R.id.opc_layout_conf);
-			layout_conf.setBackgroundResource(R.color.gris_claro);
-			
-			LinearLayout layout_acerca = (LinearLayout)findViewById(R.id.opc_layout_acerca);
-			layout_acerca.setBackgroundResource(R.color.gris_claro);
-			
-			LinearLayout layout_terminos = (LinearLayout)findViewById(R.id.opc_layout_terminos);
-			layout_terminos.setBackgroundResource(R.color.gris_claro);
-			
-			LinearLayout layout_ayuda = (LinearLayout)findViewById(R.id.opc_layout_ayuda);
-			layout_ayuda.setBackgroundResource(R.color.gris_claro);
-			
-			if(view != null)
-				view.buildDrawingCache(true);
-			
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
-	}
+//	private void reiniciarFondoOpciones(){
+//		try{
+//			LinearLayout layout_busq = (LinearLayout)findViewById(R.id.opc_layout_busq);
+//			layout_busq.setBackgroundResource(R.color.gris_claro);
+//
+//			LinearLayout layout_redes = (LinearLayout)findViewById(R.id.opc_layout_redes);
+//			layout_redes.setBackgroundResource(R.color.gris_claro);
+//
+//			LinearLayout layout_conf = (LinearLayout)findViewById(R.id.opc_layout_conf);
+//			layout_conf.setBackgroundResource(R.color.gris_claro);
+//
+//			LinearLayout layout_acerca = (LinearLayout)findViewById(R.id.opc_layout_acerca);
+//			layout_acerca.setBackgroundResource(R.color.gris_claro);
+//
+//			LinearLayout layout_terminos = (LinearLayout)findViewById(R.id.opc_layout_terminos);
+//			layout_terminos.setBackgroundResource(R.color.gris_claro);
+//
+//			LinearLayout layout_ayuda = (LinearLayout)findViewById(R.id.opc_layout_ayuda);
+//			layout_ayuda.setBackgroundResource(R.color.gris_claro);
+//
+//			if(view != null)
+//				view.buildDrawingCache(true);
+//
+//		}catch(Exception ex){
+//			ex.printStackTrace();
+//		}
+//	}
 	
 	
 	@Override

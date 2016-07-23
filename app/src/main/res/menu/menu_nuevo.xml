@@ -1,8 +1,10 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 	<item
 		android:id="@+id/btn_guardar"
 		android:icon="@mipmap/ic_guardar"
 		android:title="@string/label_guardar_datos"
+		app:showAsAction="ifRoom"
 		android:visible="true" 
 		android:enabled="true" />
 </menu>

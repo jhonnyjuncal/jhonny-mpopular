@@ -30,7 +30,7 @@ public class AyudaActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.content_ayuda);
+		setContentView(R.layout.activity_ayuda);
 		
 		try{
 			context = this;
@@ -70,25 +70,25 @@ public class AyudaActivity extends AppCompatActivity {
 		iv.setImageResource(resId);
 		return iv;
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	private class MyGestureDetector extends SimpleOnGestureListener {
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
 			try{
 				// right to left swipe
 				if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY){
-					vf.setInAnimation(AnimationUtils.loadAnimation(context, R.drawable.left_in));
-					vf.setOutAnimation(AnimationUtils.loadAnimation(context, R.drawable.left_out));
+					vf.setInAnimation(AnimationUtils.loadAnimation(context, R.anim.left_in));
+					vf.setOutAnimation(AnimationUtils.loadAnimation(context, R.anim.left_out));
 					vf.showNext();
 					return true;
 					
 				}else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) >SWIPE_THRESHOLD_VELOCITY){
-					vf.setInAnimation(AnimationUtils.loadAnimation(context, R.drawable.right_in));
-					vf.setOutAnimation(AnimationUtils.loadAnimation(context, R.drawable.right_out));
+					vf.setInAnimation(AnimationUtils.loadAnimation(context, R.anim.right_in));
+					vf.setOutAnimation(AnimationUtils.loadAnimation(context, R.anim.right_out));
 					vf.showPrevious();
 					return true;
 				}

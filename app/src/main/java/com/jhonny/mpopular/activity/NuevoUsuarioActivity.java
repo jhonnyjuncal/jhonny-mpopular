@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.KeyEvent;
+import android.view.MenuInflater;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -51,7 +52,7 @@ public class NuevoUsuarioActivity extends AppCompatActivity implements Navigatio
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.content_nuevo);
+		setContentView(R.layout.activity_nuevo);
 		
 		try{
 			// barra de herramientas
@@ -102,10 +103,10 @@ public class NuevoUsuarioActivity extends AppCompatActivity implements Navigatio
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-//		MenuInflater inflater = getSupportMenuInflater();
-//		inflater.inflate(R.menu.menu_nuevo, menu);
-//		return true;
-		return false;
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_nuevo, menu);
+		return true;
+//		return false;
 	}
 	
 	@Override
